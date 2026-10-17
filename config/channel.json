@@ -1,0 +1,18 @@
+{
+  "channel": "VOZ STORY",
+  "handle": "@vozstory",
+  "tagline": "Bóc tách những hệ thống vô hình chi phối cuộc sống",
+  "id_prefix": "VOZ",
+  "fps": 30,
+  "voice": "nam_bac_tram",
+  "speed": null,
+  "caption_words": 5,
+  "scene_pad_seconds": 0.35,
+  "target_seconds": [45, 60],
+  "music_volume": 0.08,
+  "series": {
+    "ai-tra-tien": "Ai đang trả tiền?",
+    "ai-chon-thay-ban": "Ai đang chọn thay bạn?",
+    "co-may-cuoc-song": "Cỗ máy phía sau cuộc sống"
+  }
+}

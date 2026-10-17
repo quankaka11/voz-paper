@@ -1,0 +1,44 @@
+{
+  "_note": "Tập mẫu kỹ thuật: dùng để kiểm tra pipeline sau mỗi lần sửa code (python voz.py render code/samples/pipeline-test --draft). Không phải video đăng.",
+  "voice": "nam_bac_tram",
+  "cover": {"kicker": "Kiểm tra kỹ thuật", "text": "Pipeline ==VOZ STORY==", "emoji": "🛠️"},
+  "scenes": [
+    {
+      "id": "s01", "type": "title",
+      "vo": "Ứng dụng này miễn phí. Vậy ai đang trả tiền để nó tồn tại?",
+      "props": {"kicker": "Ai đang trả tiền?", "emoji": "📱", "text": "Ứng dụng này ==miễn phí==. Vậy **ai** đang trả tiền?"}
+    },
+    {
+      "id": "s02", "type": "receipt", "illustrative": true,
+      "vo": "Một đơn đồ ăn 39.000đ. Cộng phí giao hàng, phí dịch vụ và phụ phí giờ cao điểm, tổng có thể thành 70.000đ.",
+      "props": {
+        "title": "ĐƠN ĐỒ ĂN",
+        "items": [
+          {"label": "Món ăn", "value": "39.000đ", "cue": "đơn đồ ăn"},
+          {"label": "Phí giao hàng", "value": "+18.000đ", "cue": "phí giao hàng"},
+          {"label": "Phí dịch vụ", "value": "+5.000đ", "cue": "phí dịch vụ"},
+          {"label": "Phụ phí cao điểm", "value": "+8.000đ", "cue": "phụ phí"}
+        ],
+        "total": {"label": "TỔNG", "value": "70.000đ", "cue": "tổng"}
+      }
+    },
+    {
+      "id": "s03", "type": "flow",
+      "vo": "Tiền của bạn đi qua nền tảng, rồi mới tới quán ăn và tài xế.",
+      "props": {
+        "layout": "chain", "title": "Tiền đi đâu?",
+        "nodes": [
+          {"label": "Bạn", "emoji": "🙋", "cue": "tiền của bạn"},
+          {"label": "Nền tảng", "emoji": "📱", "cue": "nền tảng"},
+          {"label": "Quán ăn", "emoji": "🍜", "cue": "quán ăn"},
+          {"label": "Tài xế", "emoji": "🛵", "cue": "tài xế"}
+        ]
+      }
+    },
+    {
+      "id": "s04", "type": "question",
+      "vo": "Còn bạn, bạn trả tiền cho món ăn, hay cho sự tiện lợi?",
+      "props": {"text": "Bạn trả tiền cho ==món ăn== hay cho ==sự tiện lợi==?", "options": ["Món ăn", "Sự tiện lợi"]}
+    }
+  ]
+}

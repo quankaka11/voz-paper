@@ -1,1 +1,17 @@
+# bí mật
 .env
+
+# phụ thuộc / cache
+node_modules/
+__pycache__/
+*.pyc
+
+# file sinh ra khi build/render (tạo lại được bằng python voz.py build/render)
+build/
+**/assets/_candidates/
+*.norm.mp4
+
+# media xuất bản: nặng, không đưa vào git (giữ publish.md)
+**/export/*.mp4
+**/export/*.png
+**/export/*.jpg

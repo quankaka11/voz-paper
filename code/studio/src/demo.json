@@ -1,0 +1,47 @@
+{
+  "id": "VOZ-DEMO",
+  "title": "Demo thư viện cảnh",
+  "brand": {"name": "VOZ STORY", "handle": "@vozstory"},
+  "showCaptions": true,
+  "showWatermark": true,
+  "scenes": [
+    {
+      "id": "s01", "type": "title", "durationInFrames": 90,
+      "props": {"kicker": "Ai đang trả tiền?", "emoji": "📱", "text": "Ứng dụng này ==miễn phí==. Vậy **ai** đang trả tiền?"},
+      "captions": [{"text": "Ứng dụng này miễn phí.", "startMs": 0, "endMs": 900}, {"text": "Vậy ai đang trả tiền?", "startMs": 1100, "endMs": 2600}]
+    },
+    {
+      "id": "s02", "type": "flow", "durationInFrames": 120,
+      "props": {"title": "Một ứng dụng, ==ba nguồn thu==", "center": {"label": "Ứng dụng 0đ", "emoji": "📱"},
+        "nodes": [{"label": "Quảng cáo", "emoji": "📢"}, {"label": "Gói trả phí", "emoji": "💳"}, {"label": "Dịch vụ cho doanh nghiệp", "emoji": "🏢"}]}
+    },
+    {
+      "id": "s03", "type": "receipt", "durationInFrames": 120, "illustrative": true,
+      "props": {"title": "ĐƠN ĐỒ ĂN", "items": [{"label": "Món ăn", "value": "39.000đ"}, {"label": "Phí giao hàng", "value": "+18.000đ"}, {"label": "Phí dịch vụ", "value": "+5.000đ"}, {"label": "Phụ phí giờ cao điểm", "value": "+8.000đ"}], "total": {"label": "TỔNG", "value": "70.000đ"}}
+    },
+    {
+      "id": "s04", "type": "bigNumber", "durationInFrames": 90, "source": "TGM Research 2025",
+      "props": {"kicker": "Mua trước trả sau", "countTo": 49, "suffix": "%", "label": "người được hỏi đã thử ==BNPL== trong 12 tháng", "note": "khảo sát, không đại diện toàn dân số"}
+    },
+    {
+      "id": "s05", "type": "bars", "durationInFrames": 110, "source": "CBRE, Q1/2026",
+      "props": {"title": "Giá căn hộ sơ cấp Hà Nội", "unit": " tr/m²", "bars": [{"label": "Toàn thị trường", "value": 84}, {"label": "Trừ Văn Giang", "value": 100, "display": ">100 tr/m²", "highlight": true}]}
+    },
+    {
+      "id": "s06", "type": "compare", "durationInFrames": 120, "illustrative": true,
+      "props": {"title": "Vào dễ, ==ra khó==?", "left": {"title": "ĐĂNG KÝ", "items": ["Bấm dùng thử", "Xác nhận thẻ"]}, "right": {"title": "HỦY", "items": ["Tìm cài đặt", "Quản lý gói", "Khảo sát lý do", "Ưu đãi giữ chân", "Xác nhận lần 2"]}}
+    },
+    {
+      "id": "s07", "type": "phone", "durationInFrames": 110,
+      "props": {"app": "App Nghe Nhạc", "tagline": "Dùng thử 30 ngày", "price": "0đ", "stamp": "TỰ GIA HẠN", "rows": [{"emoji": "🎧", "label": "Nghe không quảng cáo"}, {"emoji": "💳", "label": "Liên kết thẻ", "highlight": true}, {"emoji": "🔁", "label": "Gia hạn hằng tháng", "value": "59.000đ"}]}
+    },
+    {
+      "id": "s08", "type": "list", "durationInFrames": 110,
+      "props": {"kicker": "Tóm lại", "title": "Miễn phí thường được trả bằng:", "items": [{"emoji": "👀", "text": "==Sự chú ý== của bạn"}, {"emoji": "📊", "text": "Dữ liệu sử dụng"}, {"emoji": "💸", "text": "Người dùng trả phí khác"}]}
+    },
+    {
+      "id": "s09", "type": "question", "durationInFrames": 120,
+      "props": {"text": "Bạn chọn ==xem quảng cáo== hay ==trả tiền==?", "options": ["Xem quảng cáo, miễn là free", "Trả tiền để yên tĩnh"]}
+    }
+  ]
+}
