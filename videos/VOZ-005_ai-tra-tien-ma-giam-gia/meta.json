@@ -1,0 +1,40 @@
+{
+  "id": "VOZ-005",
+  "slug": "ai-tra-tien-ma-giam-gia",
+  "title": "Ai thực sự trả tiền cho mã giảm giá?",
+  "series": "ai-tra-tien",
+  "topic_ref": "data/topics.md#2",
+  "stage": "idea",
+  "created": "2026-10-17T11:47",
+  "updated": "2026-10-17T11:47",
+  "duration_s": null,
+  "files": {
+    "video": "export/VOZ-005_ai-tra-tien-ma-giam-gia.mp4",
+    "cover": "export/VOZ-005_ai-tra-tien-ma-giam-gia_cover.png"
+  },
+  "publish": {
+    "title": "Ai thực sự trả tiền cho mã giảm giá?",
+    "description": "",
+    "hashtags": []
+  },
+  "platforms": {
+    "youtube": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    },
+    "tiktok": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-17T11:47",
+      "event": "tạo tập"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "_note": "VOZ-003 — Vì sao đăng ký dễ nhưng hủy thuê bao lại khó?. Định dạng: docs/scene-types.md. Viết bằng skill voz-script.",
+  "cover": {"kicker": "Ai đang trả tiền?", "text": "Vì sao đăng ký dễ nhưng hủy thuê bao lại khó?"},
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "vo": "",
+      "props": {"text": "Vì sao đăng ký dễ nhưng hủy thuê bao lại khó?"}
+    }
+  ]
+}

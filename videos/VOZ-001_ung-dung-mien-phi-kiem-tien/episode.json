@@ -1,0 +1,12 @@
+{
+  "_note": "VOZ-001 — Nếu một ứng dụng miễn phí, nó kiếm tiền bằng cách nào?. Định dạng: docs/scene-types.md. Viết bằng skill voz-script.",
+  "cover": {"kicker": "Ai đang trả tiền?", "text": "Nếu một ứng dụng miễn phí, nó kiếm tiền bằng cách nào?"},
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "vo": "",
+      "props": {"text": "Nếu một ứng dụng miễn phí, nó kiếm tiền bằng cách nào?"}
+    }
+  ]
+}

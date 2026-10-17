@@ -5,7 +5,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from . import assets, config, episode, render, tts
+from . import assets, config, episode, render, status, tts
 
 
 def _out_name(ep_dir: Path) -> str:
@@ -49,6 +49,8 @@ def cmd_render(a):
         print("  ✗", p)
     if not a.draft and not problems:
         print("  ✓ đạt kiểm tra kỹ thuật")
+    if not a.draft and ep.parent == config.VIDEOS:
+        status.mark_rendered(ep, float(render.probe(out)["format"]["duration"]))
 
 
 def cmd_cover(a):
@@ -85,6 +87,42 @@ def cmd_brand(a):
     for comp, f in [("LogoMark", "voz-logo-mark.png"), ("LogoFull", "voz-logo-full.png"), ("LogoFullDark", "voz-logo-full-dark.png")]:
         render.remotion_still(comp, None, None, config.BRAND / f)
     print(f"→ {config.BRAND}")
+
+
+def cmd_new(a):
+    status.new(a.title, a.slug, a.series, a.topic)
+
+
+def cmd_status(a):
+    if a.ep:
+        ep = episode.find(a.ep)
+        if a.stage:
+            status.set_stage(ep, a.stage, a.force)
+        m = status.load(ep)
+        print(f"{m['id']} · {m['title']}")
+        print(f"  trạng thái: {status.STAGE_VI[m['stage']]}  ·  thư mục: {ep.relative_to(config.ROOT)}")
+        for p in status.PLATFORMS:
+            x = m["platforms"][p]
+            print(f"  {p:<8} {status.POST_VI[x['status']]:<12} {x.get('url') or ''}")
+        for h in m.get("history", [])[-5:]:
+            print(f"    {h['at']}  {h['event']}")
+    else:
+        status.write_index()
+        status.print_table()
+        print(f"\n→ {config.VIDEOS / 'INDEX.md'}")
+
+
+def cmd_post(a):
+    status.post(episode.find(a.ep), a.platform, a.status, a.url, a.at)
+
+
+def cmd_metrics(a):
+    vals = {k: getattr(a, k) for k in status.METRIC_KEYS}
+    status.add_metrics(episode.find(a.ep), a.platform, vals)
+
+
+def cmd_publish_kit(a):
+    status.publish_kit(episode.find(a.ep))
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -144,6 +182,38 @@ def build_parser() -> argparse.ArgumentParser:
     s.set_defaults(fn=cmd_img)
 
     sub.add_parser("brand", help="xuất lại logo PNG vào brand/").set_defaults(fn=cmd_brand)
+
+    s = sub.add_parser("new", help="tạo tập mới videos/VOZ-xxx_slug/ từ mẫu")
+    s.add_argument("title")
+    s.add_argument("--slug", help="mặc định sinh từ tiêu đề (không dấu)")
+    s.add_argument("--series", choices=list(config.channel().get("series", {})))
+    s.add_argument("--topic", help="số thứ tự chủ đề trong data/topics.md")
+    s.set_defaults(fn=cmd_new)
+
+    s = sub.add_parser("status", help="bảng mọi tập (+ cập nhật videos/INDEX.md) hoặc xem/đổi trạng thái 1 tập")
+    s.add_argument("ep", nargs="?")
+    s.add_argument("--stage", choices=status.STAGES)
+    s.add_argument("--force", action="store_true", help="cho phép lùi trạng thái")
+    s.set_defaults(fn=cmd_status)
+
+    s = sub.add_parser("post", help="ghi trạng thái đăng trên YouTube/TikTok")
+    s.add_argument("ep")
+    s.add_argument("platform", choices=status.PLATFORMS)
+    s.add_argument("--status", choices=status.POST_STATUS, default="posted")
+    s.add_argument("--url")
+    s.add_argument("--at", help="thời điểm đăng/hẹn giờ, vd 2026-10-20T19:00")
+    s.set_defaults(fn=cmd_post)
+
+    s = sub.add_parser("metrics", help="ghi số liệu hiệu quả (nên ghi sau 48h và 7 ngày)")
+    s.add_argument("ep")
+    s.add_argument("platform", choices=status.PLATFORMS)
+    for k in status.METRIC_KEYS:
+        s.add_argument(f"--{k.replace('_', '-')}", dest=k, type=float)
+    s.set_defaults(fn=cmd_metrics)
+
+    s = sub.add_parser("publish-kit", help="tạo export/publish.md: tiêu đề, mô tả, hashtag, nguồn")
+    s.add_argument("ep")
+    s.set_defaults(fn=cmd_publish_kit)
     return p
 
 

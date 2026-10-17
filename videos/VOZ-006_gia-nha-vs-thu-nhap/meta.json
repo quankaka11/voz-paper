@@ -1,0 +1,40 @@
+{
+  "id": "VOZ-006",
+  "slug": "gia-nha-vs-thu-nhap",
+  "title": "Vì sao giá nhà tăng nhanh hơn khả năng mua của người trẻ?",
+  "series": "co-may-cuoc-song",
+  "topic_ref": "data/topics.md#13",
+  "stage": "idea",
+  "created": "2026-10-17T11:47",
+  "updated": "2026-10-17T11:47",
+  "duration_s": null,
+  "files": {
+    "video": "export/VOZ-006_gia-nha-vs-thu-nhap.mp4",
+    "cover": "export/VOZ-006_gia-nha-vs-thu-nhap_cover.png"
+  },
+  "publish": {
+    "title": "Vì sao giá nhà tăng nhanh hơn khả năng mua của người trẻ?",
+    "description": "",
+    "hashtags": []
+  },
+  "platforms": {
+    "youtube": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    },
+    "tiktok": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-17T11:47",
+      "event": "tạo tập"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "VOZ-004",
+  "slug": "bang-tin-hieu-so-thich",
+  "title": "Vì sao bảng tin dường như hiểu sở thích của bạn?",
+  "series": "ai-chon-thay-ban",
+  "topic_ref": "data/topics.md#5",
+  "stage": "idea",
+  "created": "2026-10-17T11:47",
+  "updated": "2026-10-17T11:47",
+  "duration_s": null,
+  "files": {
+    "video": "export/VOZ-004_bang-tin-hieu-so-thich.mp4",
+    "cover": "export/VOZ-004_bang-tin-hieu-so-thich_cover.png"
+  },
+  "publish": {
+    "title": "Vì sao bảng tin dường như hiểu sở thích của bạn?",
+    "description": "",
+    "hashtags": []
+  },
+  "platforms": {
+    "youtube": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    },
+    "tiktok": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-17T11:47",
+      "event": "tạo tập"
+    }
+  ]
+}

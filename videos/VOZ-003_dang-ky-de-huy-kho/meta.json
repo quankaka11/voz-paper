@@ -1,0 +1,40 @@
+{
+  "id": "VOZ-003",
+  "slug": "dang-ky-de-huy-kho",
+  "title": "Vì sao đăng ký dễ nhưng hủy thuê bao lại khó?",
+  "series": "ai-tra-tien",
+  "topic_ref": "data/topics.md#3",
+  "stage": "idea",
+  "created": "2026-10-17T11:47",
+  "updated": "2026-10-17T11:47",
+  "duration_s": null,
+  "files": {
+    "video": "export/VOZ-003_dang-ky-de-huy-kho.mp4",
+    "cover": "export/VOZ-003_dang-ky-de-huy-kho_cover.png"
+  },
+  "publish": {
+    "title": "Vì sao đăng ký dễ nhưng hủy thuê bao lại khó?",
+    "description": "",
+    "hashtags": []
+  },
+  "platforms": {
+    "youtube": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    },
+    "tiktok": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-17T11:47",
+      "event": "tạo tập"
+    }
+  ]
+}

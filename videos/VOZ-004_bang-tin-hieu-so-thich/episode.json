@@ -1,0 +1,12 @@
+{
+  "_note": "VOZ-004 — Vì sao bảng tin dường như hiểu sở thích của bạn?. Định dạng: docs/scene-types.md. Viết bằng skill voz-script.",
+  "cover": {"kicker": "Ai đang chọn thay bạn?", "text": "Vì sao bảng tin dường như hiểu sở thích của bạn?"},
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "vo": "",
+      "props": {"text": "Vì sao bảng tin dường như hiểu sở thích của bạn?"}
+    }
+  ]
+}

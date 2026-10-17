@@ -1,0 +1,12 @@
+{
+  "_note": "VOZ-005 — Ai thực sự trả tiền cho mã giảm giá?. Định dạng: docs/scene-types.md. Viết bằng skill voz-script.",
+  "cover": {"kicker": "Ai đang trả tiền?", "text": "Ai thực sự trả tiền cho mã giảm giá?"},
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "vo": "",
+      "props": {"text": "Ai thực sự trả tiền cho mã giảm giá?"}
+    }
+  ]
+}

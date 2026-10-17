@@ -1,0 +1,12 @@
+{
+  "_note": "VOZ-006 — Vì sao giá nhà tăng nhanh hơn khả năng mua của người trẻ?. Định dạng: docs/scene-types.md. Viết bằng skill voz-script.",
+  "cover": {"kicker": "Cỗ máy phía sau cuộc sống", "text": "Vì sao giá nhà tăng nhanh hơn khả năng mua của người trẻ?"},
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "vo": "",
+      "props": {"text": "Vì sao giá nhà tăng nhanh hơn khả năng mua của người trẻ?"}
+    }
+  ]
+}

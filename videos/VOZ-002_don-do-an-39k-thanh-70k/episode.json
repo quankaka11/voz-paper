@@ -1,0 +1,12 @@
+{
+  "_note": "VOZ-002 — Một đơn đồ ăn 39.000đ thành 70.000đ như thế nào?. Định dạng: docs/scene-types.md. Viết bằng skill voz-script.",
+  "cover": {"kicker": "Ai đang trả tiền?", "text": "Một đơn đồ ăn 39.000đ thành 70.000đ như thế nào?"},
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "vo": "",
+      "props": {"text": "Một đơn đồ ăn 39.000đ thành 70.000đ như thế nào?"}
+    }
+  ]
+}

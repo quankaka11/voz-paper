@@ -1,0 +1,12 @@
+{
+  "_note": "{ID} — {TITLE}. Định dạng: docs/scene-types.md. Viết bằng skill voz-script.",
+  "cover": {"kicker": "{SERIES}", "text": "{TITLE}"},
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "vo": "",
+      "props": {"text": "{TITLE}"}
+    }
+  ]
+}
