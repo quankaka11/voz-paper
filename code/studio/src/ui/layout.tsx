@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {AbsoluteFill, useVideoConfig} from 'remotion';
 import {colors, fonts, SAFE} from '../theme';
-import {RichText} from './RichText';
+import {DarkContext, RichText} from './RichText';
+import {Label} from './collage';
 import {useEnter} from './anim';
 
 /** Vùng nội dung chính: nằm trên phụ đề, tránh cột nút bên phải. */
@@ -31,27 +32,15 @@ export const Stage: React.FC<{children: React.ReactNode; align?: 'center' | 'top
   </AbsoluteFill>
 );
 
+/** Nhãn nhỏ phía trên tiêu đề — mảnh giấy xé (đen trên nền sáng, vàng trên nền tối). */
 export const Kicker: React.FC<{text?: string; dark?: boolean; delay?: number}> = ({text, dark, delay = 0}) => {
-  const p = useEnter(delay);
+  const ctxDark = useContext(DarkContext);
+  const p = useEnter(delay, 14);
   if (!text) return null;
+  const d = dark ?? ctxDark;
   return (
-    <div
-      style={{
-        alignSelf: 'flex-start',
-        fontFamily: fonts.condensed,
-        fontWeight: 700,
-        fontSize: 34,
-        letterSpacing: 4,
-        textTransform: 'uppercase',
-        color: dark ? colors.navy : colors.paper,
-        background: dark ? colors.yellow : colors.navy,
-        padding: '6px 16px',
-        marginBottom: 28,
-        opacity: p,
-        transform: `translateX(${(1 - p) * -40}px)`,
-      }}
-    >
-      {text}
+    <div style={{alignSelf: 'flex-start', marginBottom: 26, opacity: Math.min(1, p * 2), transform: `rotate(-1.5deg) scale(${1.2 - 0.2 * p})`, transformOrigin: 'left center'}}>
+      <Label text={text} color={d ? 'yellow' : 'black'} font="condensed" size={36} upper seed={`k-${text}`} />
     </div>
   );
 };
@@ -63,21 +52,24 @@ export const Heading: React.FC<{text: string; size?: number; delay?: number; dar
   dark,
   align = 'left',
 }) => {
+  const ctxDark = useContext(DarkContext);
   const p = useEnter(delay);
+  const d = dark ?? ctxDark;
   return (
     <div
       style={{
         fontFamily: fonts.serif,
         fontWeight: 900,
         fontSize: size,
-        lineHeight: 1.12,
-        color: dark ? colors.paper : colors.ink,
+        lineHeight: 1.2,
+        color: d ? colors.paper : colors.ink,
         textAlign: align,
+        textShadow: d ? '0 4px 16px rgba(0,0,0,0.5)' : undefined,
         opacity: p,
         transform: `translateY(${(1 - p) * 30}px)`,
       }}
     >
-      <RichText text={text} delay={delay + 10} />
+      <RichText text={text} delay={delay + 10} numFont={fonts.condensed} />
     </div>
   );
 };

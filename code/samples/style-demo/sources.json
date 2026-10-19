@@ -1,0 +1,50 @@
+[
+  {
+    "type": "image",
+    "file": "assets/goethe.jpg",
+    "title": "Goethe (Stieler 1828).jpg",
+    "author": "Joseph Karl Stieler",
+    "license": "Public domain",
+    "license_url": null,
+    "url": "https://commons.wikimedia.org/wiki/File:Goethe_(Stieler_1828).jpg",
+    "via": "wikimedia",
+    "attribution_required": false,
+    "retrieved": "2026-10-19"
+  },
+  {
+    "type": "image",
+    "file": "assets/hat-ca-phe.jpg",
+    "title": "Coffee beans Philippines CNE.jpg",
+    "author": "CNEcija12345",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Coffee_beans_Philippines_CNE.jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-19"
+  },
+  {
+    "type": "image",
+    "file": "assets/phin.jpg",
+    "title": "Vietnamese Hot Drip Coffee - The Big Bowl.jpg",
+    "author": "Andy Li",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "url": "https://commons.wikimedia.org/wiki/File:Vietnamese_Hot_Drip_Coffee_-_The_Big_Bowl.jpg",
+    "via": "wikimedia",
+    "attribution_required": false,
+    "retrieved": "2026-10-19"
+  },
+  {
+    "type": "image",
+    "file": "assets/runge.jpg",
+    "title": "Friedlieb F. Runge, Gemälde im Deutschen Museum.jpg",
+    "author": "Burkhard Mücke",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Friedlieb_F._Runge,_Gem%C3%A4lde_im_Deutschen_Museum.jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-19"
+  }
+]

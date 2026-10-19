@@ -1,32 +1,35 @@
-import React from 'react';
-import {Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
+import React, {useContext} from 'react';
+import {AbsoluteFill, Img, interpolate, useCurrentFrame} from 'remotion';
 import {Scene} from '../types';
 import {colors, fonts} from '../theme';
 import {Heading, Kicker, Stage, useRevealFrame} from '../ui/layout';
-import {useEnter} from '../ui/anim';
+import {useEnter, useSlap} from '../ui/anim';
+import {imgSrc, Photo, Sticker, TREAT} from '../ui/collage';
+import {DarkContext} from '../ui/RichText';
+import {Sfx} from '../ui/Sfx';
 import {RichText} from '../ui/RichText';
 
 const clampI = (f: number, a: number, b: number) =>
   interpolate(f, [a, b], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
-const src = (s: string) => (/^https?:/.test(s) ? s : staticFile(s));
 
 /**
- * image — ảnh minh họa có Ken Burns.
- * style: "polaroid" (khung giấy + băng dính, nghiêng) | "cutout" (PNG đã tách nền, viền trắng) | "full" (tràn khung)
- * props: src, style?, kenburns?: in|out|left|right, kicker?, text?, credit?
+ * image — một ảnh minh họa có Ken Burns.
+ * style: "polaroid" (khung giấy + băng dính, nghiêng) | "cutout" (PNG đã tách nền, viền trắng sticker) | "full" (tràn khung)
+ * props: src, style?, kenburns?: in|out|left|right, kicker?, text?, caption?, credit?, tilt?, treat? (color|bw|sepia|faded)
  */
 export const ImageScene: React.FC<{scene: Scene}> = ({scene}) => {
-  const {src: s, style = 'polaroid', kenburns = 'in', kicker, text, credit, tilt = -2.5} = scene.props;
+  const {src: s, style = 'polaroid', kenburns = 'in', kicker, text, credit, caption, tilt = -2.5, treat = 'color'} = scene.props;
   const frame = useCurrentFrame();
+  const dark = useContext(DarkContext);
   const d = scene.durationInFrames;
   const t = clampI(frame, 0, d);
   const scale = kenburns === 'out' ? 1.15 - 0.15 * t : 1 + 0.15 * t;
   const tx = kenburns === 'left' ? -40 * t : kenburns === 'right' ? 40 * t : 0;
-  const e = useEnter(0, 14);
+  const e = useSlap(0, 14);
   const txt = useEnter(14);
 
-  const caption = (
+  const cap = (
     <>
       {text ? (
         <div style={{marginTop: 40, opacity: txt}}>
@@ -34,73 +37,40 @@ export const ImageScene: React.FC<{scene: Scene}> = ({scene}) => {
         </div>
       ) : null}
       {credit ? (
-        <div style={{marginTop: 14, fontFamily: fonts.sans, fontSize: 24, color: colors.inkSoft, opacity: txt}}>Ảnh: {credit}</div>
+        <div style={{marginTop: 14, fontFamily: fonts.mono, fontSize: 22, color: dark ? '#CFC9BC' : colors.inkSoft, opacity: txt}}>Ảnh: {credit}</div>
       ) : null}
     </>
   );
 
-  if (style === 'cutout') {
-    return (
-      <Stage>
-        <Kicker text={kicker} />
-        <div style={{display: 'flex', justifyContent: 'center', transform: `translateY(${(1 - e) * 200}px) rotate(${tilt * e}deg)`}}>
-          <Img
-            src={src(s)}
-            style={{
-              maxWidth: 820,
-              maxHeight: 640,
-              transform: `scale(${scale}) translateX(${tx}px)`,
-              filter:
-                'drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 5px 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(0 18px 20px rgba(0,0,0,0.3))',
-            }}
-          />
-        </div>
-        {caption}
-      </Stage>
-    );
-  }
-
   if (style === 'full') {
     return (
-      <Stage>
-        <Kicker text={kicker} />
-        <div style={{width: '100%', height: 760, overflow: 'hidden', borderRadius: 8, opacity: e}}>
-          <Img src={src(s)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${scale}) translateX(${tx}px)`}} />
-        </div>
-        {caption}
-      </Stage>
+      <AbsoluteFill>
+        <Img src={imgSrc(s)} style={{width: '100%', height: '100%', objectFit: 'cover', filter: TREAT[treat] ?? treat, transform: `scale(${scale}) translateX(${tx}px)`}} />
+        <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0) 30%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55))'}} />
+        <DarkContext.Provider value>
+          <Stage align="top">
+            <Kicker text={kicker} />
+            {cap}
+          </Stage>
+        </DarkContext.Provider>
+      </AbsoluteFill>
     );
   }
 
   return (
     <Stage>
       <Kicker text={kicker} />
-      <div
-        style={{
-          alignSelf: 'center',
-          position: 'relative',
-          background: '#fff',
-          padding: '22px 22px 70px',
-          boxShadow: '0 22px 40px rgba(0,0,0,0.25)',
-          transform: `translateY(${(1 - e) * 220}px) rotate(${tilt * e}deg)`,
-        }}
-      >
-        <div style={{width: 700, height: 560, overflow: 'hidden'}}>
-          <Img src={src(s)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${scale}) translateX(${tx}px)`}} />
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            top: -26,
-            left: '50%',
-            width: 200,
-            height: 56,
-            background: 'rgba(255,201,60,0.75)',
-            transform: 'translateX(-50%) rotate(-4deg)',
-          }}
-        />
+      <Sfx name="paper" at={0} />
+      <div style={{display: 'flex', justifyContent: 'center', transform: `translateY(${(1 - e) * -120}px) scale(${1.12 - 0.12 * e}) rotate(${tilt}deg)`, opacity: Math.min(1, e * 3)}}>
+        {style === 'cutout' ? (
+          <div style={{maxWidth: 860}}>
+            <Sticker src={s} w={820} h={680} treat={treat} zoom={scale} />
+          </div>
+        ) : (
+          <Photo src={s} w={700} h={560} caption={caption} treat={treat} zoom={scale} pan={tx} />
+        )}
       </div>
-      {caption}
+      {cap}
     </Stage>
   );
 };
@@ -162,6 +132,8 @@ export const PhoneScene: React.FC<{scene: Scene}> = ({scene}) => {
                   const at = reveal(r, i, rows.length, 12, 0.6);
                   const p = clampI(frame, at, at + 8);
                   return (
+                    <React.Fragment key={i}>
+                    <Sfx name="pop" at={at} />
                     <div
                       key={i}
                       style={{
@@ -182,6 +154,7 @@ export const PhoneScene: React.FC<{scene: Scene}> = ({scene}) => {
                       <span style={{flex: 1}}>{r.label}</span>
                       {r.value ? <span style={{color: colors.coral}}>{r.value}</span> : null}
                     </div>
+                    </React.Fragment>
                   );
                 })}
               </div>

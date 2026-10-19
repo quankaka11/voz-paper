@@ -24,6 +24,24 @@ def _strip_html(s: str | None) -> str:
     return re.sub(r"<[^>]+>", "", s or "").strip()
 
 
+WIKI_STEPS = (250, 330, 500, 960, 1280)  # kích thước thumbnail chuẩn; tải ảnh gốc/nhỏ lẻ hay bị upload.wikimedia.org trả 429
+
+
+def _wiki_thumb(ii: dict) -> str | None:
+    """URL thumbnail cỡ chuẩn. Khi ảnh gốc nhỏ hơn cỡ yêu cầu, API trả ảnh gốc ('unscaled') → tự dựng URL /thumb/."""
+    url, th, w = (ii.get("url") or "").split("?")[0], ii.get("thumburl"), ii.get("width") or 0
+    if th and "/thumb/" in th:
+        return th
+    if not url or "/commons/" not in url:
+        return th or url
+    steps = [s for s in WIKI_STEPS if s < w]
+    if not steps:
+        return th or url
+    name = url.rsplit("/", 1)[1]
+    ext = "" if name.lower().endswith((".jpg", ".jpeg", ".png", ".gif")) else ".png"
+    return url.replace("/commons/", "/commons/thumb/", 1) + f"/{steps[-1]}px-{name}{ext}"
+
+
 def _wikimedia(q: str, n: int) -> list[dict]:
     r = requests.get("https://commons.wikimedia.org/w/api.php", headers=UA, timeout=30, params={
         "action": "query", "format": "json", "generator": "search", "gsrsearch": f"{q} filetype:bitmap",
@@ -36,9 +54,11 @@ def _wikimedia(q: str, n: int) -> list[dict]:
         lic = _strip_html(md.get("LicenseShortName", {}).get("value"))
         if not lic or BLOCKED.search(lic):
             continue
+        if (ii.get("width") or 0) < 400:  # quá nhỏ cho video 1080p; ảnh gốc nhỏ cũng hay bị chặn 429
+            continue
         out.append({
             "id": str(p["pageid"]), "source": "wikimedia", "title": p["title"].removeprefix("File:"),
-            "url": ii.get("thumburl") or ii.get("url"), "page": ii.get("descriptionurl"),
+            "url": _wiki_thumb(ii), "page": ii.get("descriptionurl"),
             "author": _strip_html(md.get("Artist", {}).get("value"))[:120], "license": lic,
             "license_url": md.get("LicenseUrl", {}).get("value"),
             "attribution_required": md.get("AttributionRequired", {}).get("value", "true") != "false",
@@ -111,7 +131,7 @@ def search(ep_dir: Path, query: str, source: str = "wikimedia", n: int = 8) -> P
                     time.sleep(3 * (attempt + 1))
                 img.raise_for_status()
                 Image.open(BytesIO(img.content)).convert("RGB").save(f, quality=92)
-                time.sleep(0.5)
+                time.sleep(1.2)
         except Exception as ex:  # noqa: BLE001 — ảnh hỏng thì bỏ qua
             print(f"  bỏ {key}: {ex}")
             continue
@@ -165,6 +185,24 @@ def add_source(ep_dir: Path, entry: dict) -> None:
     config.save_json(f, data)
 
 
+def _drop_specks(alpha, keep_ratio: float = 0.03):
+    """Bỏ mảnh vụn rời (mép bàn, khung tranh còn sót) nhỏ hơn 3% mảng lớn nhất — sticker viền trắng sẽ lộ rõ chúng."""
+    import numpy as np
+    from PIL import Image
+    try:
+        from scipy import ndimage
+    except ImportError:
+        return alpha
+    a = np.asarray(alpha).copy()
+    lab, n = ndimage.label(a > 0)
+    if n <= 1:
+        return alpha
+    sizes = ndimage.sum(a > 0, lab, range(1, n + 1))
+    small = [i + 1 for i, v in enumerate(sizes) if v < sizes.max() * keep_ratio]
+    a[np.isin(lab, small)] = 0
+    return Image.fromarray(a)
+
+
 def cutout(ep_dir: Path, rel: str, model: str = "isnet-general-use") -> Path:
     """Tách nền (rembg). Không dùng model mặc định bria-rmbg vì license thương mại phải trả phí."""
     try:
@@ -178,6 +216,8 @@ def cutout(ep_dir: Path, rel: str, model: str = "isnet-general-use") -> Path:
     im = remove(Image.open(src), session=new_session(model)).convert("RGBA")
     # bỏ vùng bán trong suốt (bóng mờ của vật thể phía sau), làm cứng mép
     a = im.getchannel("A").point(lambda v: 0 if v < 110 else (255 if v > 200 else v))
+    im.putalpha(a)
+    a = _drop_specks(a)
     im.putalpha(a)
     bbox = a.getbbox()
     if bbox:

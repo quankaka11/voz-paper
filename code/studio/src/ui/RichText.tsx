@@ -59,11 +59,26 @@ export const Highlight: React.FC<{children: React.ReactNode; delay?: number; col
   );
 };
 
-export const RichText: React.FC<{text: string; delay?: number; accent?: string; style?: React.CSSProperties}> = ({
+/** Bọc chuỗi số bằng font riêng (số của Playfair dễ nhầm: '0' trông như 'Q'). */
+const withNums = (t: string, numFont?: string): React.ReactNode =>
+  !numFont
+    ? t
+    : t.split(/(\d[\d.,]*)/).map((part, i) =>
+        /^\d/.test(part) ? (
+          <span key={i} style={{fontFamily: numFont, fontWeight: 700}}>
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+      );
+
+export const RichText: React.FC<{text: string; delay?: number; accent?: string; style?: React.CSSProperties; numFont?: string}> = ({
   text,
   delay = 0,
   accent = colors.coral,
   style,
+  numFont,
 }) => {
   const segs = parseRich(text);
   let hlIndex = 0;
@@ -73,18 +88,18 @@ export const RichText: React.FC<{text: string; delay?: number; accent?: string; 
         if (s.kind === 'hl')
           return (
             <Highlight key={i} delay={delay + 8 * hlIndex++}>
-              {s.text}
+              {withNums(s.text, numFont)}
             </Highlight>
           );
         if (s.kind === 'accent')
           return (
             <span key={i} style={{color: accent}}>
-              {s.text}
+              {withNums(s.text, numFont)}
             </span>
           );
         return (
           <span key={i} style={{whiteSpace: 'pre-wrap'}}>
-            {s.text}
+            {withNums(s.text, numFont)}
           </span>
         );
       })}

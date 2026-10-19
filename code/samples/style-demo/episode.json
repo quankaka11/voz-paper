@@ -1,0 +1,436 @@
+{
+  "_note": "Tập mẫu PHONG CÁCH cắt dán (collage): khoe đủ loại cảnh mới — collage, map, document, nhãn giấy xé, chữ cắt rời, số poster, dây nối, máy quay theo lời, chuyển cảnh, SFX. Render: python voz.py render code/samples/style-demo --draft. Không phải video đăng.",
+  "voice": "nam_bac_tram",
+  "tone": "charcoal",
+  "music": "brand/music/investigations.mp3",
+  "cover": {
+    "kicker": "Chuyện ly cà phê",
+    "lines": [
+      "Thứ giữ bạn tỉnh táo",
+      "được tìm ra nhờ",
+      {
+        "text": "một nhà thơ?",
+        "color": "yellow"
+      }
+    ],
+    "image": "assets/goethe_cut.png"
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "collage",
+      "vo": "Mỗi sáng, hàng triệu người Việt uống cà phê để tỉnh táo. Nhưng chất giữ bạn tỉnh táo, lại được tìm ra nhờ một nhà thơ.",
+      "props": {
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "nhà thơ",
+            "x": 540,
+            "y": 860,
+            "zoom": 1.06
+          }
+        ],
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/phin_cut.png",
+            "w": 560,
+            "x": 640,
+            "y": 1990,
+            "anchor": "bottom",
+            "rot": 3,
+            "enter": "up",
+            "at": 0.1
+          },
+          {
+            "kind": "label",
+            "text": "Thứ giữ bạn tỉnh táo",
+            "color": "kraft",
+            "size": 74,
+            "x": 90,
+            "y": 300,
+            "anchor": "tl",
+            "rot": -2.5,
+            "cue": "nhưng"
+          },
+          {
+            "kind": "label",
+            "text": "được tìm ra nhờ",
+            "color": "cream",
+            "size": 70,
+            "x": 170,
+            "y": 440,
+            "anchor": "tl",
+            "rot": 1.5,
+            "cue": "được tìm ra"
+          },
+          {
+            "kind": "ransom",
+            "text": "MỘT NHÀ THƠ?",
+            "size": 84,
+            "x": 90,
+            "y": 590,
+            "anchor": "tl",
+            "cue": "nhà thơ"
+          },
+          {
+            "kind": "arrow",
+            "from": [
+              820,
+              690
+            ],
+            "to": [
+              700,
+              960
+            ],
+            "bend": -0.35,
+            "cue": "nhà thơ"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s02",
+      "type": "collage",
+      "transition": "sheet",
+      "source": "Wikipedia: Friedlieb Ferdinand Runge",
+      "vo": "Năm 1819, nhà thơ Đức Goethe đưa cho một nhà hóa học trẻ tên Runge một hộp hạt cà phê, và nhờ anh xem bên trong có gì.",
+      "props": {
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "hộp hạt",
+            "x": 560,
+            "y": 900,
+            "zoom": 1.05
+          }
+        ],
+        "layers": [
+          {
+            "kind": "number",
+            "value": "1819",
+            "style": "poster",
+            "size": 290,
+            "x": 80,
+            "y": 250,
+            "anchor": "tl",
+            "rot": -2,
+            "cue": "1819"
+          },
+          {
+            "kind": "image",
+            "src": "assets/goethe_cut.png",
+            "w": 500,
+            "treat": "bw",
+            "x": 320,
+            "y": 860,
+            "rot": -1.5,
+            "cue": "Goethe"
+          },
+          {
+            "kind": "tape",
+            "w": 230,
+            "h": 60,
+            "x": 300,
+            "y": 600,
+            "rot": -3,
+            "cue": "Goethe"
+          },
+          {
+            "kind": "tape",
+            "w": 230,
+            "h": 60,
+            "x": 330,
+            "y": 1130,
+            "rot": 2,
+            "cue": "Goethe"
+          },
+          {
+            "kind": "ransom",
+            "text": "GOETHE",
+            "size": 62,
+            "x": 575,
+            "y": 990,
+            "anchor": "tl",
+            "cue": "nhà hóa học"
+          },
+          {
+            "kind": "photo",
+            "src": "assets/hat-ca-phe.jpg",
+            "frame": "print",
+            "w": 290,
+            "h": 250,
+            "tape": false,
+            "x": 790,
+            "y": 760,
+            "rot": 4,
+            "cue": "hộp hạt"
+          },
+          {
+            "kind": "string",
+            "from": [
+              410,
+              700
+            ],
+            "to": [
+              650,
+              640
+            ],
+            "cue": "hộp hạt"
+          },
+          {
+            "kind": "string",
+            "from": [
+              410,
+              700
+            ],
+            "to": [
+              650,
+              900
+            ],
+            "cue": "hộp hạt"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03",
+      "type": "collage",
+      "transition": "tear",
+      "props": {
+        "tone": "grid-blue",
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "cafein",
+            "x": 560,
+            "y": 820,
+            "zoom": 1.06
+          }
+        ],
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/runge_cut.png",
+            "w": 560,
+            "treat": "bw",
+            "x": 360,
+            "y": 820,
+            "rot": 2,
+            "cue": "Runge"
+          },
+          {
+            "kind": "tag",
+            "text": "F. F. Runge · nhà hóa học",
+            "size": 40,
+            "x": 90,
+            "y": 1130,
+            "anchor": "tl",
+            "rot": -1.5,
+            "cue": "phân tích"
+          },
+          {
+            "kind": "label",
+            "text": "CAFEIN",
+            "font": "heavy",
+            "color": "yellow",
+            "size": 150,
+            "x": 690,
+            "y": 470,
+            "rot": -7,
+            "enter": "stamp",
+            "sfx": "stamp",
+            "cue": "cafein"
+          },
+          {
+            "kind": "label",
+            "text": "C8H10N4O2",
+            "font": "mono",
+            "color": "white",
+            "size": 40,
+            "x": 720,
+            "y": 610,
+            "rot": 3,
+            "cue": "cafein"
+          },
+          {
+            "kind": "arrow",
+            "from": [
+              700,
+              680
+            ],
+            "to": [
+              560,
+              760
+            ],
+            "bend": 0.4,
+            "cue": "chất mới"
+          }
+        ]
+      },
+      "vo": "Runge đem về phân tích, và tách ra được một chất mới. Ngày nay, ta gọi nó là cafein.",
+      "source": "Wikipedia: Friedlieb Ferdinand Runge"
+    },
+    {
+      "id": "s04",
+      "type": "map",
+      "transition": "push",
+      "source": "Wikipedia: Coffee production in Vietnam",
+      "vo": "Gần bốn mươi năm sau, các nhà truyền giáo người Pháp mang cây cà phê tới Việt Nam. Hơn một thế kỷ sau, cà phê phủ kín Tây Nguyên.",
+      "props": {
+        "views": [
+          {
+            "center": [
+              6,
+              45
+            ],
+            "zoom": 4.2
+          },
+          {
+            "cue": "mang cây",
+            "center": [
+              60,
+              30
+            ],
+            "zoom": 2.3,
+            "move": 30
+          },
+          {
+            "cue": "tới Việt Nam",
+            "center": [
+              107,
+              14
+            ],
+            "zoom": 5.5,
+            "move": 26
+          },
+          {
+            "cue": "Tây Nguyên",
+            "center": [
+              108.2,
+              13.2
+            ],
+            "zoom": 11,
+            "move": 26
+          }
+        ],
+        "highlight": [
+          {
+            "country": "Pháp",
+            "cue": "Pháp"
+          },
+          {
+            "country": "Việt Nam",
+            "cue": "tới Việt Nam"
+          }
+        ],
+        "routes": [
+          {
+            "from": [
+              2.3,
+              46.5
+            ],
+            "to": [
+              106.5,
+              13.5
+            ],
+            "cue": "mang cây",
+            "bend": -0.22,
+            "drawFrames": 30
+          }
+        ],
+        "points": [
+          {
+            "at": [
+              108.0,
+              12.7
+            ],
+            "label": "Tây Nguyên",
+            "cue": "Tây Nguyên",
+            "side": "left"
+          }
+        ],
+        "layers": [
+          {
+            "kind": "label",
+            "text": "1857",
+            "font": "serif",
+            "color": "kraft",
+            "size": 96,
+            "x": 90,
+            "y": 270,
+            "anchor": "tl",
+            "rot": -3,
+            "cue": "gần bốn mươi"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s05",
+      "type": "bigNumber",
+      "transition": "push-up",
+      "source": "USDA FAS, Coffee: World Markets and Trade",
+      "vo": "Hôm nay, Việt Nam là nước sản xuất cà phê lớn thứ hai thế giới, chỉ đứng sau Brazil.",
+      "props": {
+        "tone": "grid",
+        "kicker": "Việt Nam hôm nay",
+        "value": "Hạng 2",
+        "style": "letterpress",
+        "label": "nước sản xuất cà phê lớn nhất thế giới",
+        "note": "chỉ sau Brazil",
+        "image": {
+          "src": "assets/phin_cut.png",
+          "w": 520,
+          "x": 800,
+          "bottom": -260,
+          "treat": "bw",
+          "rot": -6
+        }
+      }
+    },
+    {
+      "id": "s06",
+      "type": "document",
+      "transition": "zoom",
+      "source": "ICO; USDA FAS",
+      "vo": "Và phần lớn trong số đó là robusta: loại hạt đắng hơn, và chứa nhiều cafein hơn arabica.",
+      "props": {
+        "outlet": "HỒ SƠ VOZ · Cà phê Việt",
+        "date": "Ghi chép",
+        "headline": "Robusta và arabica",
+        "image": "assets/hat-ca-phe.jpg",
+        "paragraphs": [
+          "Arabica và robusta là hai loại cà phê được trồng nhiều nhất thế giới.",
+          {
+            "text": "==Phần lớn cà phê Việt Nam là robusta.==",
+            "cue": "phần lớn"
+          },
+          {
+            "text": "Robusta ==đắng hơn và nhiều cafein hơn== arabica.",
+            "cue": "đắng hơn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s07",
+      "type": "question",
+      "transition": "sheet",
+      "vo": "Vậy ly cà phê sáng nay của bạn là robusta, hay arabica? Bình luận cho mình biết nhé.",
+      "props": {
+        "text": "Ly cà phê sáng nay của bạn là ==robusta== hay ==arabica==?",
+        "options": [
+          "Robusta, đậm và đắng",
+          "Arabica, chua nhẹ và thơm"
+        ]
+      }
+    }
+  ]
+}

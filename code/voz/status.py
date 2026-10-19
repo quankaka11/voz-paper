@@ -190,9 +190,18 @@ def publish_kit(ep_dir: Path) -> Path:
     img_src = [s for s in sources if s.get("type") == "image"]
     src_lines = [f"- {s.get('publisher') or s.get('title')}: {s.get('url')}" for s in data_src]
     src_lines += [f"- Ảnh: {s.get('title')} — {s.get('author') or 'không rõ'} ({s.get('license')}) {s.get('url')}" for s in img_src]
+    # nhạc nền CC BY bắt buộc ghi công: lấy dòng credit từ brand/music/credits.json theo tên file trong episode.json
+    music = (config.load_json(ep_dir / "episode.json", {}) or {}).get("music", config.channel().get("music"))
+    credits = config.load_json(config.ROOT / "brand" / "music" / "credits.json", {}) or {}
+    music_line = (credits.get(Path(music).name) or {}).get("credit") if music else None
+    if music and not music_line:
+        print(f"  ⚠ nhạc {music} chưa có dòng ghi công trong brand/music/credits.json")
     desc = pub.get("description", "").strip()
-    yt_desc = "\n".join(filter(None, [desc, "", "Nguồn:" if src_lines else "", *src_lines, "", " ".join(["#Shorts", *tags])]))
+    yt_desc = "\n".join(filter(None, [desc, "", "Nguồn:" if src_lines or music_line else "", *src_lines,
+                                     f"- Nhạc: {music_line}" if music_line else "", "", " ".join(["#Shorts", *tags])]))
     tt_caption = " ".join(filter(None, [pub.get("tiktok_caption") or pub.get("title", meta["title"]), *tags]))
+    if music_line:
+        tt_caption += f"\nNhạc: {music_line}"
     name = ep_dir.name
     md = f"""# {meta['id']} — gói đăng bài
 

@@ -9,7 +9,10 @@ from pathlib import Path
 
 from . import config, tts
 
-SCENE_TYPES = {"title", "bigNumber", "list", "question", "receipt", "bars", "compare", "flow", "image", "phone"}
+SCENE_TYPES = {"title", "bigNumber", "list", "question", "receipt", "bars", "compare", "flow", "image", "phone",
+               "collage", "map", "document"}
+TRANSITIONS = {"auto", "cut", "sheet", "push", "push-up", "tear", "zoom"}
+TONES = {"charcoal", "cream", "navy", "grid", "grid-blue", "grid-red", "map", "light", "dark"}
 
 
 def find(ep: str) -> Path:
@@ -49,18 +52,34 @@ def _cue_ms(cue: str, captions: list[dict]) -> int | None:
 
 
 def _resolve_cues(node, captions: list[dict], warn: list[str]):
+    """cue → atMs (lúc xuất hiện / máy quay tới), outCue → outAtMs (lúc rời khung)."""
     if isinstance(node, dict):
-        if "cue" in node and "atMs" not in node:
-            ms = _cue_ms(str(node["cue"]), captions)
-            if ms is None:
-                warn.append(f"không thấy cue '{node['cue']}' trong lời đọc")
-            else:
-                node["atMs"] = ms
+        for key, dst in (("cue", "atMs"), ("outCue", "outAtMs")):
+            if key in node and dst not in node:
+                ms = _cue_ms(str(node[key]), captions)
+                if ms is None:
+                    warn.append(f"không thấy {key} '{node[key]}' trong lời đọc")
+                else:
+                    node[dst] = ms
         for v in node.values():
             _resolve_cues(v, captions, warn)
     elif isinstance(node, list):
         for v in node:
             _resolve_cues(v, captions, warn)
+
+
+def _check_files(node, ep_dir: Path, warn: list[str]):
+    """Cảnh báo ảnh khai báo trong props mà chưa có file (src, image, img)."""
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if k in ("src", "image", "img") and isinstance(v, str) and not v.startswith(("http:", "https:", "data:")):
+                if not (ep_dir / v).exists():
+                    warn.append(f"thiếu file ảnh {v}")
+            else:
+                _check_files(v, ep_dir, warn)
+    elif isinstance(node, list):
+        for v in node:
+            _check_files(v, ep_dir, warn)
 
 
 def _sync_tree(src: Path, dst: Path):
@@ -97,6 +116,14 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
         if sc["type"] not in SCENE_TYPES:
             warns.append(f"{sid}: loại cảnh lạ '{sc['type']}' (có: {', '.join(sorted(SCENE_TYPES))})")
         props = sc.get("props", {})
+        if sc.get("transition") and sc["transition"] not in TRANSITIONS:
+            warns.append(f"{sid}: chuyển cảnh lạ '{sc['transition']}' (có: {', '.join(sorted(TRANSITIONS))})")
+        tone = props.get("tone") or props.get("bg")
+        if tone and tone not in TONES:
+            warns.append(f"{sid}: nền lạ '{tone}' (có: {', '.join(sorted(TONES))})")
+        fw = []
+        _check_files(props, ep_dir, fw)
+        warns += [f"{sid}: {w}" for w in fw]
         audio, captions, dur_ms = None, [], None
         vo = (sc.get("vo") or "").strip()
         if vo:
@@ -122,12 +149,13 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
         frames = math.ceil(seconds * fps)
         scenes.append({
             "id": sid, "type": sc["type"], "durationInFrames": frames, "audio": audio, "captions": captions,
-            "source": sc.get("source"), "illustrative": bool(sc.get("illustrative")), "props": props,
+            "source": sc.get("source"), "illustrative": bool(sc.get("illustrative")), "transition": sc.get("transition"),
+            "props": props,
         })
         rows.append((sid, sc["type"], frames / fps, len(vo.split())))
 
     _sync_tree(ep_dir / "assets", build_dir / "assets")
-    music = spec.get("music")
+    music = spec.get("music", ch.get("music"))  # "music": null trong episode.json = tắt nhạc
     if music:
         src = (config.ROOT / music) if not Path(music).is_absolute() else Path(music)
         if not src.exists():
@@ -140,11 +168,15 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
     props = {
         "id": meta.get("id", ep_dir.name), "title": meta.get("title", ""), "brand": brand,
         "music": music, "musicVolume": spec.get("music_volume", ch.get("music_volume", 0.08)),
-        "showCaptions": spec.get("captions", True), "showWatermark": spec.get("watermark", True), "scenes": scenes,
+        "showCaptions": spec.get("captions", True), "showWatermark": spec.get("watermark", True),
+        "tone": spec.get("tone") or ch.get("tone"), "sfx": spec.get("sfx", ch.get("sfx", True)),
+        "sfxVolume": spec.get("sfx_volume", ch.get("sfx_volume", 1.0)), "grain": spec.get("grain", ch.get("grain", 1.0)),
+        "scenes": scenes,
     }
     config.save_json(build_dir / "props.json", props)
     cover = dict(spec.get("cover") or {"text": meta.get("title", "")})
     cover.setdefault("brand", brand)
+    cover.setdefault("tone", spec.get("tone") or ch.get("tone"))
     cover.setdefault("episodeNo", re.sub(r"\D", "", meta.get("id", ""))[-2:] or None)
     config.save_json(build_dir / "cover.json", cover)
 

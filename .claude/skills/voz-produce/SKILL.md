@@ -18,7 +18,9 @@ python voz.py render VOZ-xxx --draft        # → build/draft.mp4 (540p) + build
 ```
 - Đọc bảng thời lượng: tổng 45–60s, không có `⚠ không thấy cue`.
 - **Xem `build/sheet.jpg` bằng Read** (12 khung chia đều). Soát: chữ tràn/chồng, highlight sai chỗ, cảnh trống quá lâu,
-  phụ đề che nội dung, chữ thiếu dấu, cảnh tối/sáng lệch tông.
+  phụ đề (hộp đen y ≈ 1250–1400) đè lên chữ/nhãn, chữ bị máy quay zoom cắt mép, chữ thiếu dấu, nhiều hơn một điểm màu nổi mỗi khung.
+- Xem kỹ quanh mốc chuyển cảnh và lúc các `cue` bật: trích khung từ draft bằng ffmpeg
+  (`ffmpeg -ss <giây> -i build/draft.mp4 -frames:v 1 x.jpg`) rồi ghép vài khung lại để Read.
 - Cần xem kỹ một thời điểm: `cd code/studio && npx remotion still src/index.ts Episode out.png --frame=<f> --props=<build/props.json> --public-dir=<build>`.
 - Sửa → chỉ cảnh có `vo` thay đổi mới gọi lại TTS (có cache theo nội dung).
 
@@ -35,7 +37,10 @@ Chỉ làm lại bìa: `python voz.py cover VOZ-xxx`. Kiểm lại file: `python
 ## 4. Checklist trước khi báo "xong"
 Kỹ thuật (lệnh check in ra): 1080×1920 · 45–60s · có âm thanh · −14 ±2 LUFS.
 Biên tập (tự soát trên sheet + script):
-- [ ] 3 giây đầu có vật thể/con số cụ thể, không chào hỏi.
+- [ ] 3 giây đầu có vật thể/con số cụ thể, không chào hỏi; khung 0,0s không trống.
+- [ ] ≥ 60% cảnh có hình thật (collage/map/document/image); hình đổi mỗi 1,5–3 giây.
+- [ ] Bản đồ có Việt Nam → thấy Hoàng Sa, Trường Sa; `document` chỉ trích câu thật.
+- [ ] SFX không át giọng đọc (nghe bản nháp; giảm `sfx_volume` nếu cần).
 - [ ] Mọi số liệu thật có `Nguồn:`; số giả định có nhãn `Minh họa`.
 - [ ] Không khẳng định quá mức (lừa đảo, nghe lén…), có nêu giới hạn.
 - [ ] Không logo thật trên bìa / cảnh phone; ảnh có license trong `sources.json`.

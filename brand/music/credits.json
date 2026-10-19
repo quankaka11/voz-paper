@@ -1,0 +1,27 @@
+{
+  "_note": "Ghi công nhạc nền. publish-kit tự chèn 'credit' vào mô tả YouTube và caption TikTok. Nhạc CC BY bắt buộc ghi công.",
+  "investigations.mp3": {
+    "title": "Investigations",
+    "author": "Kevin MacLeod",
+    "license": "CC BY 4.0",
+    "url": "https://incompetech.com",
+    "mood": "tò mò, pizzicato, lần dấu vết — mặc định của kênh",
+    "credit": "\"Investigations\" Kevin MacLeod (incompetech.com) — Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/"
+  },
+  "wallpaper.mp3": {
+    "title": "Wallpaper",
+    "author": "Kevin MacLeod",
+    "license": "CC BY 4.0",
+    "url": "https://incompetech.com",
+    "mood": "điện tử tối giản, nhịp đều — tập số liệu/kinh tế",
+    "credit": "\"Wallpaper\" Kevin MacLeod (incompetech.com) — Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/"
+  },
+  "deliberate-thought.mp3": {
+    "title": "Deliberate Thought",
+    "author": "Kevin MacLeod",
+    "license": "CC BY 4.0",
+    "url": "https://incompetech.com",
+    "mood": "trầm tư, chậm — tập nghiêm túc/xã hội",
+    "credit": "\"Deliberate Thought\" Kevin MacLeod (incompetech.com) — Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/"
+  }
+}

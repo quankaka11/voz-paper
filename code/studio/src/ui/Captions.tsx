@@ -4,20 +4,22 @@ import {Caption} from '../types';
 import {colors, fonts, SAFE} from '../theme';
 
 /**
- * Phụ đề theo cụm từ (timing do ZipVoice trả về). Từ đang đọc được tô dạ quang;
- * thời điểm từng từ nội suy theo số ký tự trong cụm.
+ * Phụ đề theo cụm từ (timing do ZipVoice trả về), kiểu nhãn hộp đen của Vox: chữ trắng trên dải đen,
+ * từ đang đọc chuyển vàng. Hộp đen đọc được trên mọi nền (ảnh, bản đồ, giấy kẻ ô).
+ * Thời điểm từng từ nội suy theo số ký tự trong cụm.
  */
-export const Captions: React.FC<{captions: Caption[]; dark?: boolean}> = ({captions, dark}) => {
+export const Captions: React.FC<{captions: Caption[]; dark?: boolean}> = ({captions}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const ms = (frame / fps) * 1000;
-  const cur = captions.find((c, i) => {
+  const idx = captions.findIndex((c, i) => {
     const next = captions[i + 1];
     // giữ cụm hiện tại trong khoảng lặng ngắn để chữ không nhấp nháy
     const end = next ? Math.min(next.startMs, c.endMs + 400) : c.endMs + 400;
     return ms >= c.startMs && ms < end;
   });
-  if (!cur) return null;
+  if (idx < 0) return null;
+  const cur = captions[idx];
 
   const words = cur.text.split(/\s+/).filter(Boolean);
   const total = words.reduce((a, w) => a + w.length + 1, 0);
@@ -28,15 +30,18 @@ export const Captions: React.FC<{captions: Caption[]; dark?: boolean}> = ({capti
     acc += w.length + 1;
     return {w, s, e: cur.startMs + (span * acc) / total};
   });
+  // cụm mới bật lên rất nhanh (3 frame) — cảm giác "cắt" theo nhịp lời
+  const since = ms - cur.startMs;
+  const pop = Math.min(1, Math.max(0, since / 100));
 
   return (
     <AbsoluteFill style={{pointerEvents: 'none'}}>
       <div
         style={{
           position: 'absolute',
-          left: SAFE.left,
-          right: 1080 - SAFE.right,
-          top: SAFE.bottom - 160,
+          left: SAFE.left - 20,
+          right: 1080 - SAFE.right - 20,
+          top: SAFE.bottom - 150,
           display: 'flex',
           justifyContent: 'center',
         }}
@@ -45,34 +50,32 @@ export const Captions: React.FC<{captions: Caption[]; dark?: boolean}> = ({capti
           style={{
             fontFamily: fonts.sans,
             fontWeight: 800,
-            fontSize: 60,
-            lineHeight: 1.25,
+            fontSize: 54,
+            lineHeight: 1.42,
             textAlign: 'center',
-            color: dark ? colors.paper : colors.ink,
-            background: dark ? 'rgba(20,33,61,0.0)' : 'rgba(242,234,219,0.0)',
-            textShadow: dark ? '0 3px 12px rgba(0,0,0,0.6)' : '0 2px 0 rgba(242,234,219,0.9)',
+            color: '#F7F4EC',
+            transform: `scale(${0.94 + 0.06 * pop}) rotate(${idx % 2 ? 0.6 : -0.6}deg)`,
           }}
         >
-          {timed.map(({w, s, e}, i) => {
-            const active = ms >= s && ms < e + 60;
-            return (
-              <span
-                key={i}
-                style={{
-                  display: 'inline-block',
-                  margin: '0 7px',
-                  padding: '0 6px',
-                  borderRadius: 8,
-                  background: active ? colors.yellow : 'transparent',
-                  color: active ? colors.ink : undefined,
-                  textShadow: active ? 'none' : undefined,
-                  transform: active ? 'scale(1.06)' : 'scale(1)',
-                }}
-              >
-                {w}
-              </span>
-            );
-          })}
+          <span
+            style={{
+              background: 'rgba(14,14,14,0.92)',
+              padding: '4px 20px 8px',
+              WebkitBoxDecorationBreak: 'clone',
+              boxDecorationBreak: 'clone',
+              boxShadow: '0 8px 18px rgba(0,0,0,0.35)',
+            }}
+          >
+            {timed.map(({w, s, e}, i) => {
+              const active = ms >= s && ms < e + 60;
+              return (
+                <span key={i} style={{color: active ? colors.yellow : undefined}}>
+                  {w}
+                  {i < timed.length - 1 ? ' ' : ''}
+                </span>
+              );
+            })}
+          </span>
         </div>
       </div>
     </AbsoluteFill>
