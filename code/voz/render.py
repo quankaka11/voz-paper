@@ -79,8 +79,9 @@ def check(mp4: Path) -> list[str]:
     else:
         problems.append("không có luồng hình")
     print(f"  thời lượng {dur:.1f}s")
-    if dur > 60:
-        problems.append("dài hơn 60s (Shorts tối đa 3 phút nhưng series nhắm 45–60s)")
+    hi = config.channel().get("target_seconds", [45, 175])[1]
+    if dur > hi:
+        problems.append(f"dài hơn {hi}s (Shorts/TikTok tối đa 3 phút)")
     if a:
         print(f"  âm thanh {a['codec_name']} {a.get('sample_rate')}Hz  loudness {lufs} LUFS")
         if lufs is not None and abs(lufs - LUFS_TARGET) > 2:
