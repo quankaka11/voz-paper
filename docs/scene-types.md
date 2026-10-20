@@ -59,7 +59,37 @@ Không có `cue` → dùng `"at": giây` hoặc các phần tử hiện đều t
 | `list` | Tóm tắt 2–4 ý | `kicker?`, `title?`, `items: [{emoji?, text, color?, cue?}]` |
 | `phone` | Mô phỏng màn hình app (không dùng logo thật) | `app`, `tagline?`, `price?`, `rows: [{emoji, label, value?, highlight?, cue?}]`, `stamp?`, `kicker?`, `title?` |
 | `image` | Một ảnh lớn | `src`, `style: polaroid\|cutout\|full`, `kenburns: in\|out\|left\|right`, `treat?`, `kicker?`, `text?`, `caption?`, `credit?`, `tilt?` |
-| `question` | Kết bài: câu hỏi mở A/B | `text`, `options?: string[]`, `sub?` (mặc định "Còn bạn thì sao?") |
+| `question` | Kết bài: câu hỏi mở A/B | `text`, `options?: string[]`, `sub?` (mặc định "Còn bạn thì sao?"), `endCard?` (tự `false` khi có outro) |
+| `intro` | *(tự chèn sau hook)* giới thiệu kênh + chủ đề | `series`, `topic`, `episodeNo`, `topicCue?` — sinh từ `channel.json > intro` + `episode.json > intro` |
+| `outro` | *(tự chèn cuối)* bình luận + nút Theo dõi + chuông + logo | `name`, `handle`, `comment`, `cta`, `ctaDone`, `tagline?`, `cues: {comment, follow, bell}` — sinh từ `channel.json > outro` |
+
+## Intro / outro (nhịp thương hiệu, tự chèn)
+
+```jsonc
+// config/channel.json — dùng chung mọi tập
+"intro": {"after": 1, "vo": "Cùng {channel} bóc tách {topic}.", "vo_plain": "Cùng {channel} bóc tách nhé.", "transition": "zoom"},
+"outro": {"vo": "…", "vo_ab": "Bình luận lựa chọn của bạn…, và theo dõi {channel}…", "comment_ab": "Bình luận: A hay B?",
+          "cta": "Theo dõi", "cta_done": "Đã theo dõi", "cues": {"comment": "bình luận", "follow": "theo dõi", "bell": "không bỏ lỡ"},
+          "transition": "sheet", "min_duration": 4.5, "tagline": true}
+// episode.json — từng tập
+"intro": {"topic": "mô hình ứng dụng miễn phí", "label": "App miễn phí kiếm tiền từ đâu?"},   // hoặc false để tắt
+"outro": {"comment": "Bạn chọn A hay B?"}                                                     // ghi đè bất kỳ trường nào, hoặc false
+```
+`build` chèn `intro` sau cảnh thứ `after` (mặc định sau hook) và `outro` cuối tập (trừ khi `scenes` đã có cảnh loại đó);
+`vo_ab`/`comment_ab` dùng khi cảnh cuối là `question` có ≥ 2 lựa chọn. Hai cảnh này không có watermark (đã có logo lớn).
+
+## Ảnh bìa (`cover`)
+
+| trường | ý nghĩa |
+|---|---|
+| `kicker` | tên series (nhãn nhỏ cạnh `#số tập`) |
+| `headline` | 1–3 chữ siêu lớn, Anton vàng viền mực, `**chữ**` tô đỏ |
+| `lines` / `text` | nhãn giấy câu hỏi ngắn / tiêu đề serif (khi không có `headline`) |
+| `image`, `imageW`, `treat` | vật thể tách nền tràn đáy (mặc định rộng 1000, `bw`) |
+| `stamp` | con dấu đỏ trên mảnh giấy kem, đặt ngang vật thể |
+| `arrow` | `true` (mặc định từ chữ xuống vật thể) hoặc `{from, to, bend}` |
+| `circle` | vòng khoanh đỏ `{x, y, rx, ry}` |
+| `sub`, `emoji`, `tone` | dòng phụ, emoji (khi không có ảnh), nền |
 
 ## Lớp cắt dán (`layers` của `collage` / `map`)
 

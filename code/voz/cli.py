@@ -38,6 +38,7 @@ def cmd_render(a):
     b = ep / "build"
     name = _out_name(ep)
     out = b / "draft.mp4" if a.draft else ep / "export" / f"{name}.mp4"
+    out.unlink(missing_ok=True)  # render hỏng giữa chừng thì không để lại video cũ trông như bản mới
     render.remotion_render(b / "props.json", b, out, scale=0.5 if a.draft else 1.0)
     render.loudnorm(out)
     if not a.draft:
@@ -51,6 +52,7 @@ def cmd_render(a):
         print("  ✓ đạt kiểm tra kỹ thuật")
     if not a.draft and ep.parent == config.VIDEOS:
         status.mark_rendered(ep, float(render.probe(out)["format"]["duration"]))
+        status.publish_kit(ep)  # mỗi bản cuối luôn kèm gói đăng: ảnh bìa + tiêu đề/mô tả/caption/bình luận ghim
 
 
 def cmd_cover(a):

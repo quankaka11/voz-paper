@@ -32,6 +32,8 @@ videos/VOZ-001_slug/
 - Sửa thư viện cảnh: chuyển động chỉ dựa vào `useCurrentFrame()`; chạy `cd code/studio && npx tsc --noEmit`, rồi `python voz.py render code/samples/pipeline-test --draft`
   (sửa lớp cắt dán/bản đồ/chuyển cảnh: render thêm `code/samples/style-demo --draft`) và xem `build/sheet.jpg`.
 - Đổi màu nền trong `theme.ts` → chạy lại `python code/voz/tools/make_paper.py`; bộ SFX sinh bằng `python code/voz/tools/make_sfx.py`.
+- Mỗi tập tự có intro (sau hook) + outro (bình luận/theo dõi) từ `config/channel.json > intro/outro`; mỗi tập phải có ảnh bìa
+  (`episode.json > cover`, công thức trong skill `voz-script`) và `meta.json > publish` → render bản cuối tự sinh `export/publish.md`.
 - Bản đồ có Việt Nam phải hiện Hoàng Sa, Trường Sa (cảnh `map` tự vẽ — đừng tắt).
 - Font phải có subset `vietnamese` (xem docs/tooling-research.md).
 - Ảnh chỉ từ nguồn & license trong skill `voz-assets`; mọi nguồn ghi vào `sources.json`.

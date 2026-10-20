@@ -35,7 +35,17 @@ export type EpisodeProps = {
 
 export type CoverProps = {
   kicker?: string;
-  text: string;
+  /** tiêu đề siêu lớn 1–3 chữ ("APP 0Đ"); `**chữ**` tô đỏ */
+  headline?: string;
+  text?: string;
+  /** con dấu đỏ chéo trên vật thể ("AI TRẢ?") */
+  stamp?: string;
+  /** mũi tên đỏ vẽ tay: true = mặc định từ chữ xuống vật thể, hoặc {from: [x, y], to: [x, y], bend?} */
+  arrow?: boolean | {from: number[]; to: number[]; bend?: number};
+  /** vòng khoanh đỏ quanh chi tiết: {x, y, rx?, ry?} */
+  circle?: {x: number; y: number; rx?: number; ry?: number};
+  /** bề rộng ảnh tràn đáy (mặc định 1000) */
+  imageW?: number;
   sub?: string;
   emoji?: string;
   image?: string | null;

@@ -9,13 +9,13 @@ description: Bản đồ quy trình sản xuất một video VOZ STORY từ ý t
 |---|---|---|---|---|
 | 1 | Chọn chủ đề | — | `python voz.py status` xem tập nào đang chờ; chủ đề gốc ở `data/topics.md`. Tập mới: `python voz.py new "Tiêu đề" --series … --topic N` | `idea` |
 | 2 | Nghiên cứu | `voz-research` | `research.md`, `sources.json` | `researched` |
-| 3 | Kịch bản | `voz-script` | `script.md`, `episode.json`, `python voz.py build` | `scripted` |
+| 3 | Kịch bản + bìa + nội dung đăng | `voz-script` | `script.md`, `episode.json` (kèm `intro.topic`, `cover`), `meta.json > publish`, `python voz.py build` | `scripted` |
 | ⛳ | **Cổng 1: người dùng duyệt kịch bản** | | gửi bảng kịch bản + tổng thời lượng | |
 | 4 | Hình ảnh (nếu cần) | `voz-assets` | `assets/`, `sources.json` | |
 | 5 | Nháp | `voz-produce` | `python voz.py render VOZ-xxx --draft` → xem `build/sheet.jpg` | |
-| 6 | Bản cuối | `voz-produce` | `python voz.py render VOZ-xxx` → `export/` | `rendered` |
-| ⛳ | **Cổng 2: người dùng xem video** | | mp4 + bìa; sửa theo góp ý | `approved` |
-| 7 | Gói đăng | `voz-publish` | `meta.json > publish`, `python voz.py publish-kit` | |
+| 6 | Bản cuối | `voz-produce` | `python voz.py render VOZ-xxx` → `export/` mp4 + bìa + `publish.md` | `rendered` |
+| ⛳ | **Cổng 2: người dùng xem video** | | mp4 + bìa + gói đăng; sửa theo góp ý | `approved` |
+| 7 | Chốt gói đăng | `voz-publish` | sửa `meta.json > publish` nếu cần, `python voz.py publish-kit` | |
 | 8 | Đăng (người dùng) + ghi trạng thái | `voz-publish` | `python voz.py post …` | `published` |
 | 9 | Số liệu 48h / 7 ngày + bài học | `voz-publish` | `python voz.py metrics …`, `docs/learnings.md` | |
 

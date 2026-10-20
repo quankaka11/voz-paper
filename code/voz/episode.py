@@ -10,7 +10,7 @@ from pathlib import Path
 from . import config, tts
 
 SCENE_TYPES = {"title", "bigNumber", "list", "question", "receipt", "bars", "compare", "flow", "image", "phone",
-               "collage", "map", "document"}
+               "collage", "map", "document", "intro", "outro"}
 TRANSITIONS = {"auto", "cut", "sheet", "push", "push-up", "tear", "zoom"}
 TONES = {"charcoal", "cream", "navy", "grid", "grid-blue", "grid-red", "map", "light", "dark"}
 
@@ -93,6 +93,60 @@ def _sync_tree(src: Path, dst: Path):
                 shutil.copy2(f, t)
 
 
+def _brand_conf(ch: dict, spec: dict, key: str) -> dict | None:
+    """Cấu hình intro/outro: channel.json > key, ghi đè bằng episode.json > key; `false` (hoặc enabled: false) = tắt."""
+    conf = ch.get(key) or {}
+    over = spec.get(key)
+    if over is False:
+        return None
+    merged = {**conf, **(over if isinstance(over, dict) else {})}
+    return None if merged.get("enabled") is False else merged
+
+
+def _with_brand_scenes(spec: dict, ch: dict, meta: dict) -> list[dict]:
+    """Chèn cảnh `intro` sau hook (mặc định sau cảnh 1) và `outro` ở cuối — trừ khi episode.json đã tự có cảnh loại đó."""
+    scenes = [dict(sc) for sc in spec["scenes"]]
+    types = {sc.get("type") for sc in scenes}
+    name = ch.get("channel", "VOZ STORY")
+    ep_no = re.sub(r"\D", "", meta.get("id", ""))[-2:] or None
+    intro = _brand_conf(ch, spec, "intro")
+    if intro and "intro" not in types:
+        topic = (intro.get("topic") or "").strip()
+        vo = (intro.get("vo") if topic else intro.get("vo_plain")) or ""
+        vo = vo.format(channel=name, topic=topic).strip()
+        words = topic.split()
+        props = {
+            "series": intro.get("series", (ch.get("series") or {}).get(meta.get("series", ""), "")),
+            "topic": intro.get("label") or topic or meta.get("title", ""),
+            "episodeNo": ep_no,
+        }
+        if topic and _fold(" ".join(words[:3])) in _fold(vo):
+            props["topicCue"] = {"cue": " ".join(words[:3])}
+        sc = {"id": "intro", "type": "intro", "vo": vo, "transition": intro.get("transition", "zoom"), "props": props}
+        if intro.get("min_duration"):
+            sc["min_duration"] = intro["min_duration"]
+        scenes.insert(min(int(intro.get("after", 1)), len(scenes)), sc)
+    outro = _brand_conf(ch, spec, "outro")
+    if outro and "outro" not in types:
+        last = scenes[-1] if scenes else {}
+        has_ab = last.get("type") == "question" and len((last.get("props") or {}).get("options") or []) >= 2
+        comment = outro.get("comment") or (outro.get("comment_ab") if has_ab else None) or "Bình luận ý kiến của bạn"
+        cues = {k: {"cue": v} for k, v in (outro.get("cues") or {}).items() if v}
+        props = {
+            "name": name, "handle": ch.get("handle", ""), "comment": comment,
+            "cta": outro.get("cta", "Theo dõi"), "ctaDone": outro.get("cta_done", "Đã theo dõi"),
+            "tagline": ch.get("tagline") if outro.get("tagline", True) else None, "cues": cues,
+        }
+        vo = (outro.get("vo_ab") if has_ab else None) or outro.get("vo", "")
+        sc = {"id": "outro", "type": "outro", "vo": vo.format(channel=name).strip(),
+              "transition": outro.get("transition", "sheet"), "props": props, "min_duration": outro.get("min_duration", 4.5)}
+        scenes.append(sc)
+        for s in scenes:  # dòng "Theo dõi để xem tập tiếp theo" nhỏ của cảnh question là thừa khi đã có outro
+            if s.get("type") == "question":
+                s["props"] = {**(s.get("props") or {}), "endCard": False}
+    return scenes
+
+
 def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
     ch = config.channel()
     fps = ch.get("fps", 30)
@@ -108,7 +162,7 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
 
     scenes, rows, warns = [], [], []
     seen = set()
-    for i, sc in enumerate(spec["scenes"]):
+    for i, sc in enumerate(_with_brand_scenes(spec, ch, meta)):
         sid = sc.get("id") or f"s{i + 1:02d}"
         if sid in seen:
             raise SystemExit(f"Trùng id cảnh: {sid}")
@@ -184,7 +238,7 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
     print(f"\n{'cảnh':<6}{'loại':<11}{'giây':>6}  {'từ':>4}")
     for sid, typ, sec, words in rows:
         print(f"{sid:<6}{typ:<11}{sec:>6.1f}  {words:>4}")
-    lo, hi = ch.get("target_seconds", [45, 60])
+    lo, hi = ch.get("target_seconds", [45, 175])
     flag = "" if lo <= total <= hi else f"  ⚠ ngoài khoảng mục tiêu {lo}–{hi}s"
     print(f"TỔNG  {total:.1f}s{flag}")
     for w in warns:

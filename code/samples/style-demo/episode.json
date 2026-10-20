@@ -423,7 +423,7 @@
       "id": "s07",
       "type": "question",
       "transition": "sheet",
-      "vo": "Vậy ly cà phê sáng nay của bạn là robusta, hay arabica? Bình luận cho mình biết nhé.",
+      "vo": "Vậy ly cà phê sáng nay của bạn là robusta, hay arabica?",
       "props": {
         "text": "Ly cà phê sáng nay của bạn là ==robusta== hay ==arabica==?",
         "options": [

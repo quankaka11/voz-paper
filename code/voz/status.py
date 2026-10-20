@@ -180,8 +180,28 @@ def write_index() -> None:
     (config.VIDEOS / "INDEX.md").write_text("\n".join(lines), encoding="utf-8")
 
 
+def _publish_warnings(pub: dict, title: str, tt_caption: str) -> list[str]:
+    """Kiểm nhanh gói đăng theo khuyến nghị nền tảng (độ dài tiêu đề, dòng đầu caption TikTok, số hashtag)."""
+    w = []
+    tags = pub.get("hashtags") or []
+    if not pub.get("description"):
+        w.append("thiếu publish.description (mô tả YouTube)")
+    if len(title) > 100:
+        w.append(f"tiêu đề YouTube {len(title)} ký tự > 100")
+    elif len(title) > 60:
+        w.append(f"tiêu đề YouTube {len(title)} ký tự — trên 60 dễ bị cắt ở lưới Shorts")
+    if not 3 <= len(tags) <= 5:
+        w.append(f"{len(tags)} hashtag — nên 3–5")
+    first = tt_caption.splitlines()[0] if tt_caption else ""
+    if len(first) > 90:
+        w.append(f"dòng đầu caption TikTok {len(first)} ký tự — chỉ ~80–90 ký tự đầu hiện trước nút 'thêm'")
+    if not pub.get("pinned_comment"):
+        w.append("thiếu publish.pinned_comment (bình luận ghim câu hỏi A/B)")
+    return w
+
+
 def publish_kit(ep_dir: Path) -> Path:
-    """export/publish.md: tiêu đề, mô tả, hashtag, nguồn, checklist đăng cho từng nền tảng."""
+    """export/publish.md: ảnh bìa, tiêu đề, mô tả, caption, hashtag, bình luận ghim, nguồn, checklist cho từng nền tảng."""
     meta = load(ep_dir)
     pub = meta.get("publish", {})
     sources = config.load_json(ep_dir / "sources.json", [])
@@ -189,42 +209,59 @@ def publish_kit(ep_dir: Path) -> Path:
     data_src = [s for s in sources if s.get("type") == "data"]
     img_src = [s for s in sources if s.get("type") == "image"]
     src_lines = [f"- {s.get('publisher') or s.get('title')}: {s.get('url')}" for s in data_src]
-    src_lines += [f"- Ảnh: {s.get('title')} — {s.get('author') or 'không rõ'} ({s.get('license')}) {s.get('url')}" for s in img_src]
+    src_lines += [f"- Ảnh: {s.get('title')} — {s.get('author') or 'không rõ'} ({s.get('license')}"
+                  f"{'; đã chỉnh: ' + s['modified'] if s.get('modified') else ''}) {s.get('url')}" for s in img_src]
     # nhạc nền CC BY bắt buộc ghi công: lấy dòng credit từ brand/music/credits.json theo tên file trong episode.json
     music = (config.load_json(ep_dir / "episode.json", {}) or {}).get("music", config.channel().get("music"))
     credits = config.load_json(config.ROOT / "brand" / "music" / "credits.json", {}) or {}
     music_line = (credits.get(Path(music).name) or {}).get("credit") if music else None
     if music and not music_line:
         print(f"  ⚠ nhạc {music} chưa có dòng ghi công trong brand/music/credits.json")
+    ch = config.channel()
+    title = pub.get("title") or meta["title"]
     desc = pub.get("description", "").strip()
-    yt_desc = "\n".join(filter(None, [desc, "", "Nguồn:" if src_lines or music_line else "", *src_lines,
-                                     f"- Nhạc: {music_line}" if music_line else "", "", " ".join(["#Shorts", *tags])]))
-    tt_caption = " ".join(filter(None, [pub.get("tiktok_caption") or pub.get("title", meta["title"]), *tags]))
+    follow = f"🔔 Theo dõi {ch.get('channel', 'VOZ STORY')} ({ch.get('handle', '')}) — {ch.get('tagline', '')}".strip()
+    credit_lines = [*src_lines, f"- Nhạc: {music_line}" if music_line else ""]
+    blocks = [desc, follow, "\n".join(["Nguồn:", *filter(None, credit_lines)]) if any(credit_lines) else "", " ".join(["#Shorts", *tags])]
+    yt_desc = "\n\n".join(b for b in blocks if b)
+    tt_caption = "\n".join(filter(None, [pub.get("tiktok_caption") or title, " ".join(tags)]))
     if music_line:
         tt_caption += f"\nNhạc: {music_line}"
+    pinned = pub.get("pinned_comment", "").strip()
+    warns = _publish_warnings(pub, title, tt_caption)
     name = ep_dir.name
     md = f"""# {meta['id']} — gói đăng bài
 
 - Video: `export/{name}.mp4` ({meta.get('duration_s') or '?'}s)
-- Ảnh bìa: `export/{name}_cover.png`
-
+- Ảnh bìa (thumbnail): `export/{name}_cover.png` (1080×1920)
+{"".join(f"- ⚠ {w}" + chr(10) for w in warns)}
 ## YouTube Shorts
-**Tiêu đề** (≤ 100 ký tự, hiện {len(pub.get('title', ''))}):
+**Tiêu đề** ({len(title)}/100 ký tự, nên ≤ 60):
 ```
-{pub.get('title', meta['title'])}
+{title}
 ```
 **Mô tả:**
 ```
 {yt_desc}
 ```
-- [ ] Chọn ảnh bìa (app YouTube) · [ ] Thêm vào playlist series · [ ] "Altered or synthetic content": **Không** (animation/TTS không cần khai báo)
+**Bình luận ghim:**
+```
+{pinned}
+```
+- [ ] Ảnh bìa: trong app YouTube (Tải lên → Chỉnh sửa ảnh thu nhỏ) chọn tải ảnh `_cover.png` nếu tài khoản có tùy chọn này; nếu chỉ cho chọn khung hình thì chọn khung rõ chữ nhất
+- [ ] Thêm vào playlist series · [ ] "Altered or synthetic content": **Không** (animation/TTS không cần khai báo) · [ ] Ghim bình luận
 
 ## TikTok
-**Caption:**
+**Caption** (dòng đầu là hook — chỉ ~80–90 ký tự đầu hiện trước nút "thêm"):
 ```
 {tt_caption}
 ```
-- [ ] Tải ảnh bìa · [ ] Bật bình luận · [ ] Ghim bình luận câu hỏi A/B
+**Bình luận ghim:**
+```
+{pinned}
+```
+- [ ] Ảnh bìa: "Chọn ảnh bìa" → **Tải lên** `_cover.png` (chữ đã nằm trong vùng 3:4 giữa ảnh nên lưới hồ sơ không cắt mất)
+- [ ] Bật bình luận · [ ] Ghim bình luận câu hỏi A/B
 
 ## Sau khi đăng
 ```
@@ -237,4 +274,6 @@ python voz.py metrics {meta['id']} youtube --views N --likes N --comments N --av
     out.parent.mkdir(exist_ok=True)
     out.write_text(md, encoding="utf-8")
     print(f"→ {out.relative_to(config.ROOT)}")
+    for w in warns:
+        print("  ⚠", w)
     return out

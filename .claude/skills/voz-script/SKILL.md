@@ -20,20 +20,30 @@ Cấm: chào hỏi/giới thiệu kênh, "bạn sẽ không tin được", hứa
 Hình cảnh đầu phải là **vật thể cụ thể có thật** (ảnh tách nền trồi từ đáy khung, hóa đơn, điện thoại, con số) + nhãn giấy xé
 đập xuống theo lời — dùng `collage` (xem công thức Hook trong style-guide mục 5), `receipt` hoặc `bigNumber`. Khung đầu tiên (0,0s) không được trống.
 
-## 2. Cấu trúc 45–60s
+## 2. Cấu trúc: hook → intro kênh → nội dung 45–60s → câu hỏi → outro
+Hai nhịp thương hiệu **tự chèn** khi `build` (cấu hình chung ở `config/channel.json > intro/outro`, không viết vào `scenes`):
+- `intro` (~2,5–3s) ngay **sau cảnh hook**: logo đập xuống + tên series + chủ đề, lời đọc "Cùng VOZ STORY bóc tách {topic}."
+  Mỗi tập khai báo `"intro": {"topic": "…", "label": "…"}` — `topic` 3–5 từ để đọc (vd "mô hình ứng dụng miễn phí"),
+  `label` ≤ 7 từ hiện trên màn hình (vd "App miễn phí kiếm tiền từ đâu?"). Hook không chào hỏi, không nhắc tên kênh — tên kênh để intro lo.
+- `outro` (~5s) sau câu hỏi A/B: bong bóng bình luận, nút **Theo dõi** được bấm, chuông, logo + @handle; lời đọc kêu gọi
+  bình luận + theo dõi. Cảnh `question` cuối vì thế **không** cần tự nói "theo dõi kênh".
+Tắt cho một tập: `"intro": false` / `"outro": false`. Tổng video thường 55–70s (giới hạn kỹ thuật < 3 phút).
+
 | Mốc | Nhiệm vụ | Cảnh gợi ý |
 |---|---|---|
 | 0–3s | Hook — vật thể/sự việc cụ thể | collage (ảnh thật + nhãn), receipt, bigNumber |
+| 3–6s | *(tự chèn)* intro kênh + chủ đề | `intro` |
 | 3–8s | Câu hỏi trung tâm + video sẽ trả lời gì | collage, title (`lines`) |
 | 8–25s | Cơ chế thứ nhất: ví dụ, sơ đồ, phép tính | collage, map, flow, receipt, compare |
 | 25–43s | Bằng chứng / điểm ngoặt (đổi nền ở đây — nhịp bất ngờ lớn nhất giữa video) | document, bigNumber, bars, map |
 | 43–60s | Kết luận + giới hạn + câu hỏi mở cho bình luận | collage, question |
+| cuối | *(tự chèn)* kêu gọi bình luận + theo dõi | `outro` |
 
 Mỗi cảnh phải là **một bước tiến mới** (thông tin mới), không lặp ý, không câu đệm "nhưng sự thật còn đáng sợ hơn".
 Một video = **một câu hỏi trung tâm**.
 
 ## 3. Lời đọc (vo) cho TTS
-- Nhịp ≈ 5 âm tiết/giây → **tổng 230–290 âm tiết** cho 50–58s. Mỗi cảnh 1–3 câu ngắn (3–7 giây).
+- Nhịp ≈ 5 âm tiết/giây → **phần nội dung 230–290 âm tiết** (45–60s, chưa tính intro/outro). Mỗi cảnh 1–3 câu ngắn (3–7 giây).
 - Văn nói, xưng "bạn"; câu ngắn; dấu chấm để ngắt nghỉ trước con số/ý chốt.
 - Viết số theo cách đọc: "39.000 đồng", "84 triệu đồng một mét vuông", "quý một năm 2026" (tts.py có tự sửa một số mẫu, nhưng đừng dựa vào).
 - Tên riêng nước ngoài đọc sai → thêm vào `config/lexicon.json`. Kiểm nhanh: `python voz.py say "câu" --dry`.
@@ -55,14 +65,25 @@ Một video = **một câu hỏi trung tâm**.
 - Không dùng logo/thương hiệu thật trong `phone` (đặt tên chung: "App giao đồ ăn").
 - Cảnh cuối luôn là `question` với 2 lựa chọn A/B cụ thể để kéo bình luận.
 
-## 5. Ảnh bìa (`cover`)
-`kicker` (tên series con) + `lines` (2–3 nhãn giấy, 2–4 từ mỗi nhãn) hoặc `text` + `image` (PNG đã tách nền, tràn đáy, đen trắng
-mặc định — `treat` để đổi). Bìa nêu **mâu thuẫn**, không lặp nguyên tiêu đề.
-Ví dụ: `{"kicker": "Ai đang trả tiền?", "lines": ["Món 39K", {"text": "trả 70K?", "color": "yellow"}], "image": "assets/hoa-don_cut.png"}`.
+## 5. Ảnh bìa / thumbnail (`cover`) — bắt buộc mỗi tập
+Ảnh PNG riêng 1080×1920 (`export/…_cover.png`), tải lên TikTok/YouTube khi đăng. Công thức cuốn hút:
+- `headline`: **1–3 chữ siêu lớn** (Anton vàng viền mực, `**chữ**` tô đỏ) nêu vật thể/mâu thuẫn — "App **miễn phí**", "39K → **70K**".
+  Tránh số 0 đứng riêng (font hẹp, dễ đọc thành chữ O).
+- `lines`: 1 nhãn câu hỏi ngắn (2–4 từ) — **không** lặp `kicker` (tên series) hay tiêu đề video.
+- `image`: vật thể thật tách nền tràn đáy (`imageW` 700–1000; `treat` mặc định `bw`).
+- **Một điểm đỏ**: `stamp` (con dấu trên mảnh giấy, 2–3 từ gây tò mò), `arrow: true` (mũi tên từ chữ xuống vật thể) hoặc `circle: {x, y, rx, ry}`.
+- Chữ quan trọng trong y 300–1600 (lưới TikTok cắt 3:4). Bìa nêu **mâu thuẫn**, không chép tiêu đề.
+Ví dụ: `{"kicker": "Ai đang trả tiền?", "headline": "App **miễn phí**", "lines": [{"text": "Tiền từ đâu ra?", "color": "yellow"}],
+"image": "assets/dien-thoai_cut.png", "imageW": 760, "stamp": "Không phải bạn?", "arrow": true}`.
+Xem nhanh: `python voz.py cover VOZ-xxx` rồi Read file PNG (thu nhỏ) — chữ phải đọc được ở cỡ ô lưới (~1/3 màn hình điện thoại).
+
+## 5b. Nội dung đăng — viết cùng lúc với kịch bản
+Ghi `meta.json > publish` (xem skill `voz-publish` mục 1): `title`, `description`, `hashtags`, `tiktok_caption`, `pinned_comment`.
+Render bản cuối tự sinh `export/publish.md` từ các trường này.
 
 ## 6. Ghi file và kiểm tra
 1. `script.md`: bảng `| # | giây | lời đọc | hình (ảnh cần tìm, lớp, nền, chuyển cảnh) | nguồn |` + 3 phương án tiêu đề.
 2. `episode.json` theo `docs/scene-types.md`.
-3. `python voz.py build VOZ-xxx` → xem bảng thời lượng: tổng 45–60s, không có `⚠`. Dài quá → cắt ý, không nói nhanh hơn.
+3. `python voz.py build VOZ-xxx` → xem bảng thời lượng: phần nội dung (trừ `intro`/`outro`) 45–60s, không có `⚠`. Dài quá → cắt ý, không nói nhanh hơn.
 4. `python voz.py status VOZ-xxx --stage scripted`.
 5. Gửi người dùng bảng kịch bản để duyệt **trước khi render bản cuối**.

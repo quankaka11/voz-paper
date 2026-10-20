@@ -61,6 +61,18 @@ cần kiểm chứng bằng biểu đồ retention của chính kênh ([klap.app
 | So sánh | hai `photo`/`image` đối xứng, một bên `bw` một bên `color`, `tag` dưới mỗi bên, hoặc `compare` |
 | Kết | `question` + lựa chọn A/B; có thể thêm ảnh tràn đáy để khung không trống |
 
+## 5b. Intro, outro, ảnh bìa (bản 3, 20/10/2026)
+- **Hook trước, thương hiệu sau.** Phần lớn người xem quyết định lướt trong 1–3 giây đầu, nên không mở bằng logo/lời chào. Cảnh `intro`
+  (~2,5–3s) đặt **sau** hook: logo đập xuống có băng dính, tag series + số tập, nhãn chủ đề gạch chân vàng; lời "Cùng VOZ STORY bóc tách …".
+- **Outro một ý**: sau câu hỏi A/B, thẻ kết ~5s: bong bóng "Bình luận: A hay B?" → nút đỏ "+ Theo dõi" xuất hiện, ngón tay bấm → "Đã theo dõi ✓",
+  dấu + trên ảnh đại diện thành ✓ → chuông rung; logo + @handle + tagline. Shorts thường không có màn hình kết thúc → CTA phải nằm trong video.
+- **Ảnh bìa** là ảnh riêng (không chèn vào video): 1–3 chữ siêu lớn tương phản cao, một vật thể thật, một điểm đỏ (dấu/mũi tên/vòng khoanh),
+  chữ trong vùng 3:4 giữa ảnh. Không lặp tên series hay tiêu đề.
+- Nguồn tham khảo (blog công cụ/marketing, chưa phải số liệu chính thức — kiểm lại bằng retention của kênh):
+  [opus.pro](https://www.opus.pro/blog/youtube-shorts-hook-formulas), [subscribr](https://subscribr.ai/youtube-strategy/perfect-youtube-short-length-structure-hooks),
+  [creatoressentials](https://www.creatoressentials.com/glossary/youtube-outro/), [capcut](https://www.capcut.com/resource/youtube-short-thumbnail),
+  [kapwing](https://www.kapwing.com/resources/how-to-change-tiktok-thumbnail/), [rybbit](https://rybbit.com/tools/tiktok-character-counter).
+
 ## 6. Ranh giới biên tập (bắt buộc)
 - **Bản đồ Việt Nam phải có Hoàng Sa và Trường Sa** — cảnh `map` tự vẽ hai quần đảo cùng màu Việt Nam (Natural Earth không có);
   không thêm đường biên/nhãn "South China Sea" — nếu cần gọi tên biển, dùng "Biển Đông".

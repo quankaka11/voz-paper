@@ -4,13 +4,13 @@
   "tagline": "Bóc tách những hệ thống vô hình chi phối cuộc sống",
   "id_prefix": "VOZ",
   "fps": 30,
-  "voice": "nam_bac_tram",
+  "voice": "blv",
   "speed": null,
   "caption_words": 5,
   "scene_pad_seconds": 0.35,
   "target_seconds": [
     45,
-    60
+    175
   ],
   "music_volume": 0.14,
   "tone": "charcoal",
@@ -22,5 +22,28 @@
     "ai-chon-thay-ban": "Ai đang chọn thay bạn?",
     "co-may-cuoc-song": "Cỗ máy phía sau cuộc sống"
   },
-  "music": "brand/music/investigations.mp3"
+  "music": "brand/music/investigations.mp3",
+  "intro": {
+    "_note": "Nhịp giới thiệu kênh ngay sau hook. {topic} lấy từ episode.json > intro.topic; không có topic thì đọc vo_plain. Tắt cho 1 tập: \"intro\": false",
+    "after": 1,
+    "vo": "Cùng {channel} bóc tách {topic}.",
+    "vo_plain": "Cùng {channel} bóc tách nhé.",
+    "transition": "zoom"
+  },
+  "outro": {
+    "_note": "Thẻ kết kênh sau câu hỏi cuối. vo_ab dùng khi cảnh cuối là question có lựa chọn A/B. cues = cụm trong lời đọc để bấm nút / rung chuông.",
+    "vo": "Bình luận ý kiến của bạn ngay bên dưới, và theo dõi {channel} để không bỏ lỡ tập tiếp theo nhé.",
+    "vo_ab": "Bình luận lựa chọn của bạn ngay bên dưới, và theo dõi {channel} để không bỏ lỡ tập tiếp theo nhé.",
+    "comment_ab": "Bình luận: A hay B?",
+    "cta": "Theo dõi",
+    "cta_done": "Đã theo dõi",
+    "cues": {
+      "comment": "bình luận",
+      "follow": "theo dõi",
+      "bell": "không bỏ lỡ"
+    },
+    "transition": "sheet",
+    "min_duration": 4.5,
+    "tagline": true
+  }
 }

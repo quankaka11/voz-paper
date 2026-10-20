@@ -5,6 +5,7 @@ import {BarsScene, CompareScene, ReceiptScene} from './DataScenes';
 import {FlowScene} from './FlowScene';
 import {ImageScene, PhoneScene} from './MediaScenes';
 import {CollageScene, DocumentScene, MapScene} from './CollageScenes';
+import {IntroScene, OutroScene} from './BrandScenes';
 
 /** Danh mục loại cảnh. Thêm loại mới: viết component rồi đăng ký ở đây + docs/scene-types.md + SCENE_TYPES (episode.py). */
 export const SCENES: Record<string, React.FC<{scene: Scene}>> = {
@@ -21,6 +22,8 @@ export const SCENES: Record<string, React.FC<{scene: Scene}>> = {
   collage: CollageScene,
   map: MapScene,
   document: DocumentScene,
+  intro: IntroScene,
+  outro: OutroScene,
 };
 
 /** Nền mặc định theo loại cảnh (ghi đè bằng props.tone). Còn lại dùng nền của tập (mặc định than chì). */
@@ -28,3 +31,6 @@ export const SCENE_TONE: Record<string, string> = {map: 'map'};
 
 /** Cảnh tự điều khiển máy quay bên trong (không áp máy quay chung). */
 export const SELF_CAMERA = new Set(['map']);
+
+/** Cảnh thương hiệu đã có logo lớn → không cần watermark góc. */
+export const NO_WATERMARK = new Set(['intro', 'outro']);

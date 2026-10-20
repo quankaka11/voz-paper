@@ -5,14 +5,23 @@ description: Chuẩn bị đăng và theo dõi video VOZ STORY trên YouTube Sho
 
 # Đăng bài & theo dõi
 
-## 1. Viết nội dung đăng (sau khi tập ở trạng thái `approved`)
-Ghi vào `meta.json > publish` của tập:
+## 1. Viết nội dung đăng (ngay khi viết kịch bản; chốt lại trước khi đăng)
+Mỗi tập luôn có gói đăng đầy đủ — render bản cuối tự sinh `export/publish.md`. Ghi vào `meta.json > publish` của tập:
 - `title` — YouTube Shorts ≤ 100 ký tự (nên ≤ 60 để không bị cắt). Nêu **vấn đề**, không lặp chữ trên bìa, không giật tít.
 - `description` — 1–2 câu tóm tắt lời giải + câu hỏi mời bình luận. Danh sách nguồn được thêm tự động từ `sources.json`.
 - `hashtags` — 3–5 thẻ: 1 thẻ series (`#AiĐangTrảTiền`), 1–2 thẻ chủ đề (`#KinhTếĐờiSống`, `#ThươngMạiĐiệnTử`), `#VOZSTORY`. Không nhồi thẻ trend không liên quan.
-- `tiktok_caption` (tùy chọn) — câu hỏi ngắn kéo bình luận, vd "Bạn chọn A hay B? 👇".
+- `tiktok_caption` — **dòng đầu ≤ 90 ký tự là hook** (chỉ phần này hiện trước nút "thêm"), có từ khoá để TikTok tìm kiếm;
+  dòng 2 là câu hỏi A/B kéo bình luận. Hashtag tự nối thêm.
+- `pinned_comment` — bình luận ghim (cả YouTube và TikTok): nhắc lại câu hỏi A/B + 2 lựa chọn, vd
+  "📌 Bạn chọn bên nào?\nA. …\nB. …\nComment A hoặc B nhé 👇".
 
-Rồi chạy `python voz.py publish-kit VOZ-xxx` → `export/publish.md` (tiêu đề, mô tả, caption, checklist).
+Mô tả YouTube tự thêm dòng "🔔 Theo dõi VOZ STORY…", nguồn số liệu, ghi công ảnh (kèm phần đã chỉnh sửa) và nhạc.
+`publish-kit` in `⚠` khi tiêu đề > 60 ký tự, dòng đầu caption > 90, hashtag ngoài 3–5, thiếu mô tả hoặc bình luận ghim.
+
+**Ảnh bìa (thumbnail)** `export/…_cover.png`: TikTok → "Chọn ảnh bìa" → *Tải lên*. YouTube Shorts → trong app khi tải lên/chỉnh sửa,
+tải ảnh nếu tài khoản có tùy chọn; nếu chỉ cho chọn khung hình thì chọn khung rõ chữ nhất (YouTube thay đổi tính năng này theo thời gian).
+
+Rồi chạy `python voz.py publish-kit VOZ-xxx` → `export/publish.md` (ảnh bìa, tiêu đề, mô tả, caption, bình luận ghim, checklist).
 
 ## 2. Người dùng tự đăng (thủ công)
 API TikTok không cho cá nhân đăng công khai; API YouTube chỉ đăng *private* khi chưa audit → đăng tay qua Studio.

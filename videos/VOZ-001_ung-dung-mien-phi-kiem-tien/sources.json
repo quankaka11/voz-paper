@@ -1,1 +1,151 @@
-[]
+[
+  {
+    "type": "data",
+    "claim": "Quảng cáo chiếm 97,6% doanh thu Meta năm 2025 (196,2/201,0 tỷ USD)",
+    "title": "Meta Platforms, Inc. — Form 10-K FY2025",
+    "publisher": "Meta (SEC 10-K 2025)",
+    "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+    "date": "2026-01",
+    "retrieved": "2026-10-17"
+  },
+  {
+    "type": "data",
+    "claim": "Spotify 2025: Premium 15,35 tỷ € (89%), quảng cáo 1,84 tỷ €",
+    "title": "Spotify Technology S.A. — Form 20-F FY2025",
+    "publisher": "Spotify (SEC 20-F 2025)",
+    "url": "https://www.sec.gov/Archives/edgar/data/1639920/000162828026006874/ck0001639920-20251231.htm",
+    "date": "2026-02",
+    "retrieved": "2026-10-17"
+  },
+  {
+    "type": "data",
+    "claim": "Duolingo Q3/2025: người trả phí = 9,0% MAU (12 tháng gần nhất)",
+    "title": "Duolingo Q3 2025 Shareholder Letter (Form 8-K)",
+    "publisher": "Duolingo (thư cổ đông Q3/2025)",
+    "url": "https://www.sec.gov/Archives/edgar/data/1562088/000162828025049514/q3fy25duolingo9-30x25share.htm",
+    "date": "2025-11",
+    "retrieved": "2026-10-17"
+  },
+  {
+    "type": "image",
+    "file": "assets/may-chu.jpg",
+    "title": "Datacenter Server Racks (22370909788).jpg",
+    "author": "Carl Lender from Sunrise, USA",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Datacenter_Server_Racks_(22370909788).jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-20"
+  },
+  {
+    "type": "image",
+    "file": "assets/dien-thoai.jpg",
+    "title": "Blackview A60 Smartphone Android mobile phone front face lock screen.jpg",
+    "author": "Acabashi",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Blackview_A60_Smartphone_Android_mobile_phone_front_face_lock_screen.jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-20",
+    "modified": "tách nền, tô tối màn hình (bỏ chữ/thông báo)"
+  },
+  {
+    "type": "image",
+    "file": "assets/cap-quang.jpg",
+    "title": "Bad Waldsee-Cable reels-Optical fiber cables-01ASD.jpg",
+    "author": "Asurnipal",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Bad_Waldsee-Cable_reels-Optical_fiber_cables-01ASD.jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-20"
+  },
+  {
+    "type": "image",
+    "file": "assets/xu.jpg",
+    "title": "A pile of coins demonstrating the divergence of a harmonic series.jpg",
+    "author": "Aleksandr Berdnikov",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:A_pile_of_coins_demonstrating_the_divergence_of_a_harmonic_series.jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-20"
+  },
+  {
+    "type": "image",
+    "file": "assets/dam-dong.jpg",
+    "title": "Crowd at Oxford Street Fair 1912 (3191663662).jpg",
+    "author": "Snyder, Frank R. Flickr: Miami U. Libraries - Digital Collections",
+    "license": "Public domain",
+    "license_url": null,
+    "url": "https://commons.wikimedia.org/wiki/File:Crowd_at_Oxford_Street_Fair_1912_(3191663662).jpg",
+    "via": "wikimedia",
+    "attribution_required": false,
+    "retrieved": "2026-10-20"
+  },
+  {
+    "type": "image",
+    "file": "assets/laptop.jpg",
+    "title": "Laptop coding programs (Unsplash).jpg",
+    "author": "Tirza van Dijk tirzavandijk",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "url": "https://commons.wikimedia.org/wiki/File:Laptop_coding_programs_(Unsplash).jpg",
+    "via": "wikimedia",
+    "attribution_required": false,
+    "retrieved": "2026-10-20"
+  },
+  {
+    "type": "image",
+    "file": "assets/mat.jpg",
+    "title": "Eye See You (131557467).jpeg",
+    "author": "Jan Bambach",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Eye_See_You_(131557467).jpeg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-20"
+  },
+  {
+    "type": "image",
+    "file": "assets/dong-ho-cat.jpg",
+    "title": "Hourglass 1.jpg",
+    "author": "Suohros",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "url": "https://commons.wikimedia.org/wiki/File:Hourglass_1.jpg",
+    "via": "wikimedia",
+    "attribution_required": false,
+    "retrieved": "2026-10-20",
+    "modified": "tách nền, cắt bỏ bánh xe trang trí"
+  },
+  {
+    "type": "image",
+    "file": "assets/khoa.jpg",
+    "title": "Mid 20th century warded padlock by AB Hilloverken Vaernamo Sweden.jpg",
+    "author": "R. Henrik Nilsson",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Mid_20th_century_warded_padlock_by_AB_Hilloverken_Vaernamo_Sweden.jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-20"
+  },
+  {
+    "type": "image",
+    "file": "assets/tai-nghe.jpg",
+    "title": "AudioQuest NightHawk Carbon headphones (34424584065).jpg",
+    "author": "david falkner from Birmingham, England",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "url": "https://commons.wikimedia.org/wiki/File:AudioQuest_NightHawk_Carbon_headphones_(34424584065).jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-20"
+  }
+]

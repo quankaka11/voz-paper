@@ -157,9 +157,9 @@ export const ListScene: React.FC<{scene: Scene}> = ({scene}) => {
   );
 };
 
-/** question — kết bài, câu hỏi mở cho bình luận. props: text, options?: string[], sub? */
+/** question — kết bài, câu hỏi mở cho bình luận. props: text, options?: string[], sub?, endCard? (false khi tập có outro) */
 export const QuestionScene: React.FC<{scene: Scene}> = ({scene}) => {
-  const {text, options = [], sub} = scene.props;
+  const {text, options = [], sub, endCard = true} = scene.props;
   const frame = useCurrentFrame();
   const dark = useContext(DarkContext);
   const reveal = useRevealFrame(scene.durationInFrames);
@@ -185,10 +185,12 @@ export const QuestionScene: React.FC<{scene: Scene}> = ({scene}) => {
           );
         })}
       </div>
-      <div style={{marginTop: 56, opacity: lg, display: 'flex', alignItems: 'center', gap: 24}}>
-        <Logo size={70} dark={dark} />
-        <div style={{fontFamily: fonts.sans, fontWeight: 600, fontSize: 34, color: dark ? colors.paper : colors.ink}}>Theo dõi để xem tập tiếp theo</div>
-      </div>
+      {endCard ? (
+        <div style={{marginTop: 56, opacity: lg, display: 'flex', alignItems: 'center', gap: 24}}>
+          <Logo size={70} dark={dark} />
+          <div style={{fontFamily: fonts.sans, fontWeight: 600, fontSize: 34, color: dark ? colors.paper : colors.ink}}>Theo dõi để xem tập tiếp theo</div>
+        </div>
+      ) : null}
     </Stage>
   );
 };

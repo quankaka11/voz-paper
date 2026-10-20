@@ -16,7 +16,9 @@ python voz.py health
 ```bash
 python voz.py render VOZ-xxx --draft        # → build/draft.mp4 (540p) + build/sheet.jpg
 ```
-- Đọc bảng thời lượng: tổng 45–60s, không có `⚠ không thấy cue`.
+- Đọc bảng thời lượng: nội dung 45–60s (+ `intro` ~3s, `outro` ~5s tự chèn), không có `⚠ không thấy cue`.
+- Soát **intro** (tag series + logo + chủ đề, không bị xuống dòng lạ) và **outro** (nút đỏ "+ Theo dõi" hiện trước rồi mới được bấm,
+  chuông rung đúng lúc "không bỏ lỡ") bằng `remotion still` ở vài frame.
 - **Xem `build/sheet.jpg` bằng Read** (12 khung chia đều). Soát: chữ tràn/chồng, highlight sai chỗ, cảnh trống quá lâu,
   phụ đề (hộp đen y ≈ 1250–1400) đè lên chữ/nhãn, chữ bị máy quay zoom cắt mép, chữ thiếu dấu, nhiều hơn một điểm màu nổi mỗi khung.
 - Xem kỹ quanh mốc chuyển cảnh và lúc các `cue` bật: trích khung từ draft bằng ffmpeg
@@ -31,11 +33,13 @@ Mở `build/audio/sXX.mp3` hoặc nhờ người dùng nghe bản nháp. Đọc 
 ```bash
 python voz.py render VOZ-xxx               # → export/VOZ-xxx_slug.mp4 + export/VOZ-xxx_slug_cover.png
 ```
-Lệnh tự: render 1080×1920 H.264 yuv420p 30fps → loudnorm −14 LUFS → ảnh bìa → contact sheet → kiểm tra kỹ thuật.
+Lệnh tự: render 1080×1920 H.264 yuv420p 30fps → loudnorm −14 LUFS → ảnh bìa → contact sheet → kiểm tra kỹ thuật
+→ `stage rendered` → **`export/publish.md`** (gói đăng). Trước khi render bản cuối, `meta.json > publish` phải có đủ trường (skill `voz-publish`).
+Render bản cuối tốn RAM: nếu máy báo thiếu bộ nhớ, nhờ người dùng đóng bớt ứng dụng rồi chạy lại.
 Chỉ làm lại bìa: `python voz.py cover VOZ-xxx`. Kiểm lại file: `python voz.py check VOZ-xxx`.
 
 ## 4. Checklist trước khi báo "xong"
-Kỹ thuật (lệnh check in ra): 1080×1920 · 45–60s · có âm thanh · −14 ±2 LUFS.
+Kỹ thuật (lệnh check in ra): 1080×1920 · < 3 phút (thường 55–70s) · có âm thanh · −14 ±2 LUFS.
 Biên tập (tự soát trên sheet + script):
 - [ ] 3 giây đầu có vật thể/con số cụ thể, không chào hỏi; khung 0,0s không trống.
 - [ ] ≥ 60% cảnh có hình thật (collage/map/document/image); hình đổi mỗi 1,5–3 giây.
@@ -45,12 +49,12 @@ Biên tập (tự soát trên sheet + script):
 - [ ] Không khẳng định quá mức (lừa đảo, nghe lén…), có nêu giới hạn.
 - [ ] Không logo thật trên bìa / cảnh phone; ảnh có license trong `sources.json`.
 - [ ] Chính tả tiếng Việt trên màn hình đúng dấu.
-- [ ] Kết bằng câu hỏi A/B.
+- [ ] Kết bằng câu hỏi A/B, rồi outro kêu gọi bình luận + theo dõi.
+- [ ] Ảnh bìa: headline đọc được ở cỡ thu nhỏ, một điểm đỏ, không lặp tên series; gói đăng không còn `⚠`.
 - [ ] Bố cục cảnh khác các tập trước (chống inauthentic content).
 
 ## 5. Cập nhật trạng thái
 ```bash
-python voz.py status VOZ-xxx --stage rendered
-python voz.py publish-kit VOZ-xxx            # tiêu đề, mô tả, hashtag, nguồn → export/publish.md
+python voz.py publish-kit VOZ-xxx            # chạy lại sau khi sửa meta.json > publish (render bản cuối đã tự chạy)
 ```
-Báo người dùng: đường dẫn mp4 + bìa, thời lượng, các điểm cần họ nghe/duyệt. Người dùng duyệt xong → `--stage approved`.
+Báo người dùng: đường dẫn mp4 + bìa + `export/publish.md` (tiêu đề, mô tả, caption TikTok, bình luận ghim), thời lượng, các điểm cần họ nghe/duyệt. Người dùng duyệt xong → `--stage approved`.

@@ -1,12 +1,677 @@
 {
-  "_note": "VOZ-001 — Nếu một ứng dụng miễn phí, nó kiếm tiền bằng cách nào?. Định dạng: docs/scene-types.md. Viết bằng skill voz-script.",
-  "cover": {"kicker": "Ai đang trả tiền?", "text": "Nếu một ứng dụng miễn phí, nó kiếm tiền bằng cách nào?"},
+  "_note": "VOZ-001 bản 2 — lời đọc bản 1 (17/10), dựng lại theo phong cách cắt dán (docs/style-guide.md). Định dạng: docs/scene-types.md.",
+  "tone": "charcoal",
+  "intro": {
+    "topic": "mô hình ứng dụng miễn phí",
+    "label": "App miễn phí kiếm tiền từ đâu?"
+  },
+  "cover": {
+    "kicker": "Ai đang trả tiền?",
+    "headline": "App **miễn phí**",
+    "lines": [
+      {
+        "text": "Tiền từ đâu ra?",
+        "color": "yellow"
+      }
+    ],
+    "image": "assets/dien-thoai_cut.png",
+    "imageW": 760,
+    "stamp": "Không phải bạn?",
+    "arrow": true
+  },
   "scenes": [
     {
       "id": "s01",
+      "type": "collage",
+      "vo": "Ứng dụng này miễn phí. Vậy ai đang trả tiền để nó tồn tại?",
+      "props": {
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "ai đang trả",
+            "x": 540,
+            "y": 820,
+            "zoom": 1.05
+          }
+        ],
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/dien-thoai_cut.png",
+            "w": 600,
+            "x": 600,
+            "y": 2010,
+            "anchor": "bottom",
+            "rot": 4,
+            "enter": "up",
+            "at": 0
+          },
+          {
+            "kind": "label",
+            "text": "Tải về: miễn phí",
+            "color": "kraft",
+            "size": 70,
+            "x": 90,
+            "y": 290,
+            "anchor": "tl",
+            "rot": -2.5,
+            "at": 0.15
+          },
+          {
+            "kind": "number",
+            "value": "0đ",
+            "style": "poster",
+            "size": 300,
+            "x": 610,
+            "y": 1060,
+            "rot": 2,
+            "cue": "miễn phí"
+          },
+          {
+            "kind": "ransom",
+            "text": "AI TRẢ TIỀN?",
+            "size": 84,
+            "x": 90,
+            "y": 440,
+            "anchor": "tl",
+            "cue": "ai đang trả"
+          },
+          {
+            "kind": "arrow",
+            "from": [
+              720,
+              560
+            ],
+            "to": [
+              690,
+              860
+            ],
+            "bend": -0.35,
+            "cue": "tồn tại"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s02",
+      "type": "collage",
+      "transition": "sheet",
+      "illustrative": true,
+      "vo": "Máy chủ, kỹ sư, đường truyền. Mỗi ngày đều tốn tiền. Miễn phí với bạn, không có nghĩa là miễn phí với ai cả.",
+      "props": {
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "miễn phí với bạn",
+            "x": 560,
+            "y": 720,
+            "zoom": 1.06
+          }
+        ],
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/may-chu.jpg",
+            "frame": "print",
+            "w": 440,
+            "h": 330,
+            "treat": "bw",
+            "x": 300,
+            "y": 420,
+            "rot": -3,
+            "cue": "máy chủ"
+          },
+          {
+            "kind": "tag",
+            "text": "Máy chủ",
+            "size": 40,
+            "x": 110,
+            "y": 600,
+            "anchor": "tl",
+            "rot": -2,
+            "cue": "máy chủ"
+          },
+          {
+            "kind": "photo",
+            "src": "assets/laptop.jpg",
+            "frame": "print",
+            "w": 420,
+            "h": 320,
+            "treat": "bw",
+            "x": 770,
+            "y": 580,
+            "rot": 3,
+            "cue": "kỹ sư"
+          },
+          {
+            "kind": "tag",
+            "text": "Kỹ sư",
+            "size": 40,
+            "x": 620,
+            "y": 760,
+            "anchor": "tl",
+            "rot": 2,
+            "cue": "kỹ sư"
+          },
+          {
+            "kind": "photo",
+            "src": "assets/cap-quang.jpg",
+            "frame": "print",
+            "w": 440,
+            "h": 330,
+            "treat": "bw",
+            "x": 330,
+            "y": 850,
+            "rot": -1.5,
+            "cue": "đường truyền"
+          },
+          {
+            "kind": "tag",
+            "text": "Đường truyền",
+            "size": 40,
+            "x": 140,
+            "y": 1035,
+            "anchor": "tl",
+            "rot": -1,
+            "cue": "đường truyền"
+          },
+          {
+            "kind": "label",
+            "text": "Mỗi ngày: $$$",
+            "font": "heavy",
+            "color": "yellow",
+            "size": 62,
+            "x": 600,
+            "y": 920,
+            "anchor": "tl",
+            "rot": -4,
+            "cue": "tốn tiền",
+            "maxWidth": 460
+          },
+          {
+            "kind": "stamp",
+            "text": "BẠN TRẢ 0đ",
+            "size": 92,
+            "x": 560,
+            "y": 700,
+            "rot": -9,
+            "cue": "miễn phí với bạn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03",
+      "type": "flow",
+      "transition": "push",
+      "vo": "Có ba cách phổ biến để lấp khoảng trống đó: bán quảng cáo, bán gói trả phí, và bán thêm ngay trong ứng dụng.",
+      "props": {
+        "layout": "radial",
+        "title": "Ba nguồn thu ==phổ biến==",
+        "center": {
+          "label": "App 0đ",
+          "img": "assets/dien-thoai_cut.png",
+          "treat": "bw"
+        },
+        "nodes": [
+          {
+            "label": "Quảng cáo",
+            "emoji": "📢",
+            "cue": "bán quảng cáo"
+          },
+          {
+            "label": "Gói trả phí",
+            "img": "assets/khoa_cut.png",
+            "cue": "gói trả phí"
+          },
+          {
+            "label": "Mua trong app",
+            "img": "assets/xu_cut.png",
+            "cue": "bán thêm"
+          }
+        ],
+        "direction": "in"
+      }
+    },
+    {
+      "id": "s04",
+      "type": "bigNumber",
+      "transition": "push-up",
+      "source": "Meta, báo cáo 10-K năm 2025",
+      "vo": "Cách thứ nhất: quảng cáo. Năm 2025, 97,6% doanh thu của Meta, công ty mẹ Facebook, đến từ quảng cáo.",
+      "props": {
+        "tone": "grid",
+        "kicker": "Cách 1 · Quảng cáo",
+        "countTo": 97.6,
+        "decimals": 1,
+        "suffix": "%",
+        "style": "letterpress",
+        "label": "doanh thu của Meta năm 2025 đến từ ==quảng cáo==",
+        "note": "196,2 / 201 tỷ USD",
+        "image": {
+          "src": "assets/xu_cut.png",
+          "w": 900,
+          "x": 600,
+          "bottom": 160,
+          "treat": "bw",
+          "rot": -6
+        }
+      }
+    },
+    {
+      "id": "s05",
+      "type": "collage",
+      "transition": "tear",
+      "vo": "Ở mô hình này, khách hàng trả tiền là nhà quảng cáo. Thứ họ mua là sự chú ý của bạn.",
+      "props": {
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "sự chú ý",
+            "x": 600,
+            "y": 900,
+            "zoom": 1.07
+          }
+        ],
+        "layers": [
+          {
+            "kind": "label",
+            "text": "Khách hàng thật",
+            "color": "kraft",
+            "size": 72,
+            "x": 90,
+            "y": 280,
+            "anchor": "tl",
+            "rot": -2,
+            "cue": "khách hàng"
+          },
+          {
+            "kind": "tag",
+            "text": "= nhà quảng cáo",
+            "size": 46,
+            "x": 120,
+            "y": 410,
+            "anchor": "tl",
+            "rot": 1,
+            "cue": "nhà quảng cáo"
+          },
+          {
+            "kind": "emoji",
+            "char": "📢",
+            "size": 230,
+            "x": 290,
+            "y": 700,
+            "rot": -8,
+            "cue": "nhà quảng cáo"
+          },
+          {
+            "kind": "label",
+            "text": "MÓN HÀNG",
+            "font": "heavy",
+            "color": "yellow",
+            "size": 84,
+            "x": 600,
+            "y": 560,
+            "anchor": "tl",
+            "rot": 4,
+            "cue": "thứ họ mua"
+          },
+          {
+            "kind": "photo",
+            "src": "assets/mat.jpg",
+            "frame": "print",
+            "w": 560,
+            "h": 360,
+            "treat": "color",
+            "x": 640,
+            "y": 960,
+            "rot": 3,
+            "cue": "sự chú ý"
+          },
+          {
+            "kind": "string",
+            "from": [
+              360,
+              740
+            ],
+            "to": [
+              560,
+              900
+            ],
+            "cue": "sự chú ý"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s06",
+      "type": "collage",
+      "transition": "sheet",
+      "source": "Spotify, báo cáo 20-F năm 2025",
+      "vo": "Cách thứ hai: cho dùng miễn phí, rồi thu tiền người nâng cấp. Năm 2025, gói trả phí mang về 89% doanh thu của Spotify.",
+      "props": {
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "mang về",
+            "x": 480,
+            "y": 760,
+            "zoom": 1.05
+          }
+        ],
+        "layers": [
+          {
+            "kind": "label",
+            "text": "Cách 2 · Gói trả phí",
+            "color": "kraft",
+            "size": 66,
+            "x": 90,
+            "y": 270,
+            "anchor": "tl",
+            "rot": -2,
+            "cue": "cách thứ hai"
+          },
+          {
+            "kind": "labels",
+            "lines": [
+              "Dùng miễn phí",
+              {
+                "text": "trả tiền để nâng cấp",
+                "color": "yellow"
+              }
+            ],
+            "size": 54,
+            "x": 110,
+            "y": 390,
+            "anchor": "tl",
+            "cue": "dùng miễn phí"
+          },
+          {
+            "kind": "photo",
+            "src": "assets/tai-nghe.jpg",
+            "frame": "polaroid",
+            "w": 440,
+            "h": 400,
+            "treat": "color",
+            "x": 790,
+            "y": 820,
+            "rot": 5,
+            "cue": "nâng cấp"
+          },
+          {
+            "kind": "number",
+            "value": "89%",
+            "style": "poster",
+            "size": 300,
+            "x": 80,
+            "y": 600,
+            "anchor": "tl",
+            "rot": -2,
+            "cue": "mang về"
+          },
+          {
+            "kind": "tag",
+            "text": "doanh thu Spotify 2025",
+            "size": 42,
+            "x": 100,
+            "y": 960,
+            "anchor": "tl",
+            "rot": 1,
+            "cue": "Spotify"
+          },
+          {
+            "kind": "label",
+            "text": "quảng cáo: 11%",
+            "color": "cream",
+            "font": "mono",
+            "size": 40,
+            "x": 110,
+            "y": 1050,
+            "anchor": "tl",
+            "rot": -1,
+            "cue": "Spotify"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s07",
+      "type": "collage",
+      "transition": "zoom",
+      "source": "Duolingo, thư cổ đông quý 3/2025",
+      "vo": "Điều thú vị là chỉ cần một nhóm nhỏ trả tiền. Ở Duolingo, khoảng 9 trên 100 người dùng trả phí.",
+      "props": {
+        "tone": "navy",
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "khoảng",
+            "x": 640,
+            "y": 800,
+            "zoom": 1.06
+          }
+        ],
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/dam-dong.jpg",
+            "frame": "print",
+            "w": 900,
+            "h": 560,
+            "treat": "bw",
+            "x": 540,
+            "y": 760,
+            "rot": -2,
+            "at": 0
+          },
+          {
+            "kind": "label",
+            "text": "Chỉ một nhóm nhỏ",
+            "color": "yellow",
+            "size": 70,
+            "x": 90,
+            "y": 290,
+            "anchor": "tl",
+            "rot": -3,
+            "cue": "nhóm nhỏ"
+          },
+          {
+            "kind": "tag",
+            "text": "Duolingo · quý 3/2025",
+            "size": 42,
+            "x": 110,
+            "y": 1030,
+            "anchor": "tl",
+            "rot": 1,
+            "cue": "Duolingo"
+          },
+          {
+            "kind": "number",
+            "value": "9/100",
+            "style": "poster",
+            "color": "#D7262E",
+            "size": 230,
+            "x": 700,
+            "y": 900,
+            "rot": -4,
+            "cue": "khoảng"
+          },
+          {
+            "kind": "label",
+            "text": "trả phí",
+            "color": "white",
+            "size": 56,
+            "x": 870,
+            "y": 1040,
+            "rot": 3,
+            "cue": "người dùng trả phí",
+            "maxWidth": 360
+          }
+        ]
+      }
+    },
+    {
+      "id": "s08",
+      "type": "collage",
+      "transition": "push",
+      "vo": "Mỗi lựa chọn là một đánh đổi. Dùng miễn phí, bạn trả bằng thời gian và sự chú ý. Trả phí, bạn đổi tiền lấy trải nghiệm ít bị làm phiền.",
+      "props": {
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "dùng miễn phí",
+            "x": 400,
+            "y": 900,
+            "zoom": 1.05
+          },
+          {
+            "cue": "đổi tiền",
+            "x": 680,
+            "y": 900,
+            "zoom": 1.05
+          }
+        ],
+        "layers": [
+          {
+            "kind": "label",
+            "text": "ĐÁNH ĐỔI",
+            "font": "heavy",
+            "color": "cream",
+            "size": 110,
+            "x": 540,
+            "y": 300,
+            "rot": -2,
+            "enter": "stamp",
+            "sfx": "stamp",
+            "cue": "đánh đổi"
+          },
+          {
+            "kind": "image",
+            "src": "assets/dong-ho-cat_cut.png",
+            "w": 290,
+            "treat": "bw",
+            "x": 280,
+            "y": 760,
+            "rot": -4,
+            "cue": "thời gian"
+          },
+          {
+            "kind": "tag",
+            "text": "Miễn phí",
+            "size": 50,
+            "x": 280,
+            "y": 450,
+            "rot": -2,
+            "cue": "dùng miễn phí"
+          },
+          {
+            "kind": "label",
+            "text": "thời gian",
+            "color": "kraft",
+            "size": 56,
+            "x": 280,
+            "y": 1020,
+            "rot": -2,
+            "cue": "thời gian"
+          },
+          {
+            "kind": "label",
+            "text": "sự chú ý",
+            "color": "kraft",
+            "size": 56,
+            "x": 290,
+            "y": 1105,
+            "rot": 2,
+            "cue": "sự chú ý"
+          },
+          {
+            "kind": "tag",
+            "text": "Trả phí",
+            "size": 50,
+            "x": 800,
+            "y": 450,
+            "rot": 2,
+            "cue": "trả phí, bạn"
+          },
+          {
+            "kind": "image",
+            "src": "assets/xu_cut.png",
+            "w": 400,
+            "treat": "color",
+            "x": 800,
+            "y": 730,
+            "rot": 5,
+            "cue": "đổi tiền"
+          },
+          {
+            "kind": "label",
+            "text": "ít bị làm phiền",
+            "color": "yellow",
+            "size": 52,
+            "x": 790,
+            "y": 1040,
+            "rot": 2,
+            "cue": "làm phiền",
+            "maxWidth": 440
+          }
+        ]
+      }
+    },
+    {
+      "id": "s09",
       "type": "title",
-      "vo": "",
-      "props": {"text": "Nếu một ứng dụng miễn phí, nó kiếm tiền bằng cách nào?"}
+      "transition": "tear",
+      "vo": "Miễn phí thường nghĩa là có người khác đang trả tiền, hoặc bạn đang trả bằng một thứ khác ngoài tiền.",
+      "props": {
+        "kicker": "Kết luận",
+        "lines": [
+          "Miễn phí nghĩa là",
+          {
+            "text": "người khác trả",
+            "color": "yellow",
+            "cue": "người khác"
+          },
+          {
+            "text": "hoặc bạn trả bằng thứ khác",
+            "color": "cream",
+            "cue": "thứ khác"
+          }
+        ],
+        "image": {
+          "src": "assets/dien-thoai_cut.png",
+          "w": 560,
+          "x": 540,
+          "bottom": -640,
+          "treat": "bw",
+          "rot": -3
+        }
+      }
+    },
+    {
+      "id": "s10",
+      "type": "question",
+      "transition": "sheet",
+      "vo": "Còn bạn, chấp nhận xem quảng cáo để dùng miễn phí, hay trả tiền để không bị làm phiền?",
+      "min_duration": 4.8,
+      "props": {
+        "text": "Bạn chọn ==xem quảng cáo== hay ==trả tiền==?",
+        "options": [
+          "Xem quảng cáo, miễn là 0đ",
+          "Trả tiền cho yên tĩnh"
+        ]
+      }
     }
   ]
 }

@@ -117,7 +117,6 @@ def search(ep_dir: Path, query: str, source: str = "wikimedia", n: int = 8) -> P
     cands = SOURCES[source](query, n)
     cdir = ep_dir / "assets" / "_candidates"
     cdir.mkdir(parents=True, exist_ok=True)
-    db = config.load_json(cdir / "candidates.json", {})
     tiles = []
     for c in cands:
         key = f"{c['source']}_{re.sub(r'[^A-Za-z0-9-]', '', c['id'])[:24]}"
@@ -136,8 +135,9 @@ def search(ep_dir: Path, query: str, source: str = "wikimedia", n: int = 8) -> P
             print(f"  bỏ {key}: {ex}")
             continue
         c.update({"key": key, "file": f.name, "query": query})
-        db[key] = c
         tiles.append(c)
+    db = config.load_json(cdir / "candidates.json", {})  # đọc lại ngay trước khi ghi: nhiều lần tìm song song không xoá của nhau
+    db.update({c["key"]: c for c in tiles})
     config.save_json(cdir / "candidates.json", db)
     if not tiles:
         raise SystemExit("Không có ứng viên phù hợp license. Thử từ khóa tiếng Anh hoặc nguồn khác.")

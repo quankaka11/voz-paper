@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Audio, Sequence, staticFile} from 'remotion';
 import {linearTiming, TransitionSeries} from '@remotion/transitions';
 import {EpisodeProps, Scene} from './types';
-import {SCENES, SCENE_TONE, SELF_CAMERA} from './scenes';
+import {NO_WATERMARK, SCENES, SCENE_TONE, SELF_CAMERA} from './scenes';
 import {FilmGrain, Paper} from './ui/Paper';
 import {Watermark} from './ui/Watermark';
 import {Captions} from './ui/Captions';
@@ -85,7 +85,7 @@ export const Episode: React.FC<EpisodeProps> = ({
           return (
             <Sequence key={`a${sc.id}`} from={starts[i]} durationInFrames={sc.durationInFrames} name={`${sc.id} · lời + phụ đề`}>
               {showCaptions && sc.captions?.length ? <Captions captions={sc.captions} dark={dark} /> : null}
-              {showWatermark ? <Watermark dark={dark} /> : null}
+              {showWatermark && !NO_WATERMARK.has(sc.type) ? <Watermark dark={dark} /> : null}
               {sc.audio ? <Audio src={staticFile(sc.audio)} /> : null}
             </Sequence>
           );

@@ -4,18 +4,25 @@
   "title": "Nếu một ứng dụng miễn phí, nó kiếm tiền bằng cách nào?",
   "series": "ai-tra-tien",
   "topic_ref": "data/topics.md#1",
-  "stage": "idea",
+  "stage": "scripted",
   "created": "2026-10-17T11:47",
-  "updated": "2026-10-17T11:47",
+  "updated": "2026-10-20T21:20",
   "duration_s": null,
   "files": {
     "video": "export/VOZ-001_ung-dung-mien-phi-kiem-tien.mp4",
     "cover": "export/VOZ-001_ung-dung-mien-phi-kiem-tien_cover.png"
   },
   "publish": {
-    "title": "Nếu một ứng dụng miễn phí, nó kiếm tiền bằng cách nào?",
-    "description": "",
-    "hashtags": []
+    "title": "App miễn phí thì ai trả tiền? 🤔",
+    "description": "Ứng dụng 0đ vẫn phải trả tiền máy chủ, kỹ sư, đường truyền mỗi ngày. Hai cách phổ biến nhất để bù lại: bán sự chú ý của bạn cho nhà quảng cáo (97,6% doanh thu Meta năm 2025), hoặc thu tiền một nhóm nhỏ người dùng nâng cấp (89% doanh thu Spotify). Bạn chọn xem quảng cáo hay trả tiền? Bình luận A hoặc B nhé 👇",
+    "hashtags": [
+      "#AiĐangTrảTiền",
+      "#KinhTếĐờiSống",
+      "#ỨngDụng",
+      "#VOZSTORY"
+    ],
+    "tiktok_caption": "App miễn phí thì ai trả tiền? 97,6% doanh thu Meta là quảng cáo 👀\nBạn chọn A (xem quảng cáo) hay B (trả tiền)? 👇",
+    "pinned_comment": "📌 Bạn chọn bên nào?\nA. Xem quảng cáo, miễn là 0đ\nB. Trả tiền để không bị làm phiền\nComment A hoặc B nhé 👇"
   },
   "platforms": {
     "youtube": {
@@ -35,6 +42,14 @@
     {
       "at": "2026-10-17T11:47",
       "event": "tạo tập"
+    },
+    {
+      "at": "2026-10-20T21:20",
+      "event": "stage: idea → researched"
+    },
+    {
+      "at": "2026-10-20T21:20",
+      "event": "stage: researched → scripted"
     }
   ]
 }
