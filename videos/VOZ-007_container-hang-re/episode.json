@@ -1,21 +1,2923 @@
 {
-  "_note": "VOZ-007 — Vì sao hàng đi nửa vòng Trái Đất mà phí ship vẫn rẻ?. Video dài 16:9. Định dạng: docs/scene-types.md. Viết bằng skill voz-script-long; mẫu đủ cảnh: code/samples/long-test.",
+  "_note": "VOZ-007 — video dài 16:9 thử nghiệm. Sinh từ kịch bản theo chương (research.md mục 3). Định dạng: docs/scene-types.md.",
   "format": "long",
-  "intro": {"topic": "", "label": ""},
-  "cover": {"kicker": "Cỗ máy phía sau cuộc sống", "headline": "", "lines": ["Vì sao hàng đi nửa vòng Trái Đất mà phí ship vẫn rẻ?"], "image": null, "panel": "red", "stamp": null, "arrow": false},
+  "tone": "charcoal",
+  "music": [
+    {
+      "from": "s01",
+      "src": "brand/music/investigations.mp3"
+    },
+    {
+      "from": "c3",
+      "src": "brand/music/wallpaper.mp3"
+    },
+    {
+      "from": "c4",
+      "src": "brand/music/investigations.mp3"
+    },
+    {
+      "from": "c5",
+      "src": "brand/music/deliberate-thought.mp3"
+    }
+  ],
+  "intro": {
+    "topic": "phí ship và chiếc container",
+    "label": "Vì sao phí ship lại rẻ?",
+    "after": 6
+  },
+  "covers": [
+    {
+      "id": "freeship",
+      "headline": "FREESHIP?",
+      "panel": "yellow",
+      "lines": [
+        "Ai đang trả tiền ship",
+        {
+          "text": "cho đơn hàng của bạn?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/shipper-thung_cut.png",
+      "imageW": 620,
+      "treat": "color",
+      "stamp": "Ai trả?",
+      "episodeNo": null
+    },
+    {
+      "id": "hop-thep",
+      "headline": "1 HỘP **THÉP**",
+      "panel": "navy",
+      "lines": [
+        "làm đơn hàng online",
+        {
+          "text": "rẻ như bây giờ?",
+          "color": "yellow"
+        }
+      ],
+      "image": null,
+      "episodeNo": null,
+      "layers": [
+        {
+          "kind": "image",
+          "src": "assets/msc-irina_cut.png",
+          "w": 560,
+          "x": 1010,
+          "y": 230,
+          "rot": -2,
+          "treat": "color",
+          "border": 6
+        },
+        {
+          "kind": "image",
+          "src": "assets/container-sealand_cut.png",
+          "w": 560,
+          "x": 990,
+          "y": 530,
+          "rot": 3,
+          "treat": "color",
+          "border": 8
+        },
+        {
+          "kind": "stamp",
+          "text": "1956",
+          "size": 60,
+          "x": 1150,
+          "y": 395,
+          "rot": -10
+        }
+      ]
+    },
+    {
+      "id": "5km",
+      "headline": "5 KM CUỐI",
+      "panel": "teal",
+      "lines": [
+        "đắt hơn cả",
+        {
+          "text": "nghìn km đường biển?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/shipper-thung_cut.png",
+      "imageW": 620,
+      "treat": "color",
+      "stamp": "×25",
+      "episodeNo": null
+    }
+  ],
+  "cover_pick": "freeship",
   "scenes": [
     {
       "id": "s01",
       "type": "collage",
-      "vo": "",
-      "props": {"layers": []}
+      "vo": "Bạn đặt một chiếc áo trên mạng, giá 99.000 đồng. Vài ngày sau, nó nằm trong tay bạn.",
+      "props": {
+        "tone": "charcoal",
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "trong tay bạn",
+            "x": 1150,
+            "y": 560,
+            "zoom": 1.08
+          }
+        ],
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/shipper-thung_cut.png",
+            "x": 1250,
+            "y": 1110,
+            "w": 900,
+            "anchor": "bottom",
+            "enter": "up",
+            "at": 0.1,
+            "treat": "color"
+          },
+          {
+            "kind": "label",
+            "text": "Một chiếc áo",
+            "x": 170,
+            "y": 230,
+            "anchor": "tl",
+            "color": "cream",
+            "size": 84,
+            "rot": -2,
+            "cue": "chiếc áo"
+          },
+          {
+            "kind": "number",
+            "value": "99.000đ",
+            "x": 190,
+            "y": 380,
+            "anchor": "tl",
+            "style": "poster",
+            "size": 170,
+            "cue": "99.000"
+          },
+          {
+            "kind": "tag",
+            "text": "đặt hàng online",
+            "x": 200,
+            "y": 600,
+            "anchor": "tl",
+            "size": 40,
+            "cue": "trên mạng"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s02",
+      "type": "map",
+      "vo": "Giả sử chiếc áo ấy được may ở Trung Quốc. Nó đi qua hàng nghìn ki lô mét đường biển để tới Việt Nam.",
+      "props": {
+        "views": [
+          {
+            "center": [
+              114,
+              22
+            ],
+            "zoom": 2.4
+          },
+          {
+            "cue": "hàng nghìn",
+            "center": [
+              113,
+              20
+            ],
+            "zoom": 2.8
+          }
+        ],
+        "highlight": [
+          {
+            "country": "Việt Nam",
+            "cue": "tới Việt Nam"
+          }
+        ],
+        "points": [
+          {
+            "at": [
+              121.47,
+              31.23
+            ],
+            "label": "Thượng Hải",
+            "cue": "Trung Quốc"
+          },
+          {
+            "at": [
+              106.7,
+              10.78
+            ],
+            "label": "TP.HCM",
+            "cue": "tới Việt Nam",
+            "side": "left"
+          }
+        ],
+        "routes": [
+          {
+            "from": [
+              121.47,
+              31.23
+            ],
+            "to": [
+              106.7,
+              10.78
+            ],
+            "cue": "đường biển",
+            "bend": -0.3,
+            "drawFrames": 40
+          }
+        ]
+      },
+      "illustrative": true
+    },
+    {
+      "id": "s03",
+      "type": "receipt",
+      "vo": "Nếu tách riêng tiền đường, đoạn biển dài hàng nghìn ki lô mét chỉ tốn khoảng 800 đồng cho chiếc áo. Còn 5 ki lô mét cuối tới nhà bạn, khoảng 21.000 đồng.",
+      "props": {
+        "kicker": "Tiền đường cho một chiếc áo",
+        "text": "Đoạn nào ==đắt== hơn?",
+        "title": "VẬN CHUYỂN 1 CHIẾC ÁO",
+        "items": [
+          {
+            "label": "Đường biển, hàng nghìn km",
+            "value": "~800đ",
+            "cue": "800 đồng",
+            "note": "ước tính từ cước 1 container"
+          },
+          {
+            "label": "5 km cuối tới nhà",
+            "value": "21.000đ",
+            "cue": "21.000 đồng",
+            "color": "#E8553F",
+            "note": "giá giao nội thành"
+          }
+        ]
+      },
+      "source": "Drewry (10/2026); bảng giá GHN",
+      "illustrative": true,
+      "transition": "sheet"
+    },
+    {
+      "id": "s04",
+      "type": "bigNumber",
+      "vo": "Đoạn ngắn nhất đắt gấp khoảng 25 lần đoạn dài nhất.",
+      "props": {
+        "kicker": "5 km cuối so với đường biển",
+        "value": "×25",
+        "style": "poster",
+        "label": "đắt hơn, trên mỗi chiếc áo",
+        "tone": "grid"
+      },
+      "illustrative": true,
+      "transition": "cut"
+    },
+    {
+      "id": "s05",
+      "type": "title",
+      "vo": "Vì sao đoạn đường dài nhất lại gần như miễn phí?",
+      "props": {
+        "lines": [
+          "Đoạn đường dài nhất",
+          {
+            "text": "lại gần như ==miễn phí==?",
+            "color": "yellow",
+            "cue": "gần như"
+          }
+        ],
+        "size": 96
+      },
+      "transition": "zoom"
+    },
+    {
+      "id": "s06",
+      "type": "collage",
+      "vo": "Câu trả lời bắt đầu từ một chiếc hộp thép, và một người lái xe tải, năm 1956.",
+      "props": {
+        "tone": "cream",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/ideal-x-ve.jpg",
+            "x": 960,
+            "y": 640,
+            "w": 1500,
+            "border": 0,
+            "treat": "bw",
+            "kenburns": false,
+            "cue": "hộp thép"
+          },
+          {
+            "kind": "image",
+            "src": "assets/container-sealand_cut.png",
+            "x": 560,
+            "y": 330,
+            "w": 560,
+            "rot": -3,
+            "treat": "color",
+            "cue": "hộp thép"
+          },
+          {
+            "kind": "number",
+            "value": "1956",
+            "x": 1450,
+            "y": 250,
+            "style": "poster",
+            "size": 220,
+            "cue": "1956"
+          },
+          {
+            "kind": "tag",
+            "text": "người lái xe tải",
+            "x": 1450,
+            "y": 420,
+            "color": "red",
+            "size": 42,
+            "cue": "lái xe tải"
+          },
+          {
+            "kind": "tag",
+            "text": "bản vẽ tàu Ideal X",
+            "x": 960,
+            "y": 860,
+            "size": 28,
+            "cue": "1956"
+          }
+        ]
+      },
+      "transition": "tear"
     },
     {
       "id": "c1",
       "type": "chapter",
-      "transition": "tear",
-      "vo": "",
-      "props": {"title": ""}
+      "vo": "Phần một. Thế giới trước chiếc hộp.",
+      "props": {
+        "title": "Thế giới trước chiếc hộp",
+        "sub": "Bến cảng những năm 1930–1950",
+        "tone": "charcoal"
+      },
+      "transition": "tear"
+    },
+    {
+      "id": "s07",
+      "type": "collage",
+      "vo": "Đây là bến cảng New York năm 1937. Mỗi kiện hàng được cẩu lên, rồi được người bốc vác đẩy vào chỗ, từng kiện một.",
+      "props": {
+        "tone": "cream",
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "từng kiện",
+            "x": 820,
+            "y": 520,
+            "zoom": 1.1
+          }
+        ],
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/bocvac-1937.jpg",
+            "x": 800,
+            "y": 540,
+            "w": 1000,
+            "h": 713,
+            "caption": "New York, 1937",
+            "treat": "bw",
+            "rot": -1.5
+          },
+          {
+            "kind": "label",
+            "text": "Bốc từng kiện",
+            "x": 1560,
+            "y": 330,
+            "color": "black",
+            "font": "heavy",
+            "size": 76,
+            "rot": 3,
+            "cue": "từng kiện"
+          },
+          {
+            "kind": "scribble",
+            "x": 760,
+            "y": 330,
+            "w": 430,
+            "h": 300,
+            "cue": "cẩu lên"
+          }
+        ]
+      },
+      "source": "Ảnh: Lewis Hine, 1937 (NARA)"
+    },
+    {
+      "id": "s08",
+      "type": "footage",
+      "vo": "Bao tải, thùng gỗ, kiện bông. Mỗi món một kích cỡ, phải xếp bằng tay cho vừa khít trong hầm tàu.",
+      "props": {
+        "src": "assets/noordam-cau.mp4",
+        "start": 0,
+        "style": "print",
+        "treat": "bw",
+        "kicker": "Rotterdam, 1948",
+        "text": "Mỗi món ==một kích cỡ==",
+        "caption": "Dỡ hàng rời",
+        "credit": "Polygoon Hollands Nieuws, CC BY-SA 3.0",
+        "tone": "cream"
+      },
+      "transition": "cut"
+    },
+    {
+      "id": "s09",
+      "type": "bigNumber",
+      "vo": "Năm 1954, một con tàu chở hàng từ Mỹ sang Đức mang theo 194.582 kiện hàng riêng lẻ.",
+      "props": {
+        "kicker": "Một con tàu, năm 1954",
+        "countTo": 194582,
+        "label": "kiện hàng riêng lẻ",
+        "style": "letterpress",
+        "tone": "grid",
+        "note": "Mỹ → Đức",
+        "image": {
+          "src": "assets/bocvac-chuoi.jpg",
+          "treat": "bw",
+          "w": 560
+        }
+      },
+      "source": "Marc Levinson, The Box / Works That Work",
+      "transition": "push"
+    },
+    {
+      "id": "s10",
+      "type": "collage",
+      "vo": "Con tàu vượt Đại Tây Dương chỉ mất mười ngày rưỡi. Nhưng có những kiện hàng phải mất hơn ba tháng mới tới nơi.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "label",
+            "text": "Vượt biển",
+            "x": 360,
+            "y": 300,
+            "color": "cream",
+            "size": 64,
+            "cue": "vượt Đại Tây Dương"
+          },
+          {
+            "kind": "number",
+            "value": "10,5",
+            "x": 360,
+            "y": 470,
+            "style": "poster",
+            "size": 230,
+            "unit": "ngày",
+            "cue": "mười ngày rưỡi"
+          },
+          {
+            "kind": "label",
+            "text": "Tới tay người nhận",
+            "x": 1380,
+            "y": 300,
+            "color": "yellow",
+            "size": 64,
+            "cue": "có những kiện"
+          },
+          {
+            "kind": "number",
+            "value": "3",
+            "x": 1300,
+            "y": 470,
+            "style": "poster",
+            "size": 260,
+            "color": "#D7262E",
+            "unit": "tháng+",
+            "cue": "ba tháng"
+          },
+          {
+            "kind": "arrow",
+            "from": [
+              700,
+              470
+            ],
+            "to": [
+              1080,
+              470
+            ],
+            "cue": "Nhưng",
+            "bend": -0.2
+          }
+        ]
+      },
+      "source": "Marc Levinson, The Box / Works That Work",
+      "transition": "sheet"
+    },
+    {
+      "id": "s11",
+      "type": "collage",
+      "vo": "Thời gian không mất trên biển. Nó mất ở cảng. Bốc hàng lên tàu mất khoảng một tuần, dỡ xuống lại thêm một tuần nữa.",
+      "props": {
+        "tone": "cream",
+        "camera": "right",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/bocvac-chuoi.jpg",
+            "x": 640,
+            "y": 520,
+            "w": 820,
+            "h": 600,
+            "caption": "Bến cảng New York",
+            "treat": "bw",
+            "rot": 2
+          },
+          {
+            "kind": "label",
+            "text": "Nằm ở cảng",
+            "x": 1450,
+            "y": 260,
+            "color": "black",
+            "font": "heavy",
+            "size": 82,
+            "cue": "ở cảng"
+          },
+          {
+            "kind": "tag",
+            "text": "bốc lên: ~1 tuần",
+            "x": 1450,
+            "y": 450,
+            "size": 46,
+            "cue": "bốc hàng"
+          },
+          {
+            "kind": "tag",
+            "text": "dỡ xuống: ~1 tuần",
+            "x": 1450,
+            "y": 560,
+            "size": 46,
+            "color": "red",
+            "cue": "dỡ xuống"
+          }
+        ]
+      },
+      "source": "Richmond Fed (2012), theo Levinson",
+      "transition": "cut"
+    },
+    {
+      "id": "s11b",
+      "type": "collage",
+      "vo": "Đầu những năm 1950, riêng New York và London, mỗi thành phố có hơn năm mươi nghìn công nhân bốc vác đăng ký làm việc.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/bocvac-1937.jpg",
+            "x": 1340,
+            "y": 520,
+            "w": 700,
+            "h": 500,
+            "treat": "dark",
+            "rot": 2
+          },
+          {
+            "kind": "number",
+            "value": "50.000+",
+            "x": 560,
+            "y": 400,
+            "style": "poster",
+            "size": 200,
+            "cue": "năm mươi nghìn"
+          },
+          {
+            "kind": "label",
+            "text": "công nhân bốc vác",
+            "x": 560,
+            "y": 580,
+            "color": "cream",
+            "size": 60,
+            "cue": "công nhân bốc vác"
+          },
+          {
+            "kind": "tag",
+            "text": "New York · London",
+            "x": 560,
+            "y": 700,
+            "size": 44,
+            "color": "red",
+            "cue": "New York và London"
+          }
+        ]
+      },
+      "source": "Marc Levinson, The Box / Works That Work",
+      "transition": "push"
+    },
+    {
+      "id": "s12",
+      "type": "bigNumber",
+      "vo": "Theo sử gia Marc Levinson, riêng tiền bốc dỡ đã chiếm hơn một phần ba chi phí của cả chuyến đi.",
+      "props": {
+        "kicker": "Chi phí một chuyến tàu",
+        "value": "> 1/3",
+        "style": "poster",
+        "label": "nằm ở khâu bốc dỡ",
+        "tone": "charcoal",
+        "lower": {
+          "text": "Marc Levinson",
+          "role": "Sử gia kinh tế · tác giả \"The Box\" (2006)",
+          "cue": "Marc Levinson"
+        }
+      },
+      "source": "Marc Levinson, The Box / Works That Work",
+      "transition": "zoom"
+    },
+    {
+      "id": "s13",
+      "type": "collage",
+      "vo": "Hàng còn hay thất lạc. Ở bến New York, người ta đùa rằng lương thợ bến là 20 đô một ngày, cộng với tất cả số rượu mà bạn mang được về nhà.",
+      "props": {
+        "tone": "grid-red",
+        "layers": [
+          {
+            "kind": "label",
+            "text": "Một câu đùa ở bến cảng",
+            "x": 960,
+            "y": 230,
+            "color": "black",
+            "size": 56,
+            "rot": -1.5,
+            "cue": "người ta đùa"
+          },
+          {
+            "kind": "ransom",
+            "text": "20 ĐÔ / NGÀY",
+            "x": 960,
+            "y": 430,
+            "size": 110,
+            "cue": "20 đô"
+          },
+          {
+            "kind": "label",
+            "text": "+ tất cả số rượu bạn mang được về nhà",
+            "x": 960,
+            "y": 640,
+            "color": "yellow",
+            "size": 58,
+            "rot": 1.5,
+            "cue": "tất cả số rượu"
+          },
+          {
+            "kind": "emoji",
+            "char": "🥃",
+            "x": 1560,
+            "y": 760,
+            "size": 150,
+            "cue": "về nhà"
+          }
+        ]
+      },
+      "source": "Marc Levinson, The Box / Works That Work",
+      "transition": "tear"
+    },
+    {
+      "id": "s14",
+      "type": "bigNumber",
+      "vo": "Kết quả là, cước vận chuyển có thể chiếm mười đến ba mươi phần trăm giá của một món hàng nhập khẩu.",
+      "props": {
+        "kicker": "Thời hàng rời",
+        "value": "10–30%",
+        "style": "letterpress",
+        "label": "giá món hàng nhập khẩu là tiền cước",
+        "tone": "grid"
+      },
+      "source": "Marc Levinson, The Box / Works That Work",
+      "transition": "push-up"
+    },
+    {
+      "id": "s14b",
+      "type": "bars",
+      "vo": "Một ví dụ năm 1960: chở một xe tải thuốc từ Chicago ở Mỹ tới Nancy ở Pháp. Tiền đi biển chỉ chiếm khoảng một phần tư. Còn chi phí ở các bến cảng chiếm gần một nửa.",
+      "props": {
+        "kicker": "Chicago → Nancy, thời hàng rời",
+        "title": "Tỷ trọng trong chi phí ==từ cửa tới cửa==",
+        "unit": "%",
+        "tone": "grid-red",
+        "bars": [
+          {
+            "label": "Cước đường biển",
+            "value": 24.4,
+            "display": "24,4%",
+            "cue": "Tiền đi biển"
+          },
+          {
+            "label": "Chi phí ở cảng",
+            "value": 48.7,
+            "display": "48,7%",
+            "highlight": true,
+            "cue": "bến cảng"
+          }
+        ]
+      },
+      "source": "Eyre (1964), dẫn trong Bernhofen, El-Sahli, Kneller (2013)",
+      "transition": "cut"
+    },
+    {
+      "id": "s15",
+      "type": "title",
+      "vo": "Muốn hàng hóa rẻ, phải gỡ cái nút thắt ở bến cảng. Và người gỡ được nó lại không làm nghề tàu biển.",
+      "props": {
+        "lines": [
+          "Nút thắt nằm ở",
+          {
+            "text": "bến cảng",
+            "color": "yellow"
+          }
+        ],
+        "sub": "Người gỡ được nó ==không làm nghề tàu biển==.",
+        "tone": "charcoal"
+      },
+      "transition": "sheet"
+    },
+    {
+      "id": "c2",
+      "type": "chapter",
+      "vo": "Phần hai. Người lái xe tải.",
+      "props": {
+        "title": "Người lái xe tải",
+        "sub": "Malcom McLean và con tàu Ideal X",
+        "tone": "navy"
+      },
+      "transition": "tear"
+    },
+    {
+      "id": "s16",
+      "type": "collage",
+      "vo": "Malcom McLean sinh năm 1914 ở Bắc Carolina, nước Mỹ. Năm 1934, ông mua chiếc xe tải cũ đầu tiên của mình.",
+      "props": {
+        "tone": "charcoal",
+        "lower": {
+          "text": "Malcom McLean (1914–2001)",
+          "role": "Chủ hãng xe tải, người đưa container vào vận tải biển",
+          "cue": "Malcom McLean"
+        },
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/mclean.jpg",
+            "x": 640,
+            "y": 470,
+            "w": 520,
+            "h": 520,
+            "caption": "McLean, thập niên 1950–60",
+            "treat": "bw",
+            "rot": -2
+          },
+          {
+            "kind": "number",
+            "value": "1934",
+            "x": 1380,
+            "y": 330,
+            "style": "poster",
+            "size": 220,
+            "cue": "1934"
+          },
+          {
+            "kind": "label",
+            "text": "chiếc xe tải đầu tiên",
+            "x": 1380,
+            "y": 520,
+            "color": "cream",
+            "size": 60,
+            "cue": "xe tải cũ"
+          }
+        ]
+      },
+      "source": "HBS Working Knowledge; ảnh: Maersk Line, CC BY-SA 2.0"
+    },
+    {
+      "id": "s17",
+      "type": "bigNumber",
+      "vo": "Hai mươi năm sau, công ty của ông có 1.776 chiếc xe tải, thuộc loại lớn nhất nước Mỹ.",
+      "props": {
+        "kicker": "McLean Trucking, đầu thập niên 1950",
+        "countTo": 1776,
+        "label": "xe tải",
+        "style": "poster",
+        "tone": "grid-blue"
+      },
+      "source": "HBS Working Knowledge",
+      "transition": "cut"
+    },
+    {
+      "id": "s17b",
+      "type": "collage",
+      "vo": "Năm 1955, ông làm một việc ít ai ngờ: bán phần lớn công ty xe tải để mua một hãng tàu biển. Một người làm đường bộ quyết định nhảy xuống biển.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "label",
+            "text": "Bán hãng xe tải",
+            "x": 540,
+            "y": 320,
+            "color": "cream",
+            "size": 72,
+            "rot": -2,
+            "cue": "bán phần lớn"
+          },
+          {
+            "kind": "number",
+            "value": "1955",
+            "x": 540,
+            "y": 520,
+            "style": "poster",
+            "size": 200,
+            "cue": "1955"
+          },
+          {
+            "kind": "arrow",
+            "from": [
+              860,
+              400
+            ],
+            "to": [
+              1140,
+              420
+            ],
+            "cue": "để mua",
+            "bend": -0.3
+          },
+          {
+            "kind": "label",
+            "text": "Mua hãng tàu biển",
+            "x": 1420,
+            "y": 320,
+            "color": "yellow",
+            "size": 72,
+            "rot": 2,
+            "cue": "hãng tàu biển"
+          },
+          {
+            "kind": "image",
+            "src": "assets/ideal-x-ve.jpg",
+            "x": 1420,
+            "y": 560,
+            "w": 760,
+            "border": 0,
+            "treat": "bw",
+            "kenburns": false,
+            "cue": "nhảy xuống biển"
+          }
+        ]
+      },
+      "source": "HBS Working Knowledge",
+      "transition": "sheet"
+    },
+    {
+      "id": "s18",
+      "type": "collage",
+      "vo": "Ông kể lại rằng có lần phải ngồi chờ gần cả ngày ở bến cảng, nhìn người ta bốc từng kiện hàng lên tàu. Câu chuyện có thể đã được tô vẽ, nhưng ý tưởng thì có thật.",
+      "props": {
+        "tone": "cream",
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "tô vẽ",
+            "x": 1200,
+            "y": 560,
+            "zoom": 1.06
+          }
+        ],
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/bocvac-1937.jpg",
+            "x": 620,
+            "y": 500,
+            "w": 760,
+            "h": 540,
+            "treat": "sepia",
+            "rot": -2
+          },
+          {
+            "kind": "label",
+            "text": "\"Chờ gần cả ngày ở bến\"",
+            "x": 1360,
+            "y": 300,
+            "color": "cream",
+            "size": 58,
+            "rot": 1,
+            "cue": "ngồi chờ"
+          },
+          {
+            "kind": "tag",
+            "text": "ông kể lại",
+            "x": 1360,
+            "y": 420,
+            "size": 40,
+            "cue": "kể lại"
+          },
+          {
+            "kind": "stamp",
+            "text": "GIAI THOẠI?",
+            "x": 1380,
+            "y": 620,
+            "size": 72,
+            "cue": "tô vẽ"
+          }
+        ]
+      },
+      "source": "HBS Working Knowledge",
+      "transition": "sheet"
+    },
+    {
+      "id": "s19",
+      "type": "title",
+      "vo": "Ý tưởng là: đừng bốc từng kiện hàng nữa. Hãy nhấc cả thùng xe, đặt thẳng lên tàu.",
+      "props": {
+        "lines": [
+          {
+            "text": "Đừng bốc từng kiện.",
+            "cue": "đừng bốc"
+          },
+          {
+            "text": "Nhấc ==cả thùng== lên tàu.",
+            "color": "yellow",
+            "cue": "nhấc cả thùng"
+          }
+        ],
+        "image": {
+          "src": "assets/container-sealand_cut.png",
+          "treat": "color",
+          "w": 640
+        },
+        "tone": "charcoal"
+      },
+      "transition": "zoom"
+    },
+    {
+      "id": "s20",
+      "type": "collage",
+      "vo": "Ngày 26 tháng 4 năm 1956, con tàu Ideal X, vốn là một tàu chở dầu cũ, rời cảng Newark đi Houston.",
+      "props": {
+        "tone": "cream",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/ideal-x-ve.jpg",
+            "x": 960,
+            "y": 560,
+            "w": 1700,
+            "border": 0,
+            "treat": "bw",
+            "kenburns": false,
+            "cue": "Ideal X"
+          },
+          {
+            "kind": "number",
+            "value": "26.4.1956",
+            "x": 960,
+            "y": 250,
+            "style": "poster",
+            "size": 170,
+            "cue": "26 tháng 4"
+          },
+          {
+            "kind": "tag",
+            "text": "Ideal X — tàu chở dầu hoán cải (bản vẽ)",
+            "x": 960,
+            "y": 800,
+            "size": 40,
+            "cue": "tàu chở dầu"
+          }
+        ]
+      },
+      "source": "Port Authority NY/NJ; bản vẽ: Karsten Kunibert (PD)",
+      "transition": "tear"
+    },
+    {
+      "id": "s21",
+      "type": "map",
+      "vo": "Trên boong là 58 chiếc thùng thép. Năm ngày sau, ở Houston, 58 chiếc xe tải đã chờ sẵn để kéo chúng đi.",
+      "props": {
+        "views": [
+          {
+            "center": [
+              -84,
+              33
+            ],
+            "zoom": 3.6
+          }
+        ],
+        "points": [
+          {
+            "at": [
+              -74.15,
+              40.68
+            ],
+            "label": "Newark",
+            "cue": "Trên boong"
+          },
+          {
+            "at": [
+              -95.3,
+              29.75
+            ],
+            "label": "Houston",
+            "cue": "ở Houston",
+            "side": "left"
+          }
+        ],
+        "routes": [
+          {
+            "from": [
+              -74.15,
+              40.68
+            ],
+            "to": [
+              -80.0,
+              24.6
+            ],
+            "cue": "Trên boong",
+            "drawFrames": 30
+          },
+          {
+            "from": [
+              -80.0,
+              24.6
+            ],
+            "to": [
+              -95.3,
+              29.75
+            ],
+            "cue": "Năm ngày sau",
+            "drawFrames": 30
+          }
+        ],
+        "layers": [
+          {
+            "kind": "tag",
+            "text": "58 thùng",
+            "x": 1500,
+            "y": 300,
+            "size": 56,
+            "color": "red",
+            "cue": "58 chiếc thùng"
+          },
+          {
+            "kind": "tag",
+            "text": "58 xe tải chờ sẵn",
+            "x": 560,
+            "y": 760,
+            "size": 48,
+            "cue": "58 chiếc xe tải"
+          }
+        ]
+      },
+      "source": "Richmond Fed (2012)",
+      "transition": "push"
+    },
+    {
+      "id": "s22",
+      "type": "collage",
+      "vo": "Cứ bảy phút, cần cẩu đặt xong một thùng. Con tàu xếp hàng xong trong chưa đầy tám tiếng.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/rotterdam-1966.jpg",
+            "x": 520,
+            "y": 520,
+            "w": 600,
+            "h": 620,
+            "treat": "bw",
+            "rot": -2,
+            "caption": "Container Sea-Land, 1966"
+          },
+          {
+            "kind": "number",
+            "value": "7",
+            "x": 1250,
+            "y": 380,
+            "style": "poster",
+            "size": 280,
+            "unit": "phút",
+            "cue": "bảy phút"
+          },
+          {
+            "kind": "label",
+            "text": "một thùng",
+            "x": 1250,
+            "y": 560,
+            "color": "cream",
+            "size": 60,
+            "cue": "một thùng"
+          },
+          {
+            "kind": "tag",
+            "text": "xếp xong < 8 tiếng",
+            "x": 1250,
+            "y": 720,
+            "size": 48,
+            "color": "red",
+            "cue": "tám tiếng"
+          }
+        ]
+      },
+      "source": "Port Authority NY/NJ; ảnh: Het Utrechts Archief, CC0",
+      "transition": "sheet"
+    },
+    {
+      "id": "s22b",
+      "type": "quote",
+      "vo": "Năm 1957, một con tàu khác của ông chở được 226 thùng. McLean nói với một cộng sự: anh đã bao giờ thấy một đầu kéo kéo 226 rơ moóc chưa?",
+      "props": {
+        "text": "Anh đã bao giờ thấy một đầu kéo kéo ==226 rơ moóc== chưa?",
+        "author": "Malcom McLean",
+        "role": "1957, lời kể của Paul Richardson (dịch)",
+        "kicker": "Tàu Gateway City, 1957",
+        "image": {
+          "src": "assets/mclean.jpg",
+          "w": 420,
+          "h": 420
+        },
+        "tone": "navy"
+      },
+      "source": "Richmond Fed (2012); Port Authority NY/NJ",
+      "transition": "zoom"
+    },
+    {
+      "id": "s23",
+      "type": "bars",
+      "vo": "Theo tính toán của chính đội McLean, chi phí xếp hàng lên tàu giảm từ 5 đô 83 xu một tấn, xuống chưa tới 16 xu.",
+      "props": {
+        "kicker": "Chi phí xếp hàng lên tàu, 1956",
+        "title": "Đô la Mỹ ==mỗi tấn==",
+        "tone": "grid",
+        "bars": [
+          {
+            "label": "Hàng rời",
+            "value": 5.83,
+            "display": "5,83",
+            "cue": "5 đô 83"
+          },
+          {
+            "label": "Container (Ideal X)",
+            "value": 0.158,
+            "display": "0,16",
+            "highlight": true,
+            "cue": "16 xu"
+          }
+        ]
+      },
+      "source": "Levinson; Richmond Fed — số do đội McLean ước tính",
+      "transition": "push-up"
+    },
+    {
+      "id": "s24",
+      "type": "bigNumber",
+      "vo": "Rẻ hơn khoảng ba mươi bảy lần.",
+      "props": {
+        "value": "÷37",
+        "style": "poster",
+        "label": "chi phí xếp hàng",
+        "note": "theo ước tính của đội McLean",
+        "tone": "charcoal"
+      },
+      "transition": "cut"
+    },
+    {
+      "id": "s25",
+      "type": "title",
+      "vo": "Nhưng có một vấn đề. Thùng của McLean chỉ vừa với tàu của McLean, và xe của McLean.",
+      "props": {
+        "kicker": "Nhưng",
+        "text": "Thùng của McLean chỉ vừa với ==tàu của McLean==",
+        "tone": "navy"
+      },
+      "transition": "sheet"
+    },
+    {
+      "id": "c3",
+      "type": "chapter",
+      "vo": "Phần ba. Một chiếc hộp cho cả thế giới.",
+      "props": {
+        "title": "Một chiếc hộp cho cả thế giới",
+        "sub": "Chuẩn hóa — phát minh vô hình",
+        "image": {
+          "src": "assets/twistlock-roi_cut.png",
+          "treat": "color",
+          "w": 520
+        },
+        "tone": "charcoal"
+      },
+      "transition": "tear"
+    },
+    {
+      "id": "s26",
+      "type": "collage",
+      "vo": "Mỗi hãng tàu tự đặt cỡ thùng riêng. Thùng của hãng này không lên được tàu của hãng kia, không khớp với cần cẩu ở cảng khác.",
+      "props": {
+        "tone": "grid-blue",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/container-sealand_cut.png",
+            "x": 520,
+            "y": 420,
+            "w": 640,
+            "rot": -4,
+            "treat": "bw",
+            "cue": "tự đặt"
+          },
+          {
+            "kind": "image",
+            "src": "assets/container-20ft.jpg",
+            "x": 1360,
+            "y": 460,
+            "w": 520,
+            "rot": 3,
+            "treat": "bw",
+            "border": 8,
+            "cue": "hãng kia"
+          },
+          {
+            "kind": "stamp",
+            "text": "KHÔNG KHỚP",
+            "x": 960,
+            "y": 760,
+            "size": 90,
+            "cue": "không khớp"
+          },
+          {
+            "kind": "label",
+            "text": "Mỗi hãng một cỡ",
+            "x": 960,
+            "y": 180,
+            "color": "cream",
+            "size": 70,
+            "cue": "Mỗi hãng"
+          }
+        ]
+      },
+      "transition": "push"
+    },
+    {
+      "id": "s27",
+      "type": "collage",
+      "vo": "Kỹ sư Keith Tantlinger thiết kế chiếc khóa xoắn này. Góc mỗi thùng có một lỗ, xoay khóa một góc vuông là thùng dính chặt vào thùng, vào xe, vào cần cẩu.",
+      "props": {
+        "tone": "charcoal",
+        "lower": {
+          "text": "Keith Tantlinger",
+          "role": "Kỹ sư thiết kế khóa xoắn cho hãng của McLean",
+          "cue": "Keith Tantlinger"
+        },
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "Góc mỗi thùng",
+            "x": 1100,
+            "y": 520,
+            "zoom": 1.12
+          }
+        ],
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/twistlock-roi_cut.png",
+            "x": 1120,
+            "y": 520,
+            "w": 760,
+            "treat": "color",
+            "rot": -6,
+            "cue": "khóa xoắn"
+          },
+          {
+            "kind": "label",
+            "text": "Khóa xoắn",
+            "x": 420,
+            "y": 260,
+            "color": "yellow",
+            "font": "heavy",
+            "size": 96,
+            "cue": "khóa xoắn"
+          },
+          {
+            "kind": "tag",
+            "text": "xoay 90°",
+            "x": 1500,
+            "y": 820,
+            "size": 50,
+            "color": "red",
+            "cue": "xoay khóa"
+          },
+          {
+            "kind": "arrow",
+            "from": [
+              600,
+              380
+            ],
+            "to": [
+              880,
+              480
+            ],
+            "cue": "Góc mỗi thùng",
+            "bend": -0.3
+          }
+        ]
+      },
+      "source": "Richmond Fed; ảnh: S.J. de Waard, CC BY-SA 4.0",
+      "transition": "zoom"
+    },
+    {
+      "id": "s28",
+      "type": "collage",
+      "vo": "Rồi đầu những năm 1960, theo đề nghị của Tantlinger, McLean từ bỏ các bằng sáng chế, để ai cũng dùng được thiết kế này.",
+      "props": {
+        "tone": "cream",
+        "layers": [
+          {
+            "kind": "label",
+            "text": "Bằng sáng chế",
+            "x": 960,
+            "y": 300,
+            "color": "black",
+            "font": "serif",
+            "size": 96,
+            "cue": "bằng sáng chế"
+          },
+          {
+            "kind": "stamp",
+            "text": "AI CŨNG DÙNG ĐƯỢC",
+            "x": 960,
+            "y": 540,
+            "size": 92,
+            "cue": "ai cũng dùng"
+          },
+          {
+            "kind": "tag",
+            "text": "đầu thập niên 1960",
+            "x": 960,
+            "y": 740,
+            "size": 44,
+            "cue": "đầu những năm 1960"
+          }
+        ]
+      },
+      "source": "Richmond Fed (2012) — năm chính xác còn tranh cãi",
+      "transition": "sheet"
+    },
+    {
+      "id": "s29",
+      "type": "timeline",
+      "vo": "Năm 1961, Mỹ chốt các cỡ thùng chuẩn. Năm 1964, Tổ chức Tiêu chuẩn hóa Quốc tế ISO thông qua. Năm 1968, chuẩn ISO 668 ra đời.",
+      "props": {
+        "title": "Một chiếc hộp, một tiêu chuẩn",
+        "tone": "grid-blue",
+        "events": [
+          {
+            "year": 1961,
+            "label": "Mỹ chốt cỡ 20 và 40 feet",
+            "cue": "1961"
+          },
+          {
+            "year": 1964,
+            "label": "ISO thông qua kích thước",
+            "cue": "1964"
+          },
+          {
+            "year": 1968,
+            "label": "Chuẩn ISO 668",
+            "highlight": true,
+            "cue": "1968"
+          }
+        ]
+      },
+      "source": "Bernhofen, El-Sahli, Kneller (2013); ISO",
+      "transition": "push"
+    },
+    {
+      "id": "s30",
+      "type": "collage",
+      "vo": "Từ đó, chiếc thùng hai mươi feet và bốn mươi feet trở nên giống hệt nhau ở mọi nơi trên thế giới.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/container-chong.jpg",
+            "x": 960,
+            "y": 540,
+            "w": 1800,
+            "border": 0,
+            "treat": "color",
+            "opacity": 0.55,
+            "kenburns": true,
+            "at": 0
+          },
+          {
+            "kind": "tag",
+            "text": "20 feet",
+            "x": 640,
+            "y": 420,
+            "size": 70,
+            "color": "black",
+            "cue": "hai mươi feet"
+          },
+          {
+            "kind": "tag",
+            "text": "40 feet",
+            "x": 1280,
+            "y": 620,
+            "size": 70,
+            "color": "red",
+            "cue": "bốn mươi feet"
+          },
+          {
+            "kind": "label",
+            "text": "giống hệt nhau ở mọi nơi",
+            "x": 960,
+            "y": 860,
+            "color": "yellow",
+            "size": 64,
+            "cue": "giống hệt"
+          }
+        ]
+      },
+      "source": "Ảnh: Guillaume Bolduc (Unsplash), CC0",
+      "transition": "cut"
+    },
+    {
+      "id": "s31",
+      "type": "collage",
+      "vo": "Và vì giống hệt nhau, cùng một chiếc thùng có thể lên tàu biển, xuống xe tải, rồi lên tàu hỏa, mà không ai phải mở ra.",
+      "props": {
+        "tone": "cream",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/danang-xe-tai.jpg",
+            "x": 420,
+            "y": 470,
+            "w": 560,
+            "h": 450,
+            "treat": "bw",
+            "rot": -3,
+            "caption": "từ tàu…",
+            "cue": "tàu biển"
+          },
+          {
+            "kind": "photo",
+            "src": "assets/rotterdam-1966.jpg",
+            "x": 980,
+            "y": 520,
+            "w": 460,
+            "h": 520,
+            "treat": "bw",
+            "rot": 2,
+            "caption": "…lên xe tải",
+            "cue": "xe tải"
+          },
+          {
+            "kind": "image",
+            "src": "assets/container-sealand_cut.png",
+            "x": 1500,
+            "y": 470,
+            "w": 560,
+            "rot": -2,
+            "treat": "bw",
+            "cue": "tàu hỏa"
+          },
+          {
+            "kind": "tag",
+            "text": "…lên tàu hỏa",
+            "x": 1500,
+            "y": 640,
+            "size": 40,
+            "cue": "tàu hỏa"
+          },
+          {
+            "kind": "label",
+            "text": "không ai phải mở ra",
+            "x": 960,
+            "y": 900,
+            "color": "black",
+            "size": 60,
+            "cue": "không ai"
+          }
+        ]
+      },
+      "source": "Ảnh: NARA (PD); Het Utrechts Archief (CC0); Col André Kritzinger (CC BY-SA 3.0)",
+      "transition": "sheet"
+    },
+    {
+      "id": "s31b",
+      "type": "timeline",
+      "vo": "Cảng cũ không theo kịp. Năm 1962, cảng Elizabeth ở New Jersey mở bến đầu tiên trên thế giới chỉ dành cho container. Năm 1967, Felixstowe ở Anh làm theo. Còn những ụ tàu cũ của London đóng cửa dần, cái cuối cùng vào năm 1981.",
+      "props": {
+        "title": "Cảng mới mở, cảng cũ đóng",
+        "tone": "cream",
+        "events": [
+          {
+            "year": 1962,
+            "label": "Elizabeth: bến toàn container đầu tiên",
+            "cue": "1962"
+          },
+          {
+            "year": 1967,
+            "label": "Felixstowe mở bến container",
+            "cue": "1967"
+          },
+          {
+            "year": 1981,
+            "label": "Ụ tàu cuối cùng của London đóng",
+            "highlight": true,
+            "cue": "1981"
+          }
+        ]
+      },
+      "source": "Port Authority NY/NJ; Port of Felixstowe; Wikipedia: London Docklands",
+      "transition": "push"
+    },
+    {
+      "id": "s32",
+      "type": "map",
+      "vo": "Ngày nay, tàu hỏa chở container từ Quảng Châu về ga Yên Viên ở Hà Nội mất khoảng 35 giờ.",
+      "props": {
+        "views": [
+          {
+            "center": [
+              109.5,
+              22.3
+            ],
+            "zoom": 9
+          }
+        ],
+        "highlight": [
+          {
+            "country": "Việt Nam",
+            "lift": false
+          }
+        ],
+        "points": [
+          {
+            "at": [
+              113.26,
+              23.13
+            ],
+            "label": "Quảng Châu",
+            "cue": "Quảng Châu"
+          },
+          {
+            "at": [
+              105.92,
+              21.08
+            ],
+            "label": "Yên Viên, Hà Nội",
+            "cue": "Yên Viên",
+            "side": "left"
+          }
+        ],
+        "routes": [
+          {
+            "from": [
+              113.26,
+              23.13
+            ],
+            "to": [
+              106.75,
+              21.95
+            ],
+            "cue": "tàu hỏa",
+            "bend": 0.08,
+            "color": "#2A9D8F",
+            "drawFrames": 30
+          },
+          {
+            "from": [
+              106.75,
+              21.95
+            ],
+            "to": [
+              105.92,
+              21.08
+            ],
+            "cue": "Yên Viên",
+            "bend": 0,
+            "color": "#2A9D8F",
+            "drawFrames": 15
+          }
+        ],
+        "layers": [
+          {
+            "kind": "tag",
+            "text": "~35 giờ",
+            "x": 1450,
+            "y": 260,
+            "size": 64,
+            "color": "red",
+            "cue": "35 giờ"
+          }
+        ]
+      },
+      "source": "Báo Quốc tế",
+      "transition": "push"
+    },
+    {
+      "id": "s33",
+      "type": "bigNumber",
+      "vo": "Một nghiên cứu năm 2016 ước tính, sau hai mươi năm, container làm thương mại giữa các nước phát triển tăng khoảng 700 phần trăm, nhiều hơn tác động của các hiệp định thương mại.",
+      "props": {
+        "kicker": "Sau 20 năm, giữa các nước phát triển",
+        "value": "~700%",
+        "style": "poster",
+        "label": "thương mại tăng nhờ container",
+        "note": "ước tính, còn tranh luận",
+        "tone": "grid"
+      },
+      "source": "Bernhofen, El-Sahli, Kneller (2013; JIE 2016)",
+      "transition": "zoom"
+    },
+    {
+      "id": "s34",
+      "type": "quote",
+      "vo": "Dù vậy, chính sử gia Marc Levinson cho rằng tầm quan trọng của container là không thể định lượng chính xác. Các nhà kinh tế vẫn còn tranh luận.",
+      "props": {
+        "text": "Container quan trọng thế nào với kinh tế thế giới thì ==không thể định lượng==.",
+        "author": "Marc Levinson",
+        "role": "The Box, 2006, tr. 8 (dịch)",
+        "tone": "cream"
+      },
+      "source": "Marc Levinson, The Box (2006)",
+      "transition": "sheet"
+    },
+    {
+      "id": "s35",
+      "type": "collage",
+      "vo": "Chỉ biết rằng con tàu năm 1956 chở 58 thùng. Còn những con tàu lớn nhất hôm nay chở được khoảng 24.000 thùng loại hai mươi feet.",
+      "props": {
+        "tone": "charcoal",
+        "camera": "out",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/ideal-x-ve.jpg",
+            "x": 560,
+            "y": 250,
+            "w": 820,
+            "border": 0,
+            "treat": "bw",
+            "kenburns": false,
+            "cue": "năm 1956"
+          },
+          {
+            "kind": "tag",
+            "text": "1956: 58 thùng",
+            "x": 560,
+            "y": 380,
+            "size": 44,
+            "cue": "58 thùng"
+          },
+          {
+            "kind": "image",
+            "src": "assets/msc-irina_cut.png",
+            "x": 1080,
+            "y": 690,
+            "w": 1400,
+            "treat": "color",
+            "cue": "hôm nay"
+          },
+          {
+            "kind": "number",
+            "value": "24.000",
+            "x": 1500,
+            "y": 270,
+            "style": "poster",
+            "size": 190,
+            "unit": "thùng",
+            "cue": "24.000"
+          }
+        ]
+      },
+      "source": "Wikipedia: Largest container ships (lớp MSC Irina, 24.346 TEU); ảnh: CC0",
+      "transition": "push"
+    },
+    {
+      "id": "s36",
+      "type": "collage",
+      "vo": "Con tàu càng chở nhiều, chi phí chia cho mỗi thùng càng nhỏ. Đó là lý do đoạn đường biển dài lại rẻ đến vậy.",
+      "props": {
+        "tone": "grid",
+        "layers": [
+          {
+            "kind": "label",
+            "text": "Càng nhiều thùng",
+            "x": 560,
+            "y": 330,
+            "color": "cream",
+            "size": 80,
+            "rot": -2,
+            "cue": "càng chở nhiều"
+          },
+          {
+            "kind": "arrow",
+            "from": [
+              880,
+              380
+            ],
+            "to": [
+              1160,
+              520
+            ],
+            "cue": "chi phí chia",
+            "bend": -0.25
+          },
+          {
+            "kind": "label",
+            "text": "mỗi thùng ==càng rẻ==",
+            "x": 1360,
+            "y": 600,
+            "color": "yellow",
+            "size": 80,
+            "rot": 1.5,
+            "cue": "càng nhỏ"
+          },
+          {
+            "kind": "stamp",
+            "text": "ĐƯỜNG BIỂN RẺ",
+            "x": 960,
+            "y": 860,
+            "size": 80,
+            "cue": "rẻ đến vậy"
+          }
+        ]
+      },
+      "transition": "cut"
+    },
+    {
+      "id": "c4",
+      "type": "chapter",
+      "vo": "Phần bốn. Chiếc hộp tới châu Á.",
+      "props": {
+        "title": "Chiếc hộp tới châu Á",
+        "sub": "Từ Đà Nẵng 1967 tới cảng Cái Mép hôm nay",
+        "tone": "charcoal"
+      },
+      "transition": "tear"
+    },
+    {
+      "id": "s37",
+      "type": "collage",
+      "vo": "Giữa những năm 1960, quân đội Mỹ cần chuyển một khối lượng hàng tiếp tế khổng lồ sang Việt Nam, và các cảng ở đây quá tải. Sử gia Levinson gọi đó là một mớ hỗn loạn hậu cần.",
+      "props": {
+        "tone": "cream",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/camranh-1968.jpg",
+            "x": 560,
+            "y": 500,
+            "w": 640,
+            "h": 520,
+            "treat": "bw",
+            "rot": -2,
+            "caption": "Cam Ranh, 1968"
+          },
+          {
+            "kind": "label",
+            "text": "Cảng quá tải",
+            "x": 1380,
+            "y": 300,
+            "color": "black",
+            "font": "heavy",
+            "size": 84,
+            "cue": "quá tải"
+          },
+          {
+            "kind": "label",
+            "text": "\"mớ hỗn loạn hậu cần\"",
+            "x": 1380,
+            "y": 520,
+            "color": "yellow",
+            "size": 56,
+            "cue": "mớ hỗn loạn"
+          },
+          {
+            "kind": "tag",
+            "text": "Marc Levinson",
+            "x": 1380,
+            "y": 640,
+            "size": 36,
+            "cue": "Levinson"
+          }
+        ]
+      },
+      "source": "Levinson, Forbes (2006); ảnh: NARA 111-CCV-154-CC54146 (PD)"
+    },
+    {
+      "id": "s38",
+      "type": "callout",
+      "vo": "Tháng 7 năm 1967, tàu container của hãng Sea-Land cập cảng Đà Nẵng. Những chiếc thùng được cẩu thẳng từ tàu xuống đầu kéo, rồi chạy luôn.",
+      "props": {
+        "src": "assets/danang-1967.jpg",
+        "kicker": "Đà Nẵng, 1967",
+        "treat": "sepia",
+        "callouts": [
+          {
+            "x": 0.6,
+            "y": 0.56,
+            "r": 0.13,
+            "label": "Thùng Sea-Land 35 feet",
+            "cue": "tàu container"
+          },
+          {
+            "x": 0.72,
+            "y": 0.75,
+            "r": 0.09,
+            "label": "Xuống thẳng đầu kéo",
+            "cue": "đầu kéo"
+          }
+        ],
+        "credit": "SSG James I. Hatton, NARA (PD)",
+        "tone": "cream"
+      },
+      "source": "USNI Proceedings (1969); ảnh: NARA 111-CCV-154-CC43895",
+      "transition": "sheet"
+    },
+    {
+      "id": "s39",
+      "type": "bigNumber",
+      "vo": "Sau đó là Cam Ranh. Có giai đoạn, hãng chở khoảng 1.200 container mỗi tháng tới Việt Nam.",
+      "props": {
+        "kicker": "1967–1973",
+        "countTo": 1200,
+        "label": "container mỗi tháng",
+        "style": "poster",
+        "tone": "charcoal",
+        "image": {
+          "src": "assets/camranh-1968.jpg",
+          "treat": "bw",
+          "w": 560
+        }
+      },
+      "source": "Levinson, Forbes (2006)",
+      "transition": "cut"
+    },
+    {
+      "id": "s40",
+      "type": "map",
+      "vo": "Nhưng trên đường về Mỹ, những con tàu gần như chỉ chở thùng rỗng.",
+      "props": {
+        "views": [
+          {
+            "center": [
+              128,
+              22
+            ],
+            "zoom": 2.2
+          }
+        ],
+        "highlight": [
+          {
+            "country": "Việt Nam"
+          }
+        ],
+        "points": [
+          {
+            "at": [
+              109.2,
+              11.9
+            ],
+            "label": "Cam Ranh",
+            "side": "left",
+            "cue": "con tàu"
+          }
+        ],
+        "routes": [
+          {
+            "from": [
+              109.2,
+              11.9
+            ],
+            "to": [
+              178,
+              30
+            ],
+            "cue": "đường về",
+            "drawFrames": 40,
+            "bend": -0.15
+          }
+        ],
+        "layers": [
+          {
+            "kind": "tag",
+            "text": "→ về Mỹ",
+            "x": 1700,
+            "y": 300,
+            "size": 44,
+            "cue": "về Mỹ"
+          },
+          {
+            "kind": "stamp",
+            "text": "THÙNG RỖNG",
+            "x": 1350,
+            "y": 640,
+            "size": 86,
+            "cue": "thùng rỗng"
+          }
+        ]
+      },
+      "source": "Levinson, Forbes (2006)",
+      "transition": "push"
+    },
+    {
+      "id": "s41",
+      "type": "quote",
+      "vo": "Và McLean hỏi: sao không ghé Nhật Bản?",
+      "props": {
+        "text": "Sao không ghé ==Nhật Bản==?",
+        "author": "Malcom McLean",
+        "role": "theo Marc Levinson (dịch)",
+        "image": {
+          "src": "assets/mclean.jpg",
+          "w": 420,
+          "h": 420
+        },
+        "tone": "charcoal"
+      },
+      "source": "Levinson, Forbes (2006)",
+      "transition": "zoom"
+    },
+    {
+      "id": "s42",
+      "type": "map",
+      "vo": "Tháng 9 năm 1968, chuyến container đầu tiên chở hàng từ Nhật Bản sang Mỹ khởi hành. Theo Levinson, đó là một bước mở đầu cho dòng hàng từ châu Á sang Mỹ.",
+      "props": {
+        "views": [
+          {
+            "center": [
+              130,
+              25
+            ],
+            "zoom": 2.4
+          },
+          {
+            "cue": "Nhật Bản sang Mỹ",
+            "center": [
+              150,
+              32
+            ],
+            "zoom": 2.2
+          }
+        ],
+        "highlight": [
+          {
+            "country": "Japan",
+            "cue": "Nhật Bản",
+            "color": "#F4C430"
+          },
+          {
+            "country": "Việt Nam",
+            "lift": false
+          }
+        ],
+        "points": [
+          {
+            "at": [
+              139.64,
+              35.44
+            ],
+            "label": "Yokohama",
+            "cue": "Nhật Bản"
+          }
+        ],
+        "routes": [
+          {
+            "from": [
+              109.2,
+              11.9
+            ],
+            "to": [
+              139.64,
+              35.44
+            ],
+            "cue": "Tháng 9",
+            "drawFrames": 30
+          },
+          {
+            "from": [
+              139.64,
+              35.44
+            ],
+            "to": [
+              179,
+              40
+            ],
+            "cue": "sang Mỹ",
+            "drawFrames": 30,
+            "color": "#D7262E"
+          }
+        ],
+        "layers": [
+          {
+            "kind": "number",
+            "value": "9.1968",
+            "x": 420,
+            "y": 260,
+            "style": "poster",
+            "size": 150,
+            "cue": "Tháng 9"
+          }
+        ]
+      },
+      "source": "Levinson, Forbes (2006)",
+      "transition": "push"
+    },
+    {
+      "id": "s43",
+      "type": "collage",
+      "vo": "Vài chục năm sau, dòng hàng đó trở thành mạch chính của thương mại thế giới. Hôm nay, hơn tám mươi phần trăm hàng hóa thương mại toàn cầu đi bằng đường biển.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/container-chong.jpg",
+            "x": 960,
+            "y": 540,
+            "w": 1800,
+            "border": 0,
+            "treat": "color",
+            "opacity": 0.45,
+            "at": 0
+          },
+          {
+            "kind": "number",
+            "value": "> 80%",
+            "x": 960,
+            "y": 420,
+            "style": "poster",
+            "size": 260,
+            "cue": "tám mươi phần trăm"
+          },
+          {
+            "kind": "label",
+            "text": "hàng hóa thương mại thế giới đi đường biển",
+            "x": 960,
+            "y": 680,
+            "color": "cream",
+            "size": 56,
+            "cue": "đường biển"
+          }
+        ]
+      },
+      "source": "UNCTAD Review of Maritime Transport 2025",
+      "transition": "tear"
+    },
+    {
+      "id": "s44",
+      "type": "map",
+      "vo": "Và một trong những dòng container lớn nhất châu Á hôm nay chảy từ Trung Quốc về Việt Nam: khoảng 2,8 triệu thùng loại hai mươi feet trong năm 2025.",
+      "props": {
+        "views": [
+          {
+            "center": [
+              112,
+              21
+            ],
+            "zoom": 3.2
+          }
+        ],
+        "highlight": [
+          {
+            "country": "Việt Nam",
+            "cue": "về Việt Nam"
+          }
+        ],
+        "points": [
+          {
+            "at": [
+              121.47,
+              31.23
+            ],
+            "label": "Thượng Hải",
+            "cue": "Trung Quốc"
+          },
+          {
+            "at": [
+              106.68,
+              20.86
+            ],
+            "label": "Hải Phòng",
+            "cue": "về Việt Nam",
+            "side": "left"
+          },
+          {
+            "at": [
+              106.7,
+              10.78
+            ],
+            "label": "TP.HCM",
+            "cue": "về Việt Nam",
+            "side": "left"
+          }
+        ],
+        "routes": [
+          {
+            "from": [
+              121.47,
+              31.23
+            ],
+            "to": [
+              106.68,
+              20.86
+            ],
+            "cue": "chảy từ",
+            "drawFrames": 30
+          },
+          {
+            "from": [
+              121.47,
+              31.23
+            ],
+            "to": [
+              106.7,
+              10.78
+            ],
+            "cue": "chảy từ",
+            "bend": -0.3,
+            "drawFrames": 34
+          }
+        ],
+        "layers": [
+          {
+            "kind": "number",
+            "value": "2,8 triệu",
+            "x": 1480,
+            "y": 250,
+            "style": "poster",
+            "size": 130,
+            "cue": "2,8 triệu"
+          },
+          {
+            "kind": "tag",
+            "text": "thùng 20 feet · 2025",
+            "x": 1480,
+            "y": 380,
+            "size": 40,
+            "cue": "năm 2025"
+          },
+          {
+            "kind": "tag",
+            "text": "lớn nhất nội Á",
+            "x": 1480,
+            "y": 470,
+            "size": 40,
+            "color": "red",
+            "cue": "năm 2025"
+          }
+        ]
+      },
+      "source": "Drewry (1/2026)",
+      "transition": "push"
+    },
+    {
+      "id": "s44b",
+      "type": "collage",
+      "vo": "Hàng không chỉ đi biển. Cùng những chiếc thùng ấy còn qua các cửa khẩu đường bộ ở Lạng Sơn. Năm 2024, bình quân mỗi ngày có khoảng 1.300 xe tải chở hàng xuất nhập khẩu qua đây.",
+      "props": {
+        "tone": "cream",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/huu-nghi-moc0.jpg",
+            "x": 620,
+            "y": 500,
+            "w": 640,
+            "h": 480,
+            "frame": "print",
+            "treat": "color",
+            "rot": -2,
+            "caption": "Cửa khẩu Hữu Nghị, Lạng Sơn"
+          },
+          {
+            "kind": "number",
+            "value": "~1.300",
+            "x": 1380,
+            "y": 380,
+            "style": "poster",
+            "size": 200,
+            "cue": "1.300"
+          },
+          {
+            "kind": "label",
+            "text": "xe tải mỗi ngày (2024)",
+            "x": 1380,
+            "y": 560,
+            "color": "black",
+            "size": 56,
+            "cue": "mỗi ngày"
+          },
+          {
+            "kind": "tag",
+            "text": "đường bộ",
+            "x": 1380,
+            "y": 680,
+            "size": 46,
+            "color": "red",
+            "cue": "đường bộ"
+          }
+        ]
+      },
+      "source": "FreshPlaza (nguồn thứ cấp, số liệu Lạng Sơn 2024); ảnh: Hoangvantoanajc, CC0",
+      "transition": "sheet"
+    },
+    {
+      "id": "s44c",
+      "type": "bigNumber",
+      "vo": "Theo Bộ Tài chính, đầu năm 2025, mỗi ngày có khoảng bốn đến năm triệu đơn hàng giá trị nhỏ đi từ Trung Quốc về Việt Nam.",
+      "props": {
+        "kicker": "Đầu năm 2025",
+        "value": "4–5 triệu",
+        "style": "poster",
+        "label": "đơn hàng nhỏ mỗi ngày từ Trung Quốc",
+        "tone": "grid",
+        "image": {
+          "src": "assets/kho-hang.jpg",
+          "treat": "bw",
+          "w": 520
+        }
+      },
+      "source": "Bộ Tài chính (qua Thời báo Tài chính VN, 2/2025)",
+      "transition": "cut"
+    },
+    {
+      "id": "s45",
+      "type": "collage",
+      "vo": "Cảng Cái Mép từng được Ngân hàng Thế giới xếp thứ bảy thế giới về hiệu quả cảng container, theo dữ liệu năm 2023. Cũng ở đây, năm 2023, con tàu lớn nhất từng cập cảng Việt Nam chở được hơn 24.000 thùng.",
+      "props": {
+        "tone": "charcoal",
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "Cũng ở đây",
+            "x": 1100,
+            "y": 560,
+            "zoom": 1.06
+          }
+        ],
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/cai-mep.jpg",
+            "x": 700,
+            "y": 470,
+            "w": 1040,
+            "h": 585,
+            "frame": "print",
+            "treat": "color",
+            "rot": -1.5,
+            "caption": "Cảng Cái Mép"
+          },
+          {
+            "kind": "number",
+            "value": "#7",
+            "x": 1560,
+            "y": 300,
+            "style": "poster",
+            "size": 230,
+            "cue": "thứ bảy"
+          },
+          {
+            "kind": "label",
+            "text": "thế giới · hiệu quả cảng",
+            "x": 1560,
+            "y": 470,
+            "color": "cream",
+            "size": 46,
+            "cue": "hiệu quả"
+          },
+          {
+            "kind": "tag",
+            "text": "> 24.000 thùng / 1 tàu",
+            "x": 1500,
+            "y": 760,
+            "size": 48,
+            "color": "red",
+            "cue": "hơn 24.000"
+          }
+        ]
+      },
+      "source": "World Bank/S&P CPPI 2023; TTXVN (3/2023); ảnh: Huy Hoang Tran (Pexels)",
+      "transition": "sheet"
+    },
+    {
+      "id": "c5",
+      "type": "chapter",
+      "vo": "Phần năm. Đoạn đắt nhất là năm ki lô mét cuối.",
+      "props": {
+        "title": "Đoạn đắt nhất là 5 km cuối",
+        "sub": "Phí ship của bạn thật sự nằm ở đâu?",
+        "image": {
+          "src": "assets/shipper-thung_cut.png",
+          "treat": "color",
+          "w": 560
+        },
+        "tone": "charcoal"
+      },
+      "transition": "tear"
+    },
+    {
+      "id": "s46",
+      "type": "receipt",
+      "vo": "Quay lại chiếc áo của bạn. Nếu một container bốn mươi feet từ Thượng Hải về Thành phố Hồ Chí Minh có cước khoảng 1.377 đô, và chứa được khoảng 45.000 chiếc áo, thì mỗi chiếc chỉ tốn khoảng 800 đồng tiền biển.",
+      "props": {
+        "kicker": "Phép tính",
+        "text": "Một chiếc áo đi biển tốn ==bao nhiêu==?",
+        "title": "1 CONTAINER 40 FEET",
+        "items": [
+          {
+            "label": "Cước Thượng Hải → TP.HCM",
+            "value": "1.377 USD",
+            "cue": "1.377 đô",
+            "note": "Drewry, 10/2026"
+          },
+          {
+            "label": "Số áo xếp được",
+            "value": "~45.000",
+            "cue": "45.000 chiếc",
+            "note": "ước tính"
+          }
+        ],
+        "total": {
+          "label": "MỖI CHIẾC ÁO",
+          "value": "~800đ",
+          "cue": "800 đồng"
+        },
+        "tone": "grid"
+      },
+      "source": "Drewry IACI (10/2026); ước tính của kênh",
+      "illustrative": true,
+      "transition": "sheet"
+    },
+    {
+      "id": "s47",
+      "type": "bars",
+      "vo": "Chiều ngược lại, từ Thành phố Hồ Chí Minh sang Thượng Hải, cước chỉ khoảng 47 đô. Vì hàng chủ yếu chảy một chiều, thùng rỗng phải quay về, nên cước chiều về rất rẻ.",
+      "props": {
+        "kicker": "Cùng tuyến, hai chiều",
+        "title": "Cước 1 container 40 feet (USD)",
+        "tone": "charcoal",
+        "bars": [
+          {
+            "label": "Thượng Hải → TP.HCM",
+            "value": 1377,
+            "display": "1.377",
+            "cue": "Chiều ngược lại"
+          },
+          {
+            "label": "TP.HCM → Thượng Hải",
+            "value": 47,
+            "display": "47",
+            "highlight": true,
+            "cue": "47 đô"
+          }
+        ]
+      },
+      "source": "Drewry Intra-Asia Container Index (10/2026)",
+      "transition": "push-up"
+    },
+    {
+      "id": "s48",
+      "type": "collage",
+      "vo": "Còn 5 ki lô mét cuối là chuyện khác. Ở đây không có con tàu chở 24.000 thùng. Chỉ có một người, một chiếc xe máy, và vài chục đơn hàng, mỗi đơn một địa chỉ.",
+      "props": {
+        "tone": "cream",
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "một chiếc xe máy",
+            "x": 760,
+            "y": 560,
+            "zoom": 1.08
+          }
+        ],
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/shipper-hanoi.jpg",
+            "x": 640,
+            "y": 520,
+            "w": 520,
+            "h": 700,
+            "frame": "print",
+            "treat": "color",
+            "rot": -2
+          },
+          {
+            "kind": "photo",
+            "src": "assets/kho-hang.jpg",
+            "x": 1340,
+            "y": 430,
+            "w": 640,
+            "h": 430,
+            "treat": "color",
+            "rot": 2,
+            "caption": "mỗi đơn một địa chỉ",
+            "cue": "vài chục đơn"
+          },
+          {
+            "kind": "label",
+            "text": "Một người · một xe máy",
+            "x": 1340,
+            "y": 820,
+            "color": "black",
+            "size": 56,
+            "cue": "Chỉ có một người"
+          }
+        ]
+      },
+      "source": "Ảnh: Dinidu Missaka, Tima Miroshnichenko (Pexels)",
+      "transition": "sheet"
+    },
+    {
+      "id": "s49",
+      "type": "bigNumber",
+      "vo": "Theo một khảo sát của Capgemini năm 2019, chặng cuối chiếm khoảng 41 phần trăm tổng chi phí của chuỗi cung ứng.",
+      "props": {
+        "kicker": "Chặng cuối",
+        "countTo": 41,
+        "suffix": "%",
+        "label": "tổng chi phí chuỗi cung ứng",
+        "style": "poster",
+        "tone": "grid-red",
+        "image": {
+          "src": "assets/shipper-thung_cut.png",
+          "treat": "color",
+          "w": 560
+        }
+      },
+      "source": "Capgemini Research Institute (2019)",
+      "transition": "cut"
+    },
+    {
+      "id": "s50",
+      "type": "receipt",
+      "vo": "Ở Việt Nam, giá giao một đơn nội thành Hà Nội hay Thành phố Hồ Chí Minh, theo bảng giá công khai của một hãng giao hàng lớn, khoảng 21.000 đồng.",
+      "props": {
+        "kicker": "5 km cuối",
+        "text": "Giá giao ==một đơn== nội thành",
+        "title": "PHÍ GIAO HÀNG",
+        "items": [
+          {
+            "label": "Nội thành, 0–3 kg",
+            "value": "21.000đ",
+            "cue": "21.000 đồng"
+          }
+        ],
+        "tone": "cream"
+      },
+      "source": "Bảng giá GHN (2025)",
+      "transition": "sheet"
+    },
+    {
+      "id": "s51",
+      "type": "title",
+      "vo": "Vậy còn những đơn freeship? Ai trả 21.000 đồng đó?",
+      "props": {
+        "lines": [
+          {
+            "text": "FREESHIP?",
+            "font": "heavy",
+            "size": 140
+          },
+          {
+            "text": "Ai trả ==21.000đ== đó?",
+            "color": "yellow",
+            "cue": "Ai trả"
+          }
+        ],
+        "image": {
+          "src": "assets/dien-thoai-mua.jpg",
+          "treat": "color",
+          "w": 520
+        },
+        "tone": "charcoal"
+      },
+      "transition": "zoom"
+    },
+    {
+      "id": "s51b",
+      "type": "bigNumber",
+      "vo": "Trước tháng 4 năm 2025, hơn chín mươi phần trăm đơn hàng trên Shopee dùng mã freeship.",
+      "props": {
+        "kicker": "Shopee, trước 4/2025",
+        "value": "> 90%",
+        "style": "poster",
+        "label": "đơn hàng dùng mã freeship",
+        "tone": "grid-red"
+      },
+      "source": "CafeF (3/2025)",
+      "transition": "cut"
+    },
+    {
+      "id": "s52",
+      "type": "flow",
+      "vo": "Với Shopee, từ tháng 4 năm 2025, phí vận chuyển được gộp vào phí cố định mà người bán trả cho sàn. Tổng các khoản phí người bán chịu ước khoảng 6,5 đến 15 phần trăm giá bán.",
+      "props": {
+        "layout": "chain",
+        "title": "Tiền freeship đi đâu?",
+        "tone": "grid-blue",
+        "nodes": [
+          {
+            "label": "Người bán",
+            "emoji": "🏪",
+            "note": "trả phí 6,5–15%"
+          },
+          {
+            "label": "Sàn",
+            "emoji": "📱",
+            "cue": "trả cho sàn"
+          },
+          {
+            "label": "Hãng giao hàng",
+            "emoji": "🛵",
+            "cue": "phí vận chuyển"
+          },
+          {
+            "label": "Đơn freeship",
+            "emoji": "📦",
+            "highlight": true,
+            "cue": "Tổng các khoản"
+          }
+        ],
+        "arrowLabels": [
+          "phí cố định",
+          "trả cước",
+          "giao tới bạn"
+        ]
+      },
+      "source": "CafeF (3/2025): biểu phí Shopee",
+      "transition": "push"
+    },
+    {
+      "id": "s53",
+      "type": "collage",
+      "vo": "Và người bán thường tính khoản đó vào giá. Freeship không có nghĩa là miễn phí. Nó chỉ có nghĩa là phí ship nằm ở chỗ bạn không nhìn thấy.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "label",
+            "text": "Freeship",
+            "x": 640,
+            "y": 360,
+            "color": "cream",
+            "font": "heavy",
+            "size": 150,
+            "rot": -3,
+            "cue": "Freeship"
+          },
+          {
+            "kind": "stamp",
+            "text": "≠ MIỄN PHÍ",
+            "x": 1300,
+            "y": 380,
+            "size": 120,
+            "cue": "không có nghĩa"
+          },
+          {
+            "kind": "label",
+            "text": "phí ship nằm ở chỗ ==bạn không nhìn thấy==",
+            "x": 960,
+            "y": 720,
+            "color": "yellow",
+            "size": 62,
+            "cue": "chỗ bạn không"
+          }
+        ]
+      },
+      "transition": "tear"
+    },
+    {
+      "id": "s54",
+      "type": "bars",
+      "vo": "Còn đoạn đường biển rẻ thì có bền không? Năm 2021, cước một container tăng khoảng bảy lần so với năm 2019. Năm 2024, khủng hoảng Biển Đỏ lại đẩy cước tuyến Thượng Hải đi Rotterdam tăng gần năm lần.",
+      "props": {
+        "kicker": "Chỉ số cước container toàn cầu",
+        "title": "USD / container 40 feet",
+        "tone": "grid",
+        "bars": [
+          {
+            "label": "Bình quân 2019",
+            "value": 1420,
+            "display": "1.420",
+            "cue": "năm 2019"
+          },
+          {
+            "label": "Đỉnh 9/2021",
+            "value": 10375,
+            "display": "10.375",
+            "highlight": true,
+            "cue": "Năm 2021"
+          },
+          {
+            "label": "10/2026",
+            "value": 4585,
+            "display": "4.585",
+            "cue": "Biển Đỏ"
+          }
+        ]
+      },
+      "source": "Drewry World Container Index",
+      "transition": "push-up"
+    },
+    {
+      "id": "s55",
+      "type": "callout",
+      "vo": "Chỉ một con tàu mắc kẹt ở kênh đào Suez năm 2021 cũng đủ làm tắc nghẽn thương mại toàn cầu trong sáu ngày.",
+      "props": {
+        "src": "assets/ever-given-iss.jpg",
+        "kicker": "Kênh Suez, 3/2021",
+        "treat": "color",
+        "zoom": 1.1,
+        "callouts": [
+          {
+            "x": 0.53,
+            "y": 0.43,
+            "r": 0.11,
+            "label": "Tàu Ever Given mắc kẹt",
+            "cue": "mắc kẹt"
+          }
+        ],
+        "credit": "NASA (PD)",
+        "tone": "charcoal"
+      },
+      "source": "Lloyd's List qua Al Jazeera (3/2021); ảnh NASA từ ISS",
+      "transition": "sheet"
+    },
+    {
+      "id": "s55b",
+      "type": "collage",
+      "vo": "Và mỗi năm vẫn có container rơi xuống biển. Năm 2025 là 1.478 thùng, trên khoảng 280 triệu lượt chở. Tức là chưa tới một phần nghìn phần trăm.",
+      "props": {
+        "tone": "navy",
+        "layers": [
+          {
+            "kind": "number",
+            "value": "1.478",
+            "x": 560,
+            "y": 380,
+            "style": "poster",
+            "size": 220,
+            "cue": "1.478"
+          },
+          {
+            "kind": "label",
+            "text": "container rơi xuống biển (2025)",
+            "x": 560,
+            "y": 560,
+            "color": "cream",
+            "size": 52,
+            "cue": "rơi xuống biển"
+          },
+          {
+            "kind": "number",
+            "value": "280 triệu",
+            "x": 1380,
+            "y": 380,
+            "style": "letterpress",
+            "size": 150,
+            "cue": "280 triệu"
+          },
+          {
+            "kind": "label",
+            "text": "lượt chở",
+            "x": 1380,
+            "y": 540,
+            "color": "cream",
+            "size": 52,
+            "cue": "lượt chở"
+          },
+          {
+            "kind": "stamp",
+            "text": "< 0,001%",
+            "x": 960,
+            "y": 800,
+            "size": 100,
+            "cue": "một phần nghìn"
+          }
+        ]
+      },
+      "source": "World Shipping Council (6/2026)",
+      "transition": "sheet"
+    },
+    {
+      "id": "s56",
+      "type": "bigNumber",
+      "vo": "Nhưng điều bất ngờ là, Quỹ Tiền tệ Quốc tế ước tính cước biển tăng gấp đôi chỉ làm lạm phát tăng khoảng 0,7 điểm phần trăm. Vì trong giá một món hàng, tiền đường biển chỉ là một phần rất nhỏ.",
+      "props": {
+        "kicker": "Cước biển tăng gấp đôi →",
+        "value": "+0,7",
+        "unit": "điểm %",
+        "style": "poster",
+        "label": "lạm phát (ước tính của IMF)",
+        "tone": "charcoal"
+      },
+      "source": "IMF (2022)",
+      "transition": "zoom"
+    },
+    {
+      "id": "s57",
+      "type": "collage",
+      "vo": "Đó là câu trả lời. Đoạn đường dài nhất rẻ, vì một chiếc hộp tiêu chuẩn cho phép chia chi phí cho hàng triệu món hàng. Đoạn ngắn nhất đắt, vì nó không thể chia.",
+      "props": {
+        "tone": "cream",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/container-sealand_cut.png",
+            "x": 520,
+            "y": 360,
+            "w": 640,
+            "treat": "color",
+            "rot": -3,
+            "cue": "dài nhất rẻ"
+          },
+          {
+            "kind": "label",
+            "text": "chia cho hàng triệu món",
+            "x": 520,
+            "y": 600,
+            "color": "black",
+            "size": 58,
+            "cue": "hàng triệu"
+          },
+          {
+            "kind": "image",
+            "src": "assets/shipper-thung_cut.png",
+            "x": 1380,
+            "y": 470,
+            "w": 560,
+            "treat": "color",
+            "cue": "ngắn nhất đắt"
+          },
+          {
+            "kind": "label",
+            "text": "không thể chia",
+            "x": 1380,
+            "y": 830,
+            "color": "red",
+            "size": 64,
+            "cue": "không thể chia"
+          }
+        ]
+      },
+      "transition": "sheet"
+    },
+    {
+      "id": "s58",
+      "type": "collage",
+      "vo": "Nhưng sự rẻ cũng có giá. Sau khi container xuất hiện, nghề bốc vác ở những bến cảng cũ gần như biến mất.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/bocvac-chuoi.jpg",
+            "x": 760,
+            "y": 520,
+            "w": 900,
+            "h": 620,
+            "treat": "dark",
+            "rot": -1.5
+          },
+          {
+            "kind": "label",
+            "text": "Cái giá của sự rẻ",
+            "x": 1460,
+            "y": 300,
+            "color": "yellow",
+            "font": "heavy",
+            "size": 80,
+            "cue": "sự rẻ"
+          },
+          {
+            "kind": "tag",
+            "text": "nghề bốc vác",
+            "x": 1460,
+            "y": 470,
+            "size": 48,
+            "color": "red",
+            "cue": "nghề bốc vác"
+          }
+        ]
+      },
+      "source": "LSE Business Review (2017)",
+      "transition": "tear"
+    },
+    {
+      "id": "s59",
+      "type": "bigNumber",
+      "vo": "Vận tải biển thải ra khoảng 2,89 phần trăm lượng khí CO2 do con người tạo ra.",
+      "props": {
+        "kicker": "Năm 2018",
+        "value": "2,89%",
+        "style": "letterpress",
+        "label": "lượng CO₂ do con người thải ra",
+        "tone": "grid",
+        "image": {
+          "src": "assets/msc-irina_cut.png",
+          "treat": "bw",
+          "w": 640
+        }
+      },
+      "source": "IMO Fourth GHG Study (2020)",
+      "transition": "cut"
+    },
+    {
+      "id": "s60",
+      "type": "collage",
+      "vo": "Với Việt Nam, chi phí logistics vẫn khoảng 16 đến 17 phần trăm GDP, cao hơn mức trung bình thế giới khoảng 10,6 phần trăm. Con đường từ cảng về nhà bạn vẫn còn nhiều chỗ để rẻ hơn.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "number",
+            "value": "~17%",
+            "x": 560,
+            "y": 400,
+            "style": "poster",
+            "size": 220,
+            "cue": "16 đến 17"
+          },
+          {
+            "kind": "label",
+            "text": "GDP · Việt Nam",
+            "x": 560,
+            "y": 600,
+            "color": "cream",
+            "size": 56,
+            "cue": "GDP"
+          },
+          {
+            "kind": "number",
+            "value": "10,6%",
+            "x": 1360,
+            "y": 400,
+            "style": "letterpress",
+            "size": 200,
+            "cue": "10,6"
+          },
+          {
+            "kind": "label",
+            "text": "trung bình thế giới",
+            "x": 1360,
+            "y": 600,
+            "color": "cream",
+            "size": 56,
+            "cue": "trung bình thế giới"
+          },
+          {
+            "kind": "label",
+            "text": "còn nhiều chỗ để ==rẻ hơn==",
+            "x": 960,
+            "y": 830,
+            "color": "yellow",
+            "size": 64,
+            "cue": "còn nhiều chỗ"
+          }
+        ]
+      },
+      "source": "Bộ Công Thương (báo Thị trường Tài chính Tiền tệ dẫn)",
+      "transition": "sheet"
+    },
+    {
+      "id": "s61",
+      "type": "question",
+      "vo": "Còn bạn, bạn chọn: freeship nhưng chờ năm ngày, hay trả thêm hai mươi nghìn đồng để nhận hàng trong ngày?",
+      "props": {
+        "text": "Bạn chọn bên nào?",
+        "options": [
+          "Freeship, chờ 5 ngày",
+          "Trả thêm 20.000đ, nhận trong ngày"
+        ],
+        "tone": "navy"
+      },
+      "transition": "zoom"
     }
   ]
 }
