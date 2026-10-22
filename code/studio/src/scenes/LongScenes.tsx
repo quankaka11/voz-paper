@@ -61,7 +61,7 @@ export const ChapterScene: React.FC<{scene: Scene}> = ({scene}) => {
         </div>
       </div>
       <div style={{marginTop: 26, alignSelf: 'flex-start', opacity: t > 0 ? 1 : 0, transform: `scale(${interpolate(t, [0, 1], [1.25, 1])}) rotate(${-1.5 + boil('ch', frame, 0.3)}deg)`, transformOrigin: 'left center'}}>
-        <Label text={title} color="cream" font="serif" size={f.wide ? 92 : 96} maxWidth={f.wide ? 1100 : 860} seed={`chap-${title}`} />
+        <Label text={title} color="cream" font="serif" size={f.wide ? 92 : 96} maxWidth={f.wide ? (im ? 1000 : 1440) : 860} seed={`chap-${title}`} />
       </div>
       {sub ? (
         <div style={{marginTop: 30, fontFamily: fonts.sans, fontWeight: 600, fontSize: f.wide ? 44 : 46, lineHeight: 1.35, color: dark ? '#D9D4C8' : colors.inkSoft, opacity: s, maxWidth: f.wide ? 1100 : undefined}}>
@@ -253,7 +253,8 @@ export const CalloutScene: React.FC<{scene: Scene}> = ({scene}) => {
           const sx = f.wide ? x + r : x;
           const sy = f.wide ? y : y + r;
           const d = f.wide ? `M ${sx} ${sy} L ${lx - 14} ${ly}` : `M ${sx} ${sy} L ${lx} ${ly - 40}`;
-          const circle = `M ${x + r} ${y} A ${r} ${r} 0 1 1 ${x + r - 0.01} ${y + 0.5}`;
+          // hai nửa cung: một cung duy nhất có điểm đầu ≈ điểm cuối làm trình duyệt chọn sai tâm (vòng lệch sang phải một bán kính)
+          const circle = `M ${x - r} ${y} A ${r} ${r} 0 1 1 ${x + r} ${y} A ${r} ${r} 0 1 1 ${x - r} ${y}`;
           const ec = evolvePath(pc, circle);
           const el = evolvePath(pl, d);
           return pc > 0 ? (
@@ -452,8 +453,9 @@ export const QuoteScene: React.FC<{scene: Scene}> = ({scene}) => {
   const quote = (
     <>
       <Kicker text={kicker} />
-      <div style={{position: 'relative'}}>
-        <div style={{position: 'absolute', left: -20, top: f.wide ? -120 : -110, fontFamily: fonts.serif, fontWeight: 900, fontSize: 240, lineHeight: 1, color: colors.yellow, opacity: Math.min(1, q * 3), transform: `scale(${interpolate(q, [0, 1], [1.4, 1])}) rotate(${-6 + boil('qq', frame, 0.4)}deg)`}}>“</div>
+      {/* chừa chỗ cho dấu ngoặc kép lớn để không đè lên kicker */}
+      <div style={{position: 'relative', marginTop: kicker ? 70 : 0}}>
+        <div style={{position: 'absolute', left: -20, top: f.wide ? -100 : -95, fontFamily: fonts.serif, fontWeight: 900, fontSize: 240, lineHeight: 1, color: colors.yellow, opacity: Math.min(1, q * 3), transform: `scale(${interpolate(q, [0, 1], [1.4, 1])}) rotate(${-6 + boil('qq', frame, 0.4)}deg)`}}>“</div>
         <div style={{fontFamily: fonts.serif, fontWeight: 700, fontSize: f.wide ? 62 : 64, lineHeight: 1.3, color: fg, opacity: t, transform: `translateY(${(1 - t) * 24}px)`, textShadow: dark ? '0 4px 16px rgba(0,0,0,0.5)' : undefined, paddingTop: 30}}>
           <RichText text={text} delay={20} />
         </div>

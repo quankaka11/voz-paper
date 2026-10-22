@@ -198,7 +198,7 @@ export const MapScene: React.FC<{scene: Scene}> = ({scene}) => {
               <div style={{position: 'absolute', left: -13, top: -13, width: 26, height: 26, borderRadius: '50%', background: pt.color ?? colors.ink, border: '5px solid #fff', boxShadow: '0 4px 8px rgba(0,0,0,0.4)', transform: `scale(${p})`}} />
             )}
             {pt.label ? (
-              <div style={{position: 'absolute', left: pt.side === 'left' ? undefined : 26, right: pt.side === 'left' ? 26 : undefined, top: -34, whiteSpace: 'nowrap', transform: `scale(${0.85 + 0.15 * p})`}}>
+              <div style={{position: 'absolute', left: pt.side === 'left' ? undefined : 26, right: pt.side === 'left' ? 26 : undefined, top: -34, whiteSpace: 'nowrap', width: 'max-content', transform: `scale(${0.85 + 0.15 * p})`}}>
                 <Tag text={pt.label} size={pt.size ?? 38} color={pt.tagColor ?? 'black'} />
               </div>
             ) : null}
