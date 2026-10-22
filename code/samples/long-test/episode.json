@@ -7,18 +7,38 @@
     "topic": "định dạng video dài",
     "label": "Kiểm tra khung 16:9"
   },
-  "cover": {
-    "kicker": "Chuyện ly cà phê",
-    "headline": "1819",
-    "lines": [
-      "Thứ giữ bạn tỉnh táo",
-      {
-        "text": "đến từ một nhà thơ?",
-        "color": "yellow"
-      }
-    ],
-    "image": "assets/goethe_cut.png"
-  },
+  "covers": [
+    {
+      "kicker": "Chuyện ly cà phê",
+      "headline": "1819",
+      "lines": [
+        "Thứ giữ bạn tỉnh táo",
+        {
+          "text": "đến từ một nhà thơ?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/goethe_cut.png",
+      "id": "nha-tho"
+    },
+    {
+      "id": "cafein",
+      "kicker": "Chuyện ly cà phê",
+      "headline": "CAFEIN?",
+      "panel": "yellow",
+      "lines": [
+        "Ai tìm ra thứ",
+        {
+          "text": "giữ bạn tỉnh táo?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/phin_cut.png",
+      "treat": "color",
+      "stamp": "1819"
+    }
+  ],
+  "cover_pick": "nha-tho",
   "scenes": [
     {
       "id": "s01",

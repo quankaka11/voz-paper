@@ -42,9 +42,7 @@ def cmd_render(a):
     render.remotion_render_parts(b / "props.json", b, out, scale=0.5 if a.draft else 1.0)
     render.loudnorm(out)
     if not a.draft:
-        cover = ep / "export" / f"{name}_cover.png"
-        render.remotion_still("Cover", b / "cover.json", b, cover)
-        render.thumbnail_jpg(cover)
+        render.cover_stills(b, ep / "export", name)
         srt = render.write_srt(b / "props.json", ep / "export" / f"{name}.vi.srt")
         if srt:
             print(f"→ phụ đề: {srt}")
@@ -64,9 +62,8 @@ def cmd_render(a):
 def cmd_cover(a):
     ep = episode.find(a.ep)
     episode.build(ep)
-    out = ep / "export" / f"{_out_name(ep)}_cover.png"
-    render.remotion_still("Cover", ep / "build" / "cover.json", ep / "build", out)
-    print(f"→ {render.thumbnail_jpg(out)}")
+    for f in render.cover_stills(ep / "build", ep / "export", _out_name(ep)):
+        print(f"→ {f}")
 
 
 def cmd_check(a):
@@ -163,7 +160,7 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--force-tts", action="store_true")
     s.set_defaults(fn=cmd_render)
 
-    s = sub.add_parser("cover", help="chỉ render ảnh bìa (9:16 với short, 16:9 với long)")
+    s = sub.add_parser("cover", help="chỉ render ảnh bìa + mọi phương án trong covers (9:16 với short, 16:9 với long)")
     s.add_argument("ep")
     s.set_defaults(fn=cmd_cover)
 

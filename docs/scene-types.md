@@ -96,7 +96,12 @@ người trước theo `cue`). Nằm ngoài máy quay, góc dưới-trái trên 
 `build` chèn `intro` sau cảnh thứ `after` (mặc định sau hook) và `outro` cuối tập (trừ khi `scenes` đã có cảnh loại đó);
 `vo_ab`/`comment_ab` dùng khi cảnh cuối là `question` có ≥ 2 lựa chọn. Hai cảnh này không có watermark (đã có logo lớn).
 
-## Ảnh bìa (`cover`)
+## Ảnh bìa (`cover` / `covers`)
+
+**Mỗi tập làm 3 phương án để người dùng chọn:** `"covers": [{"id": "freeship", …}, {"id": "hop-thep", …}]` và `"cover_pick": "freeship"`.
+`render` (bản cuối) và `python voz.py cover VOZ-xxx` xuất ảnh chính `export/<tập>_cover.png` (= `cover` nếu có, không thì phương án
+`cover_pick`, mặc định phương án đầu) và mọi phương án `export/<tập>_cover_<id>.png`; publish.md liệt kê các phương án.
+Mỗi phương án là một object cùng trường như bảng dưới, cộng `layers` (lớp cắt dán ghép thêm, cú pháp như collage).
 
 | trường | ý nghĩa |
 |---|---|

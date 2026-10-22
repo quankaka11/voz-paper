@@ -288,12 +288,25 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
         "scenes": scenes,
     }
     config.save_json(build_dir / "props.json", props)
-    cover = dict(spec.get("cover") or {"text": meta.get("title", "")})
-    cover.setdefault("brand", brand)
-    cover.setdefault("format", fmt)
-    cover.setdefault("tone", spec.get("tone") or ch.get("tone"))
-    cover.setdefault("episodeNo", re.sub(r"\D", "", meta.get("id", ""))[-2:] or None)
-    config.save_json(build_dir / "cover.json", cover)
+    def with_defaults(c: dict) -> dict:
+        c = {k: v for k, v in c.items() if k != "id"}
+        c.setdefault("brand", brand)
+        c.setdefault("format", fmt)
+        c.setdefault("tone", spec.get("tone") or ch.get("tone"))
+        c.setdefault("episodeNo", re.sub(r"\D", "", meta.get("id", ""))[-2:] or None)
+        return c
+
+    # Nhiều phương án ảnh bìa để người dùng chọn: "covers": [{"id": "freeship", …}, …], "cover_pick": "freeship".
+    # Ảnh bìa chính = "cover" nếu có, không thì phương án cover_pick (mặc định phương án đầu).
+    covers = {str(c.get("id") or f"v{i + 1}"): c for i, c in enumerate(spec.get("covers") or [])}
+    shutil.rmtree(build_dir / "covers", ignore_errors=True)
+    for cid, c in covers.items():
+        config.save_json(build_dir / "covers" / f"{cid}.json", with_defaults(c))
+    pick = spec.get("cover_pick")
+    if pick and pick not in covers:
+        warns.append(f"cover_pick '{pick}' không có trong covers ({', '.join(covers)})")
+    primary = spec.get("cover") or covers.get(pick) or next(iter(covers.values()), None) or {"text": meta.get("title", "")}
+    config.save_json(build_dir / "cover.json", with_defaults(dict(primary)))
 
     total = sum(r[2] for r in rows)
     if chapters:

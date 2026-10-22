@@ -60,7 +60,10 @@ Trụ B **luôn quay về Việt Nam** ở 25–35% cuối; trụ A **luôn có 
 - Liệt kê tư liệu cần tìm (cột "hình" trong `script.md`) — thường 60–120 ảnh/phim; ưu tiên public domain (xem skill `voz-assets`).
 - Khác bố cục tập trước (chống inauthentic content): thứ tự cảnh, kiểu cold open, tông nền.
 
-## 6. Ảnh bìa 16:9 (`cover`)
+## 6. Ảnh bìa 16:9 — 3 phương án (`covers`), người dùng chọn
+Viết 3 phương án trong `"covers": [{"id": "…", …}]` (mỗi phương án một góc: con số nghịch lý / câu hỏi đời sống / vật thể lịch sử),
+render `python voz.py cover VOZ-xxx` → `export/<tập>_cover_<id>.png`, Read từng ảnh soát lỗi ghép, gửi người dùng chọn → `"cover_pick": "<id>"`.
+Ưu tiên **một vật thể chính** tách nền sạch; ghép nhiều lớp (`layers`) chỉ khi bố cục rõ ràng. Ví dụ một phương án:
 `{"kicker": "Cỗ máy phía sau cuộc sống", "headline": "1 hộp **thép**", "lines": [{"text": "làm cả thế giới rẻ đi?", "color": "yellow"}],
 "image": "assets/container_cut.png", "imageW": 620, "panel": "red", "stamp": "1956"}` — thumbnail 1280×720; toạ độ `circle`/`arrow`
 theo khung đó; góc dưới-phải trống. Xem nhanh: `python voz.py cover VOZ-xxx` rồi Read PNG.

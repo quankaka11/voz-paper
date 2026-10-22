@@ -126,6 +126,30 @@ def thumbnail_jpg(png: Path, limit_mb: float = 2.0) -> Path:
     return jpg
 
 
+def cover_stills(build: Path, export: Path, name: str) -> list[Path]:
+    """Ảnh bìa chính (build/cover.json → <tên>_cover.png) + mọi phương án (build/covers/<id>.json → <tên>_cover_<id>.png).
+    Bundle một lần cho tất cả; ảnh > 2MB tự có thêm bản JPG."""
+    jobs = [(build / "cover.json", export / f"{name}_cover.png")]
+    jobs += [(f, export / f"{name}_cover_{f.stem}.png") for f in sorted((build / "covers").glob("*.json"))]
+    for old in export.glob(f"{name}_cover_*.*"):  # phương án đã bỏ khỏi episode.json thì xoá ảnh cũ
+        old.unlink()
+    if len(jobs) == 1:
+        remotion_still("Cover", jobs[0][0], build, jobs[0][1])
+        return [thumbnail_jpg(jobs[0][1])]
+    bundle = config.ROOT / "build" / "render" / f"{build.parent.name}_covers"
+    shutil.rmtree(bundle, ignore_errors=True)
+    _run([config.npx(), "remotion", "bundle", "src/index.ts", f"--out-dir={bundle}", f"--public-dir={build.resolve()}", "--log=warn"],
+         cwd=config.STUDIO)
+    outs = []
+    for props, out in jobs:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        _run([config.npx(), "remotion", "still", str(bundle), "Cover", str(out.resolve()), f"--props={props.resolve()}", "--log=warn"],
+             cwd=config.STUDIO)
+        outs.append(thumbnail_jpg(out))
+    shutil.rmtree(bundle, ignore_errors=True)
+    return outs
+
+
 def remotion_still(comp: str, props: Path | None, public_dir: Path | None, out: Path, frame: int = 0) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     cmd = [config.npx(), "remotion", "still", "src/index.ts", comp, str(out), f"--frame={frame}", "--log=warn"]

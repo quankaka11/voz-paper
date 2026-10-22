@@ -287,6 +287,9 @@ def publish_kit(ep_dir: Path) -> Path:
     cover = next((f"export/{name}_cover.{e}" for e in ("jpg", "png") if (ep_dir / "export" / f"{name}_cover.{e}").exists()),
                  f"export/{name}_cover.png")
     warn_md = "".join(f"- ⚠ {w}\n" for w in warns)
+    variants = sorted(p.name for p in (ep_dir / "export").glob(f"{name}_cover_*.*") if p.suffix in (".png", ".jpg"))
+    if variants:  # ảnh bìa nhiều phương án: liệt kê để người dùng chọn (chốt bằng cover_pick trong episode.json)
+        warn_md += "- Phương án ảnh bìa: " + " · ".join(f"`export/{v}`" for v in variants) + "\n"
     after = f"""## Sau khi đăng
 ```
 python voz.py post {meta['id']} youtube --url <link>

@@ -69,6 +69,7 @@ Một video = **một câu hỏi trung tâm**.
 - Cảnh cuối luôn là `question` với 2 lựa chọn A/B cụ thể để kéo bình luận.
 
 ## 5. Ảnh bìa / thumbnail (`cover`) — bắt buộc mỗi tập
+Làm **3 phương án** trong `"covers": [{"id": …}, …]` để người dùng chọn (`"cover_pick": "<id>"`); `python voz.py cover VOZ-xxx` render tất cả.
 Ảnh PNG riêng 1080×1920 (`export/…_cover.png`), tải lên TikTok/YouTube khi đăng. Công thức cuốn hút:
 - `headline`: **1–3 chữ siêu lớn** (Anton vàng viền mực, `**chữ**` tô đỏ) nêu vật thể/mâu thuẫn — "App **miễn phí**", "39K → **70K**".
   Tránh số 0 đứng riêng (font hẹp, dễ đọc thành chữ O).

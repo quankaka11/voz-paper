@@ -44,7 +44,9 @@
 ## 3. Đóng gói trước — tiêu đề & ảnh bìa (viết TRƯỚC kịch bản)
 - [ ] Tiêu đề ≤ 70 ký tự, nêu **câu hỏi hoặc mâu thuẫn cụ thể** (vd "Vì sao…", "Một … đã … như thế nào"). Không giật tít, không "sự thật bị che giấu".
 - [ ] Ảnh bìa 1280×720: headline 1–3 chữ siêu lớn + **một vật thể thật** + **một điểm đỏ**; không lặp nguyên văn tiêu đề; góc dưới-phải trống (YouTube che thời lượng).
-- [ ] Tiêu đề và ảnh bìa **cùng hứa một điều**, bổ sung chứ không lặp nhau. Chuẩn bị 2–3 bìa để dùng "Thử nghiệm & so sánh" của YouTube nếu có.
+- [ ] Tiêu đề và ảnh bìa **cùng hứa một điều**, bổ sung chứ không lặp nhau.
+- [ ] **3 phương án bìa** (`episode.json > covers`) — người dùng chọn (`cover_pick`); phương án khác dùng cho "Thử nghiệm & so sánh" của YouTube nếu có.
+- [ ] Soát ghép ảnh: vật thể tách nền sạch, các lớp **không chồng lệch/nửa vời** (một vật thể chính rõ ràng tốt hơn ba vật thể ghép vội).
 
 ## 4. Kịch bản (skill `voz-script-long`)
 **Cấu trúc**
