@@ -91,5 +91,3 @@ export const resolveFormat = (f?: string | null): Format => FORMATS[(f as Format
 /** Định dạng theo khung composition đang render (ngang → long). */
 export const formatOf = (width: number, height: number): Format => (width > height ? FORMATS.long : FORMATS.short);
 
-/** Vùng an toàn của định dạng short — giữ cho mã cũ; mã mới dùng useFormat().safe. */
-export const SAFE = SAFE_SHORT;
