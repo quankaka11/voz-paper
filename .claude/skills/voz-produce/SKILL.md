@@ -46,7 +46,7 @@ Chỉ làm lại bìa: `python voz.py cover VOZ-xxx`. Kiểm lại file: `python
 - Bản cuối xuất thêm: `export/<tập>.vi.srt` (phụ đề), ảnh thu nhỏ 1280×720 (> 2MB tự có bản `.jpg`), `publish.md` có mục lục chương.
 - Soát thêm: thẻ chương đúng số/tên; lower third không đè nhãn collage; `callout` khoanh đúng chi tiết; `footage` không có logo đài/watermark;
   màn hình kết thúc 20s để trống 2 khung bên phải; nhạc đổi đúng chương.
-- Font tải từ Google Fonts khi render — mạng chập chờn có thể làm render lỗi/chậm: chạy lại lệnh (các đoạn đã xong được giữ).
+- Font nằm sẵn trong bundle (không tải mạng khi render). Render hỏng vì lý do khác: chạy lại lệnh (các đoạn đã xong được giữ).
 
 ## 4. Checklist trước khi báo "xong"
 Kỹ thuật (lệnh check in ra): short 1080×1920 · < 3 phút (thường 55–70s) — long 1920×1080 · 8–20 phút · có âm thanh · −14 ±2 LUFS.

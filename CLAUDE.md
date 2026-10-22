@@ -39,7 +39,8 @@ videos/VOZ-001_slug/
 - Mỗi tập tự có intro (sau hook) + outro (bình luận/theo dõi; long: màn hình kết thúc 20s) từ `config/channel.json > intro/outro`; mỗi tập phải có ảnh bìa
   (`episode.json > cover`, công thức trong skill `voz-script`) và `meta.json > publish` → render bản cuối tự sinh `export/publish.md`.
 - Bản đồ có Việt Nam phải hiện Hoàng Sa, Trường Sa (cảnh `map` tự vẽ — đừng tắt).
-- Font phải có subset `vietnamese` (xem docs/tooling-research.md).
+- Font phải có subset `vietnamese` (xem docs/tooling-research.md); font nằm sẵn trong `code/studio/src/assets/fonts` — đổi font/độ đậm trong
+  `theme.ts` thì sửa `FAMILIES` và chạy `python code/voz/tools/make_fonts.py`.
 - Ảnh chỉ từ nguồn & license trong skill `voz-assets`; mọi nguồn ghi vào `sources.json`.
 
 ## Môi trường

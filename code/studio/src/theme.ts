@@ -1,24 +1,22 @@
-import {loadFont as loadPlayfair} from '@remotion/google-fonts/PlayfairDisplay';
-import {loadFont as loadFraunces} from '@remotion/google-fonts/Fraunces';
-import {loadFont as loadBeVietnam} from '@remotion/google-fonts/BeVietnamPro';
-import {loadFont as loadOswald} from '@remotion/google-fonts/Oswald';
-import {loadFont as loadAnton} from '@remotion/google-fonts/Anton';
-import {loadFont as loadSpaceMono} from '@remotion/google-fonts/SpaceMono';
-import {loadFont as loadPatrick} from '@remotion/google-fonts/PatrickHand';
+import {loadLocalFont} from './ui/localFonts';
 
 // Bộ nhận diện VOZ STORY — đổi màu/font ở đây là đổi cho cả series. Mọi font phải có subset 'vietnamese'.
+// Font nằm sẵn trong src/assets/fonts (python code/voz/tools/make_fonts.py — sửa FAMILIES ở đó khi đổi font/độ đậm),
+// render không tải từ mạng.
 export const fonts = {
-  /** serif cổ điển cho tiêu đề, nhãn giấy, số lớn kiểu in typo (2430 m) */
-  serif: loadFraunces('normal', {weights: ['700', '900'], subsets: ['latin', 'vietnamese']}).fontFamily,
-  /** serif cũ — giữ cho ảnh bìa cũ / logo */
-  classic: loadPlayfair('normal', {weights: ['700', '900'], subsets: ['latin', 'vietnamese']}).fontFamily,
-  sans: loadBeVietnam('normal', {weights: ['500', '700', '800'], subsets: ['latin', 'vietnamese']}).fontFamily,
-  condensed: loadOswald('normal', {weights: ['500', '700'], subsets: ['latin', 'vietnamese']}).fontFamily,
-  /** chữ đậm hẹp cho số "poster" cắt giấy (1819) */
-  heavy: loadAnton('normal', {weights: ['400'], subsets: ['latin', 'vietnamese']}).fontFamily,
-  /** đánh máy: chữ cắt rời, hồ sơ, dòng nguồn */
-  mono: loadSpaceMono('normal', {weights: ['400', '700'], subsets: ['latin', 'vietnamese']}).fontFamily,
-  hand: loadPatrick('normal', {weights: ['400'], subsets: ['latin', 'vietnamese']}).fontFamily,
+  /** serif cổ điển cho tiêu đề, nhãn giấy, số lớn kiểu in typo (2430 m) — 700, 900 */
+  serif: loadLocalFont('Fraunces'),
+  /** serif cũ — giữ cho ảnh bìa cũ / logo — 700, 900 */
+  classic: loadLocalFont('Playfair Display'),
+  /** 500, 700, 800 */
+  sans: loadLocalFont('Be Vietnam Pro'),
+  /** 500, 700 */
+  condensed: loadLocalFont('Oswald'),
+  /** chữ đậm hẹp cho số "poster" cắt giấy (1819) — 400 */
+  heavy: loadLocalFont('Anton'),
+  /** đánh máy: chữ cắt rời, hồ sơ, dòng nguồn — 400, 700 */
+  mono: loadLocalFont('Space Mono'),
+  hand: loadLocalFont('Patrick Hand'),
 };
 
 export const colors = {
