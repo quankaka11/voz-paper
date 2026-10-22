@@ -1,6 +1,6 @@
 ---
 name: voz-research
-description: Nghiên cứu một chủ đề cho video VOZ STORY trước khi viết kịch bản — chốt câu hỏi trung tâm, tìm số liệu có nguồn (ưu tiên báo cáo chính thức, cơ quan quản lý, nghiên cứu), phân biệt dữ kiện / ví dụ minh họa / giả thuyết, chấm điểm chủ đề, ghi research.md và sources.json. Dùng khi người dùng nói "nghiên cứu chủ đề", "research tập", "tìm số liệu", "kiểm chứng", hoặc bắt đầu một tập mới.
+description: Nghiên cứu một chủ đề cho video VOZ STORY trước khi viết kịch bản — chốt câu hỏi trung tâm, tìm số liệu có nguồn (ưu tiên báo cáo chính thức, cơ quan quản lý, nghiên cứu), phân biệt dữ kiện / ví dụ minh họa / giả thuyết, chấm điểm chủ đề, ghi research.md và sources.json. Dùng khi người dùng nói "nghiên cứu chủ đề", "research tập", "tìm số liệu", "kiểm chứng", hoặc bắt đầu một tập mới (short hay video dài).
 ---
 
 # Nghiên cứu chủ đề VOZ STORY
@@ -28,11 +28,28 @@ Video tốt chỉ ra **ai tham gia, cơ chế ra sao, bằng chứng nói gì, l
    ```
 8. Cập nhật trạng thái: `python voz.py status VOZ-xxx --stage researched`.
 
+## Video dài (format `long`) — làm thêm
+Mẫu `research.md` bản dài (tự tạo khi `voz.py new … --format long`) và `docs/longform-checklist.md` mục 0–2. Danh sách chủ đề đã thẩm định:
+`docs/topics-long.md`.
+- **Chấm điểm chọn chủ đề** (checklist mục 0) trước khi đào sâu; < 6/8 → báo người dùng.
+- **15–30 dữ kiện** có nguồn; với trụ B thêm **dòng thời gian** (năm · sự kiện · nguồn) và **nhân vật** (tên · vai trò · ảnh hợp lệ).
+  Nguồn lịch sử: sách chuyên khảo (ghi trang), lưu trữ (NARA, Library of Congress, Gallica, ANOM), bài nghiên cứu; Wikipedia chỉ để
+  dẫn đường tới nguồn gốc.
+- **Trích dẫn nguyên văn** cho `quote`/`document`: chép đúng văn bản gốc + ngày + URL; dịch thì ghi "dịch:".
+- **≥ 3 điều bất ngờ** có bằng chứng (dùng làm nhịp giữ chân) và **một cú lật** cho ~70% video.
+- **Tư liệu hình**: lập bảng 60–120 hình/phim cần tìm, tìm thử ngay vài tư liệu then chốt (ảnh lưu trữ của sự kiện chính) — chủ đề
+  thiếu tư liệu hợp lệ thì báo sớm (xem skill `voz-assets`).
+- **Dàn ý chương** (3–5 chương: câu hỏi nhỏ → bằng chứng → phát hiện) → ⛳ **cổng duyệt 0** cùng 3 tiêu đề + 3 ý tưởng bìa.
+- **Ứng viên Shorts**: 3–4 phát hiện tự đứng được.
+- Kiểm tra cạnh tranh: tìm trên YouTube tiếng Việt cùng chủ đề (tên kênh, lượt xem, năm) — ghi góc nào còn trống.
+
 ## Lằn ranh đỏ (không vi phạm)
 - Không khẳng định "điện thoại nghe lén", "doanh nghiệp X lừa đảo/thao túng" khi không có bằng chứng; mặc định nhiều hệ thống tồn tại vì có giá trị thật, kèm đánh đổi.
 - Không đưa con số gây sốc thiếu thời điểm/phạm vi/nguồn. Khảo sát không được nói như tỷ lệ của "người Việt".
 - Không suy diễn mô hình doanh thu của một app cụ thể nếu chưa xem báo cáo/điều khoản của chính app đó — nói ở mức "các mô hình phổ biến".
 - Ranh giới hành chính Việt Nam: lưu ý sáp nhập tỉnh 07/2025 (34 tỉnh) khi dùng bản đồ/số liệu theo tỉnh.
+- Lịch sử chiến tranh, chính trị đương đại, lãnh tụ, biên giới: tránh làm trọng tâm; khi chạm tới (vd hậu cần thời chiến trong chủ đề
+  container) chỉ nêu dữ kiện có nguồn, giọng trung tính. Chính sách hiện hành (quy hoạch, dự án lớn): giải thích cơ chế, không chấm điểm dự án.
 
 ## Đầu ra mong đợi
 `research.md` có: câu hỏi trung tâm, góc chọn + lý do, 5–10 dữ kiện có nguồn, 1–3 ví dụ minh họa (ghi rõ), phản biện/giới hạn, điểm chấm, gợi ý hook. Báo lại người dùng tóm tắt 5 dòng + điểm yếu nếu có.

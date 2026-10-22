@@ -1,6 +1,6 @@
 ---
 name: voz-publish
-description: Chuẩn bị đăng và theo dõi video VOZ STORY trên YouTube Shorts và TikTok — viết tiêu đề, mô tả có nguồn, hashtag, caption, tạo gói đăng export/publish.md, ghi trạng thái đã đăng/hẹn giờ kèm link, nhập số liệu hiệu quả và phân tích để cải tiến. Dùng khi người dùng nói "đăng video", "tiêu đề", "hashtag", "caption", "đã đăng", "cập nhật trạng thái", "số liệu", "phân tích hiệu quả".
+description: Chuẩn bị đăng và theo dõi video VOZ STORY — video dài YouTube 16:9 (mục lục chương, phụ đề, màn hình kết thúc, thẻ) và YouTube Shorts / TikTok — viết tiêu đề, mô tả có nguồn, hashtag, caption, tạo gói đăng export/publish.md, ghi trạng thái đã đăng/hẹn giờ kèm link, nhập số liệu hiệu quả và phân tích để cải tiến. Dùng khi người dùng nói "đăng video", "tiêu đề", "hashtag", "caption", "đã đăng", "cập nhật trạng thái", "số liệu", "phân tích hiệu quả".
 ---
 
 # Đăng bài & theo dõi
@@ -22,6 +22,17 @@ Mô tả YouTube tự thêm dòng "🔔 Theo dõi VOZ STORY…", nguồn số li
 tải ảnh nếu tài khoản có tùy chọn; nếu chỉ cho chọn khung hình thì chọn khung rõ chữ nhất (YouTube thay đổi tính năng này theo thời gian).
 
 Rồi chạy `python voz.py publish-kit VOZ-xxx` → `export/publish.md` (ảnh bìa, tiêu đề, mô tả, caption, bình luận ghim, checklist).
+
+## 1b. Video dài (format `long`)
+- `title` ≤ 100 ký tự, **nên ≤ 70** (bị cắt ở trang chủ/tìm kiếm): câu hỏi hoặc mâu thuẫn cụ thể, khớp lời hứa của ảnh bìa.
+- `description`: 2–3 câu, câu đầu chứa từ khóa người Việt sẽ tìm ("vì sao…", tên hệ thống). Mục lục chương (từ cảnh `chapter`),
+  dòng "🔔 Đăng ký…", nguồn, ghi công ảnh/nhạc **tự sinh** — không viết lại. Không `#Shorts`, không mục TikTok.
+- `hashtags` 3–5 · `pinned_comment` câu hỏi A/B.
+- `publish.md` bản dài có checklist: thumbnail 1280×720 · phụ đề `.vi.srt` (Tiếng Việt) · màn hình kết thúc (2 phần tử Video đặt
+  đúng khung trống + Đăng ký) · 1–2 thẻ · danh sách phát series · Danh mục Giáo dục · khai báo nội dung tổng hợp nếu dùng ảnh AI trông như thật.
+- Nếu tài khoản có "Thử nghiệm & so sánh" ảnh bìa: chuẩn bị 2–3 bìa (`cover` khác nhau → `python voz.py cover`, đổi tên file).
+- Shorts phễu (skill `voz-script` mục 7): đăng rải 7–10 ngày sau, mỗi Short gắn **Video liên quan** trỏ về video dài.
+- Nhịp đăng: ≤ 2 video dài/tuần; ưu tiên đều đặn (vd mỗi 7–10 ngày) hơn là dồn.
 
 ## 2. Người dùng tự đăng (thủ công)
 API TikTok không cho cá nhân đăng công khai; API YouTube chỉ đăng *private* khi chưa audit → đăng tay qua Studio.
@@ -45,5 +56,8 @@ Mỗi lần ghi là một snapshot có thời điểm trong `meta.json`.
 
 ## 5. Phân tích & cải tiến (khi có ≥ 3 tập đã đăng)
 Đọc mọi `videos/*/meta.json` + `episode.json`, so sánh theo: kiểu hook (cảnh s01), series, thời lượng, loại cảnh, giờ đăng.
-Ưu tiên chỉ số: **% xem trung bình** (giữ chân) → bình luận thực chất → lưu/chia sẻ → follow mới / lượt xem. Không kết luận từ một video đơn lẻ;
+Ưu tiên chỉ số: **% xem trung bình** (giữ chân) → bình luận thực chất → lưu/chia sẻ → follow mới / lượt xem.
+Video dài: thêm **CTR ảnh bìa** (lượt hiển thị → lượt xem), **% còn lại ở giây 30**, **thời lượng xem trung bình** (phút) và **điểm rơi
+lớn nhất** trên biểu đồ giữ chân (ứng với cảnh nào trong `episode.json`) — ghi tay trong `docs/learnings.md` vì `metrics` chỉ lưu các
+trường chung. Mốc sau 6 video dài: median ≥ 5K view, giữ chân ≥ 35%, CTR ≥ 4%. Không kết luận từ một video đơn lẻ;
 chỉ đổi **một biến** mỗi lần thử. Ghi kết luận vào `docs/learnings.md` (ngày, giả thuyết, bằng chứng, quyết định) để các tập sau áp dụng.

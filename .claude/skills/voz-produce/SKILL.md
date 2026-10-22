@@ -1,6 +1,6 @@
 ---
 name: voz-produce
-description: Sản xuất video VOZ STORY từ episode.json đã duyệt tới file mp4 cuối — tạo giọng đọc ZipVoice, render nháp, duyệt contact sheet bằng mắt, sửa đồng bộ hình–lời, render bản cuối 1080x1920, chuẩn hóa âm lượng, ảnh bìa, kiểm tra kỹ thuật và biên tập. Dùng khi người dùng nói "render", "dựng video", "tạo video", "xuất video", "làm bản nháp", hoặc sau khi kịch bản được duyệt.
+description: Sản xuất video VOZ STORY (short 1080x1920 hoặc video dài 1920x1080) từ episode.json đã duyệt tới file mp4 cuối — tạo giọng đọc ZipVoice, render nháp, duyệt contact sheet bằng mắt, sửa đồng bộ hình–lời, render bản cuối (video dài render theo đoạn, chạy tiếp được khi hỏng), chuẩn hóa âm lượng, ảnh bìa, kiểm tra kỹ thuật và biên tập. Dùng khi người dùng nói "render", "dựng video", "tạo video", "xuất video", "làm bản nháp", hoặc sau khi kịch bản được duyệt.
 ---
 
 # Sản xuất video
@@ -38,8 +38,19 @@ Lệnh tự: render 1080×1920 H.264 yuv420p 30fps → loudnorm −14 LUFS → �
 Render bản cuối tốn RAM: nếu máy báo thiếu bộ nhớ, nhờ người dùng đóng bớt ứng dụng rồi chạy lại.
 Chỉ làm lại bìa: `python voz.py cover VOZ-xxx`. Kiểm lại file: `python voz.py check VOZ-xxx`.
 
+## 3b. Video dài (format `long`)
+- **Nháp theo chương**: soát từng chương trên `build/sheet.jpg` (mỗi cảnh một khung, nhãn `id · loại`) — với 100+ cảnh, Read sheet
+  theo từng phần: `python voz.py sheet build/draft.mp4 -n 24` hoặc trích khung theo mốc chương.
+- Thời gian: nháp 12 phút ≈ 20–35 phút; bản cuối ≈ 50–90 phút, tự chia đoạn 2 phút (`build/render/` ở gốc dự án). Hỏng giữa chừng
+  (hết RAM, tắt máy) → chạy lại đúng lệnh, các đoạn đã xong được giữ. Sửa props/ảnh/giọng → các đoạn cũ tự bỏ.
+- Bản cuối xuất thêm: `export/<tập>.vi.srt` (phụ đề), ảnh thu nhỏ 1280×720 (> 2MB tự có bản `.jpg`), `publish.md` có mục lục chương.
+- Soát thêm: thẻ chương đúng số/tên; lower third không đè nhãn collage; `callout` khoanh đúng chi tiết; `footage` không có logo đài/watermark;
+  màn hình kết thúc 20s để trống 2 khung bên phải; nhạc đổi đúng chương.
+- Font tải từ Google Fonts khi render — mạng chập chờn có thể làm render lỗi/chậm: chạy lại lệnh (các đoạn đã xong được giữ).
+
 ## 4. Checklist trước khi báo "xong"
-Kỹ thuật (lệnh check in ra): 1080×1920 · < 3 phút (thường 55–70s) · có âm thanh · −14 ±2 LUFS.
+Kỹ thuật (lệnh check in ra): short 1080×1920 · < 3 phút (thường 55–70s) — long 1920×1080 · 8–20 phút · có âm thanh · −14 ±2 LUFS.
+Video dài: soát thêm `docs/longform-checklist.md` mục 5–7.
 Biên tập (tự soát trên sheet + script):
 - [ ] 3 giây đầu có vật thể/con số cụ thể, không chào hỏi; khung 0,0s không trống.
 - [ ] ≥ 60% cảnh có hình thật (collage/map/document/image); hình đổi mỗi 1,5–3 giây.

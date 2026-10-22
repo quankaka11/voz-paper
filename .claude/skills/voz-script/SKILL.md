@@ -1,9 +1,12 @@
 ---
 name: voz-script
-description: Viết kịch bản video ngắn 45–60s kiểu Vox cho VOZ STORY và chuyển thành episode.json chạy được — hook 3 giây theo công thức "hiện tượng cụ thể + nghịch lý + lời hứa giải thích", cấu trúc hỏi → lần dấu vết → cơ chế → kiểm tra giả định → kết luận + câu hỏi bình luận, lời đọc tối ưu cho TTS tiếng Việt, chọn loại cảnh, cue khớp hình với lời, ảnh bìa. Dùng sau voz-research, hoặc khi người dùng nói "viết kịch bản", "script", "lời đọc", "storyboard", "episode.json".
+description: Viết kịch bản video ngắn (Shorts/TikTok 9:16) 45–60s kiểu Vox cho VOZ STORY — kể cả Shorts cắt từ video dài để làm phễu — và chuyển thành episode.json chạy được — hook 3 giây theo công thức "hiện tượng cụ thể + nghịch lý + lời hứa giải thích", cấu trúc hỏi → lần dấu vết → cơ chế → kiểm tra giả định → kết luận + câu hỏi bình luận, lời đọc tối ưu cho TTS tiếng Việt, chọn loại cảnh, cue khớp hình với lời, ảnh bìa. Dùng sau voz-research, hoặc khi người dùng nói "viết kịch bản", "script", "lời đọc", "storyboard", "episode.json" cho tập short; video dài 16:9 dùng voz-script-long.
 ---
 
-# Viết kịch bản + episode.json
+# Viết kịch bản + episode.json (format `short`)
+
+> Video dài 16:9 (`"format": "long"`) → skill **`voz-script-long`**. Skill này cho Shorts/TikTok 9:16, gồm cả Shorts làm phễu
+> cho video dài (mục 7).
 
 Đọc trước: `research.md` của tập, `data/style_video.md` (mục 3 hook), **`docs/style-guide.md`** (phong cách cắt dán — bắt buộc),
 `docs/scene-types.md` (định dạng + loại cảnh + lớp), và mẫu `code/samples/style-demo/episode.json`.
@@ -87,3 +90,12 @@ Render bản cuối tự sinh `export/publish.md` từ các trường này.
 3. `python voz.py build VOZ-xxx` → xem bảng thời lượng: phần nội dung (trừ `intro`/`outro`) 45–60s, không có `⚠`. Dài quá → cắt ý, không nói nhanh hơn.
 4. `python voz.py status VOZ-xxx --stage scripted`.
 5. Gửi người dùng bảng kịch bản để duyệt **trước khi render bản cuối**.
+
+## 7. Short làm phễu cho video dài
+Mỗi video dài có 3–4 Short (bảng "Shorts cắt từ tập này" trong `script.md` của tập dài). Tạo tập riêng:
+`python voz.py new "Tiêu đề Short" --format short --series …`, chép assets cần dùng, ghi nguồn lại vào `sources.json` của Short.
+- **Một phát hiện trọn vẹn** trong 45–60s (người xem không cần xem bản dài vẫn hiểu) + **một câu hỏi lớn hơn** mà video dài trả lời.
+  Không cắt kiểu teaser bỏ lửng — Short giữ chân kém thì không được đẩy, cũng không kéo được ai.
+- Hook 3 giây theo mục 1; bố cục **dọc riêng** (toạ độ 1080×1920), không crop từ khung 16:9.
+- Câu kết (thay câu hỏi A/B): "Vì sao [câu hỏi lớn]? Bản đầy đủ ở video liên quan ngay bên dưới." — publish.md nhắc gắn **Video liên quan**.
+- Đăng rải 7–10 ngày sau video dài; Short nào có lượt xem/chia sẻ bất thường → ghi vào `docs/learnings.md` làm ứng viên chủ đề dài.

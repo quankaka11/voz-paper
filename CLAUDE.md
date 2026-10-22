@@ -5,7 +5,8 @@ Kênh YouTube tiếng Việt, video explainer kiểu Vox. Hai định dạng chu
 Lời hứa: *"Bóc tách những hệ thống vô hình chi phối cuộc sống."* Ngôn ngữ làm việc với người dùng: **tiếng Việt**.
 
 ## Bắt đầu mọi việc liên quan tới một tập
-Dùng skill `voz-workflow` để biết bước tiếp theo; các bước chi tiết: `voz-research` → `voz-script` → `voz-assets` → `voz-produce` → `voz-publish`.
+Dùng skill `voz-workflow` để biết bước tiếp theo; các bước chi tiết: `voz-research` → `voz-script-long` (video dài) / `voz-script` (Shorts)
+→ `voz-assets` → `voz-produce` → `voz-publish`. Video dài: soát `docs/longform-checklist.md`; chủ đề đã thẩm định: `docs/topics-long.md`.
 
 ## Cấu trúc
 ```
