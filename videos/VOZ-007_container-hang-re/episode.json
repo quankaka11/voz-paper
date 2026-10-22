@@ -656,7 +656,7 @@
             "text": "20 ĐÔ / NGÀY",
             "x": 960,
             "y": 430,
-            "size": 110,
+            "size": 80,
             "cue": "20 đô"
           },
           {
@@ -767,11 +767,11 @@
           {
             "kind": "photo",
             "src": "assets/mclean.jpg",
-            "x": 640,
-            "y": 470,
-            "w": 520,
-            "h": 520,
-            "caption": "McLean, thập niên 1950–60",
+            "x": 720,
+            "y": 390,
+            "w": 440,
+            "h": 440,
+            "caption": "Malcom McLean",
             "treat": "bw",
             "rot": -2
           },
@@ -1294,9 +1294,9 @@
           {
             "kind": "image",
             "src": "assets/twistlock-roi_cut.png",
-            "x": 1120,
-            "y": 520,
-            "w": 760,
+            "x": 1220,
+            "y": 500,
+            "w": 720,
             "treat": "color",
             "rot": -6,
             "cue": "khóa xoắn"
@@ -1304,7 +1304,7 @@
           {
             "kind": "label",
             "text": "Khóa xoắn",
-            "x": 420,
+            "x": 620,
             "y": 260,
             "color": "yellow",
             "font": "heavy",
@@ -1844,7 +1844,7 @@
             "y": 0.75,
             "r": 0.09,
             "label": "Xuống thẳng đầu kéo",
-            "cue": "đầu kéo"
+            "cue": "cẩu thẳng"
           }
         ],
         "credit": "SSG James I. Hatton, NARA (PD)",
@@ -2485,7 +2485,7 @@
           {
             "label": "Nội thành, 0–3 kg",
             "value": "21.000đ",
-            "cue": "21.000 đồng"
+            "cue": "nội thành"
           }
         ],
         "tone": "cream"
@@ -2594,9 +2594,9 @@
           {
             "kind": "stamp",
             "text": "≠ MIỄN PHÍ",
-            "x": 1300,
+            "x": 1340,
             "y": 380,
-            "size": 120,
+            "size": 88,
             "cue": "không có nghĩa"
           },
           {
