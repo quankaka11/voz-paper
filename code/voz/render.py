@@ -1,6 +1,7 @@
 """Gọi Remotion để render video/ảnh bìa, chuẩn hóa âm lượng, kiểm tra kỹ thuật và tạo contact sheet."""
 from __future__ import annotations
 
+import hashlib
 import json
 from fractions import Fraction
 import re
@@ -24,9 +25,105 @@ def remotion_render(props: Path, public_dir: Path, out: Path, scale: float = 1.0
     out.parent.mkdir(parents=True, exist_ok=True)
     cmd = [config.npx(), "remotion", "render", "src/index.ts", comp, str(out),
            f"--props={props}", f"--public-dir={public_dir}", "--log=warn"]
-    if scale != 1.0:
-        cmd += [f"--scale={scale}", "--crf=28"]
+    cmd += [f"--scale={scale}", "--crf=28"] if scale != 1.0 else ["--crf=18"]
     _run(cmd, cwd=config.STUDIO)
+
+
+SEG_FRAMES = 3600  # 2 phút/đoạn ở 30fps
+
+
+def _signature(props: Path, public_dir: Path, scale: float) -> str:
+    """Dấu vân tay của lần render: nội dung props + thời điểm sửa mới nhất của assets/audio/music + scale."""
+    h = hashlib.sha1(props.read_bytes() + f"|{scale}".encode())
+    for sub in ("assets", "audio", "music"):
+        d = public_dir / sub
+        if d.exists():
+            h.update(str(max((f.stat().st_mtime_ns for f in d.rglob("*") if f.is_file()), default=0)).encode())
+    return h.hexdigest()[:12]
+
+
+def remotion_render_parts(props: Path, public_dir: Path, out: Path, scale: float = 1.0, seg_frames: int = SEG_FRAMES) -> None:
+    """Render video dài theo đoạn: bundle một lần → mỗi đoạn `seg_frames` frame một file (không tiếng) → âm thanh
+    render riêng một lượt → nối bằng ffmpeg (không mã hóa lại hình). Đoạn đã xong được giữ lại: render hỏng giữa
+    chừng thì chạy lại lệnh sẽ tiếp từ đoạn dở. Tập ngắn (≤ 1,5 đoạn) render một lượt như cũ."""
+    props, public_dir, out = props.resolve(), public_dir.resolve(), out.resolve()  # remotion chạy ở thư mục studio
+    total = sum(s["durationInFrames"] for s in (config.load_json(props, {}) or {}).get("scenes", []))
+    if total <= seg_frames * 1.5:
+        remotion_render(props, public_dir, out, scale)
+        return
+    # thư mục tạm ngoài public dir (không bị bundle sao chép) và ngoài export/ (không lọt vào git)
+    work = config.ROOT / "build" / "render" / f"{public_dir.parent.name}_{out.stem}"
+    sig = _signature(props, public_dir, scale)
+    if (config.load_json(work / "manifest.json", {}) or {}).get("sig") != sig:
+        shutil.rmtree(work, ignore_errors=True)  # props/ảnh/giọng đã đổi → các đoạn cũ không còn đúng
+        work.mkdir(parents=True)
+        config.save_json(work / "manifest.json", {"sig": sig, "frames": total, "seg_frames": seg_frames})
+    bundle = work / "bundle"
+    if not (bundle / "index.html").exists():
+        _run([config.npx(), "remotion", "bundle", "src/index.ts", f"--out-dir={bundle}", f"--public-dir={public_dir}", "--log=warn"],
+             cwd=config.STUDIO)
+    common = [f"--props={props}", "--log=warn"] + ([f"--scale={scale}", "--crf=28"] if scale != 1.0 else ["--crf=18"])
+    ranges = [(a, min(a + seg_frames, total) - 1) for a in range(0, total, seg_frames)]
+    parts = []
+    for i, (a, b) in enumerate(ranges):
+        part = work / f"part_{i:02d}.mp4"
+        parts.append(part)
+        if part.exists():
+            print(f"  đoạn {i + 1}/{len(ranges)} (frame {a}–{b}) đã có, bỏ qua", flush=True)
+            continue
+        print(f"  đoạn {i + 1}/{len(ranges)} (frame {a}–{b})", flush=True)
+        tmp = work / f"part_{i:02d}.partial.mp4"
+        _run([config.npx(), "remotion", "render", str(bundle), "Episode", str(tmp), f"--frames={a}-{b}", "--muted", *common],
+             cwd=config.STUDIO)
+        tmp.replace(part)
+    audio = work / "audio.wav"
+    if not audio.exists():
+        print("  âm thanh (một lượt)", flush=True)
+        tmp = work / "audio.partial.wav"
+        _run([config.npx(), "remotion", "render", str(bundle), "Episode", str(tmp), "--codec=wav", f"--props={props}", "--log=warn"],
+             cwd=config.STUDIO)
+        tmp.replace(audio)
+    lst = work / "parts.txt"
+    lst.write_text("".join(f"file '{p.name}'\n" for p in parts), encoding="utf-8")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    _run([config.tool("ffmpeg"), "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio),
+          "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", "-b:a", "256k", "-movflags", "+faststart", str(out)])
+    shutil.rmtree(work, ignore_errors=True)
+
+
+def write_srt(props: Path, out: Path) -> Path | None:
+    """Phụ đề .srt từ timing giọng đọc (cùng cụm chữ với phụ đề trong hình) — tải lên YouTube làm phụ đề CC tiếng Việt."""
+    p = config.load_json(props, {}) or {}
+    fps = config.channel().get("fps", 30)
+    ts = lambda ms: f"{int(ms // 3600000):02d}:{int(ms // 60000) % 60:02d}:{int(ms // 1000) % 60:02d},{int(ms % 1000):03d}"
+    rows, start = [], 0
+    for sc in p.get("scenes", []):
+        off = start * 1000 / fps
+        caps = sc.get("captions") or []
+        for i, c in enumerate(caps):
+            end = min(c["endMs"] + 300, caps[i + 1]["startMs"]) if i + 1 < len(caps) else c["endMs"] + 300
+            rows.append((off + c["startMs"], off + end, re.sub(r"==|\*\*", "", c["text"])))
+        start += sc["durationInFrames"]
+    if not rows:
+        return None
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(f"{i}\n{ts(a)} --> {ts(b)}\n{t}\n" for i, (a, b, t) in enumerate(rows, 1)), encoding="utf-8")
+    return out
+
+
+def thumbnail_jpg(png: Path, limit_mb: float = 2.0) -> Path:
+    """YouTube nhận thumbnail ≤ 2MB: PNG quá giới hạn thì lưu thêm bản JPG cùng tên (giảm chất lượng tới khi vừa)."""
+    if png.stat().st_size <= limit_mb * 1e6:
+        return png
+    from PIL import Image
+
+    jpg = png.with_suffix(".jpg")
+    im = Image.open(png).convert("RGB")
+    for q in (92, 88, 84, 80, 75):
+        im.save(jpg, quality=q, optimize=True)
+        if jpg.stat().st_size <= limit_mb * 1e6:
+            break
+    return jpg
 
 
 def remotion_still(comp: str, props: Path | None, public_dir: Path | None, out: Path, frame: int = 0) -> None:

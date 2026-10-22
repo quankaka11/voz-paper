@@ -46,6 +46,7 @@ const SceneView: React.FC<{sc: Scene; tone: string}> = ({sc, tone}) => {
 export const Episode: React.FC<EpisodeProps> = ({
   scenes,
   music,
+  musicTracks,
   musicVolume = 0.08,
   showCaptions = true,
   showWatermark = true,
@@ -93,7 +94,14 @@ export const Episode: React.FC<EpisodeProps> = ({
         {scenes.map((sc, i) =>
           i > 0 && TRANSITION_SFX[trans[i]] ? <Sfx key={`ts${sc.id}`} name={TRANSITION_SFX[trans[i]]} at={Math.max(0, starts[i] - 2)} volume={0.9} /> : null,
         )}
-        {music ? (
+        {musicTracks?.length ? (
+          // nhạc theo chương: mỗi bài vào nhẹ 0,5s, nhỏ dần 1,2s cuối đoạn của nó
+          musicTracks.map((t, i) => (
+            <Sequence key={`m${i}`} from={t.from} durationInFrames={Math.max(1, t.to - t.from)} name={`nhạc · ${t.src}`}>
+              <Audio src={staticFile(t.src)} loop volume={(f) => (t.volume ?? musicVolume) * Math.min(1, f / 15, Math.max(0, (t.to - t.from - f) / 36))} />
+            </Sequence>
+          ))
+        ) : music ? (
           <Audio
             src={staticFile(music)}
             loop

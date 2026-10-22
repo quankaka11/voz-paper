@@ -91,6 +91,20 @@ def synthesize(text: str, out_mp3: Path, voice: str | None = None, speed: float 
     }
 
 
-def cache_key(text: str, voice: str, speed, caption_words) -> str:
-    raw = json.dumps([normalize(text), voice, speed, caption_words, config.lexicon()], ensure_ascii=False, sort_keys=True)
+def _key(parts: list) -> str:
+    raw = json.dumps(parts, ensure_ascii=False, sort_keys=True)
     return hashlib.sha1(raw.encode("utf-8")).hexdigest()[:16]
+
+
+def cache_key(text: str, voice: str, speed, caption_words) -> str:
+    """Khóa cache giọng đọc một cảnh. Chỉ tính các mục lexicon có xuất hiện trong câu (không phân biệt hoa thường)
+    → thêm từ mới vào lexicon không bắt TTS lại cả trăm cảnh của tập dài."""
+    t = normalize(text)
+    low = t.lower()
+    lex = {k: v for k, v in config.lexicon().items() if k.lower() in low}
+    return _key([t, voice, speed, caption_words, lex])
+
+
+def legacy_cache_key(text: str, voice: str, speed, caption_words) -> str:
+    """Khóa kiểu cũ (băm cả lexicon) — vẫn nhận để không phải tạo lại giọng của các tập đã dựng."""
+    return _key([normalize(text), voice, speed, caption_words, config.lexicon()])

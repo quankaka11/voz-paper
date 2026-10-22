@@ -39,10 +39,15 @@ def cmd_render(a):
     name = _out_name(ep)
     out = b / "draft.mp4" if a.draft else ep / "export" / f"{name}.mp4"
     out.unlink(missing_ok=True)  # render hỏng giữa chừng thì không để lại video cũ trông như bản mới
-    render.remotion_render(b / "props.json", b, out, scale=0.5 if a.draft else 1.0)
+    render.remotion_render_parts(b / "props.json", b, out, scale=0.5 if a.draft else 1.0)
     render.loudnorm(out)
     if not a.draft:
-        render.remotion_still("Cover", b / "cover.json", b, ep / "export" / f"{name}_cover.png")
+        cover = ep / "export" / f"{name}_cover.png"
+        render.remotion_still("Cover", b / "cover.json", b, cover)
+        render.thumbnail_jpg(cover)
+        srt = render.write_srt(b / "props.json", ep / "export" / f"{name}.vi.srt")
+        if srt:
+            print(f"→ phụ đề: {srt}")
     times, labels = render.scene_times(b / "props.json")
     sh = render.sheet(out, b / "sheet.jpg", times=times, labels=labels)  # mỗi cảnh một khung
     print(f"→ video: {out}\n→ contact sheet: {sh}")
@@ -61,7 +66,7 @@ def cmd_cover(a):
     episode.build(ep)
     out = ep / "export" / f"{_out_name(ep)}_cover.png"
     render.remotion_still("Cover", ep / "build" / "cover.json", ep / "build", out)
-    print(f"→ {out}")
+    print(f"→ {render.thumbnail_jpg(out)}")
 
 
 def cmd_check(a):
@@ -93,7 +98,7 @@ def cmd_brand(a):
 
 
 def cmd_new(a):
-    status.new(a.title, a.slug, a.series, a.topic)
+    status.new(a.title, a.slug, a.series, a.topic, a.format)
 
 
 def cmd_status(a):
@@ -191,6 +196,8 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--slug", help="mặc định sinh từ tiêu đề (không dấu)")
     s.add_argument("--series", choices=list(config.channel().get("series", {})))
     s.add_argument("--topic", help="số thứ tự chủ đề trong data/topics.md")
+    s.add_argument("--format", choices=config.FORMATS, default=config.channel().get("format", "short"),
+                   help="short = Shorts/TikTok 9:16 · long = YouTube video dài 16:9")
     s.set_defaults(fn=cmd_new)
 
     s = sub.add_parser("status", help="bảng mọi tập (+ cập nhật videos/INDEX.md) hoặc xem/đổi trạng thái 1 tập")

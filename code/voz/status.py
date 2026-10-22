@@ -48,7 +48,7 @@ def save(ep_dir: Path, meta: dict, event: str | None = None) -> None:
     write_index()
 
 
-def new(title: str, slug: str | None, series: str | None, topic: str | None) -> Path:
+def new(title: str, slug: str | None, series: str | None, topic: str | None, fmt: str = "short") -> Path:
     ch = config.channel()
     prefix = ch.get("id_prefix", "VOZ")
     nums = [int(m.group(1)) for d in config.VIDEOS.glob(f"{prefix}-*") if (m := re.match(rf"{prefix}-(\d+)", d.name))]
@@ -62,7 +62,7 @@ def new(title: str, slug: str | None, series: str | None, topic: str | None) -> 
     (ep_dir / "assets" / ".gitkeep").touch()
     (ep_dir / "export" / ".gitkeep").touch()
     fill = {"{ID}": ep_id, "{TITLE}": title, "{DATE}": dt.date.today().isoformat(),
-            "{SERIES}": ch.get("series", {}).get(series or "", "")}
+            "{SERIES}": ch.get("series", {}).get(series or "", ""), "{FORMAT}": fmt}
     for name in ("research.md", "script.md", "episode.json"):
         text = (config.TEMPLATES / name).read_text(encoding="utf-8")
         for k, v in fill.items():
@@ -70,7 +70,8 @@ def new(title: str, slug: str | None, series: str | None, topic: str | None) -> 
         (ep_dir / name).write_text(text, encoding="utf-8")
     config.save_json(ep_dir / "sources.json", [])
     meta = {
-        "id": ep_id, "slug": slug, "title": title, "series": series, "topic_ref": f"data/topics.md#{topic}" if topic else None,
+        "id": ep_id, "slug": slug, "title": title, "series": series, "format": fmt,
+        "topic_ref": f"data/topics.md#{topic}" if topic else None,
         "stage": "idea", "created": now(), "updated": now(), "duration_s": None,
         "files": {"video": f"export/{ep_id}_{slug}.mp4", "cover": f"export/{ep_id}_{slug}_cover.png"},
         "publish": {"title": title, "description": "", "hashtags": []},
@@ -139,14 +140,21 @@ def table() -> list[list[str]]:
         m = load(d)
         rows.append([
             m["id"], m["title"][:48], config.channel().get("series", {}).get(m.get("series") or "", "")[:22],
-            STAGE_VI.get(m.get("stage", "idea"), m.get("stage")), f"{m['duration_s']}s" if m.get("duration_s") else "—",
+            "Dài" if m.get("format") == "long" else "Short",
+            STAGE_VI.get(m.get("stage", "idea"), m.get("stage")), _dur(m.get("duration_s")),
             POST_VI[m["platforms"]["youtube"]["status"]], POST_VI[m["platforms"]["tiktok"]["status"]],
             str(_latest(m, "youtube", "views") or "—"), str(_latest(m, "tiktok", "views") or "—"),
         ])
     return rows
 
 
-HEAD = ["ID", "Tiêu đề", "Series", "Trạng thái", "Dài", "YouTube", "TikTok", "View YT", "View TT"]
+HEAD = ["ID", "Tiêu đề", "Series", "Dạng", "Trạng thái", "Thời lượng", "YouTube", "TikTok", "View YT", "View TT"]
+
+
+def _dur(sec) -> str:
+    if not sec:
+        return "—"
+    return f"{int(sec // 60)}:{int(sec % 60):02d}" if sec >= 60 else f"{sec}s"
 
 
 def print_table() -> None:
@@ -180,29 +188,57 @@ def write_index() -> None:
     (config.VIDEOS / "INDEX.md").write_text("\n".join(lines), encoding="utf-8")
 
 
-def _publish_warnings(pub: dict, title: str, tt_caption: str) -> list[str]:
-    """Kiểm nhanh gói đăng theo khuyến nghị nền tảng (độ dài tiêu đề, dòng đầu caption TikTok, số hashtag)."""
+def _publish_warnings(pub: dict, title: str, tt_caption: str, fmt: str = "short", chapters: list | None = None) -> list[str]:
+    """Kiểm nhanh gói đăng theo khuyến nghị nền tảng (độ dài tiêu đề, dòng đầu caption TikTok, số hashtag, chương)."""
     w = []
     tags = pub.get("hashtags") or []
     if not pub.get("description"):
         w.append("thiếu publish.description (mô tả YouTube)")
     if len(title) > 100:
         w.append(f"tiêu đề YouTube {len(title)} ký tự > 100")
-    elif len(title) > 60:
+    elif fmt == "short" and len(title) > 60:
         w.append(f"tiêu đề YouTube {len(title)} ký tự — trên 60 dễ bị cắt ở lưới Shorts")
+    elif fmt == "long" and len(title) > 70:
+        w.append(f"tiêu đề YouTube {len(title)} ký tự — trên ~70 bị cắt ở trang chủ/tìm kiếm")
     if not 3 <= len(tags) <= 5:
         w.append(f"{len(tags)} hashtag — nên 3–5")
     first = tt_caption.splitlines()[0] if tt_caption else ""
-    if len(first) > 90:
+    if fmt == "short" and len(first) > 90:
         w.append(f"dòng đầu caption TikTok {len(first)} ký tự — chỉ ~80–90 ký tự đầu hiện trước nút 'thêm'")
     if not pub.get("pinned_comment"):
         w.append("thiếu publish.pinned_comment (bình luận ghim câu hỏi A/B)")
+    if fmt == "long" and len(chapters or []) < 3:
+        w.append("dưới 3 mốc chương — đánh dấu chương trong episode.json (cảnh `chapter` hoặc trường \"chapter\")")
     return w
 
 
+# Khung trống trên màn hình kết thúc 16:9 — trùng END_SLOTS trong code/studio/src/scenes/BrandScenes.tsx
+END_SLOTS = [{"x": 1000, "y": 150, "w": 800, "h": 450}, {"x": 1080, "y": 650, "w": 560, "h": 315}]
+
+
+def _chapter_lines(ep_dir: Path) -> list[str]:
+    """Dòng mốc chương cho mô tả YouTube ("0:00 Mở đầu") từ build/props.json; luôn bắt đầu bằng 0:00."""
+    p = config.load_json(ep_dir / "build" / "props.json", {}) or {}
+    fps = config.channel().get("fps", 30)
+    chs = p.get("chapters") or []
+    if not chs:
+        return []
+    marks = ([] if chs[0]["frame"] == 0 else [(0, "Mở đầu")]) + [(c["frame"], c["title"]) for c in chs]
+    out = []
+    for f, t in marks:
+        s = int(f // fps)
+        stamp = f"{s // 3600}:{s // 60 % 60:02d}:{s % 60:02d}" if s >= 3600 else f"{s // 60}:{s % 60:02d}"
+        out.append(f"{stamp} {re.sub(r'==|[*][*]', '', t)}")
+    return out
+
+
 def publish_kit(ep_dir: Path) -> Path:
-    """export/publish.md: ảnh bìa, tiêu đề, mô tả, caption, hashtag, bình luận ghim, nguồn, checklist cho từng nền tảng."""
+    """export/publish.md: ảnh bìa, tiêu đề, mô tả, caption, hashtag, bình luận ghim, nguồn, checklist cho từng nền tảng.
+    Định dạng long: mô tả có mốc chương, phụ đề .srt, vị trí phần tử màn hình kết thúc; không #Shorts, không mục TikTok."""
+    from .episode import format_of
+
     meta = load(ep_dir)
+    fmt = format_of(ep_dir)
     pub = meta.get("publish", {})
     sources = config.load_json(ep_dir / "sources.json", [])
     tags = pub.get("hashtags") or []
@@ -213,28 +249,88 @@ def publish_kit(ep_dir: Path) -> Path:
                   f"{'; đã chỉnh: ' + s['modified'] if s.get('modified') else ''}) {s.get('url')}" for s in img_src]
     # nhạc nền CC BY bắt buộc ghi công: lấy dòng credit từ brand/music/credits.json theo tên file trong episode.json
     music = (config.load_json(ep_dir / "episode.json", {}) or {}).get("music", config.channel().get("music"))
+    files = [music] if isinstance(music, str) else [t.get("src") for t in (music or []) if t.get("src")]
     credits = config.load_json(config.ROOT / "brand" / "music" / "credits.json", {}) or {}
-    music_line = (credits.get(Path(music).name) or {}).get("credit") if music else None
-    if music and not music_line:
-        print(f"  ⚠ nhạc {music} chưa có dòng ghi công trong brand/music/credits.json")
+    music_lines = []
+    for m in files:
+        line = (credits.get(Path(m).name) or {}).get("credit")
+        if line:
+            music_lines.append(line)
+        else:
+            print(f"  ⚠ nhạc {m} chưa có dòng ghi công trong brand/music/credits.json")
     ch = config.channel()
     title = pub.get("title") or meta["title"]
     desc = pub.get("description", "").strip()
-    follow = f"🔔 Theo dõi {ch.get('channel', 'VOZ STORY')} ({ch.get('handle', '')}) — {ch.get('tagline', '')}".strip()
-    credit_lines = [*src_lines, f"- Nhạc: {music_line}" if music_line else ""]
-    blocks = [desc, follow, "\n".join(["Nguồn:", *filter(None, credit_lines)]) if any(credit_lines) else "", " ".join(["#Shorts", *tags])]
+    name = ep_dir.name
+    chapters = _chapter_lines(ep_dir) if fmt == "long" else []
+    verb = "Đăng ký" if fmt == "long" else "Theo dõi"
+    follow = f"🔔 {verb} {ch.get('channel', 'VOZ STORY')} ({ch.get('handle', '')}) — {ch.get('tagline', '')}".strip()
+    credit_lines = [*src_lines, *(f"- Nhạc: {m}" for m in music_lines)]
+    blocks = [
+        desc,
+        "\n".join(["Mục lục:", *chapters]) if chapters else "",
+        follow,
+        "\n".join(["Nguồn:", *credit_lines]) if credit_lines else "",
+        " ".join((["#Shorts"] if fmt == "short" else []) + tags),
+    ]
     yt_desc = "\n\n".join(b for b in blocks if b)
     tt_caption = "\n".join(filter(None, [pub.get("tiktok_caption") or title, " ".join(tags)]))
-    if music_line:
-        tt_caption += f"\nNhạc: {music_line}"
+    if music_lines:
+        tt_caption += "".join(f"\nNhạc: {m}" for m in music_lines)
     pinned = pub.get("pinned_comment", "").strip()
-    warns = _publish_warnings(pub, title, tt_caption)
-    name = ep_dir.name
-    md = f"""# {meta['id']} — gói đăng bài
+    warns = _publish_warnings(pub, title, tt_caption, fmt, chapters)
+    dur = meta.get("duration_s")
+    dur_txt = (f"{int(dur // 60)}:{int(dur % 60):02d}" if dur else "?") if fmt == "long" else f"{dur or '?'}s"
+    cover = next((f"export/{name}_cover.{e}" for e in ("jpg", "png") if (ep_dir / "export" / f"{name}_cover.{e}").exists()),
+                 f"export/{name}_cover.png")
+    warn_md = "".join(f"- ⚠ {w}\n" for w in warns)
+    after = f"""## Sau khi đăng
+```
+python voz.py post {meta['id']} youtube --url <link>
+{"python voz.py post " + meta['id'] + " tiktok --url <link>" + chr(10) if fmt == "short" else ""}python voz.py metrics {meta['id']} youtube --views N --likes N --comments N --avg-view-pct N   # sau 48h và 7 ngày
+```
+"""
+    if fmt == "long":
+        pct = lambda sl: f"trái {sl['x'] / 19.2:.0f}%, trên {sl['y'] / 10.8:.0f}%, rộng {sl['w'] / 19.2:.0f}%"
+        md = f"""# {meta['id']} — gói đăng bài (video dài 16:9)
 
-- Video: `export/{name}.mp4` ({meta.get('duration_s') or '?'}s)
-- Ảnh bìa (thumbnail): `export/{name}_cover.png` (1080×1920)
-{"".join(f"- ⚠ {w}" + chr(10) for w in warns)}
+- Video: `export/{name}.mp4` ({dur_txt})
+- Ảnh thu nhỏ: `{cover}` (1280×720, ≤ 2MB)
+- Phụ đề: `export/{name}.vi.srt` (tiếng Việt)
+{warn_md}
+## YouTube
+**Tiêu đề** ({len(title)}/100 ký tự, nên ≤ 70):
+```
+{title}
+```
+**Mô tả:**
+```
+{yt_desc}
+```
+**Bình luận ghim:**
+```
+{pinned}
+```
+- [ ] Ảnh thu nhỏ: Tải lên `{cover}`
+- [ ] Phụ đề: Phụ đề → Thêm ngôn ngữ **Tiếng Việt** → Tải tệp lên (có thời gian) → `{name}.vi.srt`
+- [ ] Mốc chương: đã nằm trong mô tả (dòng đầu phải là 0:00, ≥ 3 chương, mỗi chương ≥ 10s)
+- [ ] Màn hình kết thúc (20s cuối) — đặt phần tử chồng lên khung giấy trống trong video:
+  - Video "Video gần đây nhất / Phù hợp nhất với người xem": {pct(END_SLOTS[0])}
+  - Video hoặc Danh sách phát series: {pct(END_SLOTS[1])}
+  - "Đăng ký": chồng lên logo tròn bên trái
+- [ ] Thẻ (cards): 1–2 thẻ trỏ tới tập liên quan ở đoạn nhắc tới
+- [ ] Danh sách phát series · Danh mục: **Giáo dục** · Ngôn ngữ video: Tiếng Việt
+- [ ] "Altered or synthetic content": **Không** (collage/hoạt họa/giọng TTS không phải khai báo); **Có** nếu dùng ảnh AI dựng lại sự kiện thật trông như thật
+- [ ] Shorts cắt từ tập này: mỗi Short gắn **Video liên quan** (Related video) trỏ về video này
+- [ ] Ghim bình luận
+
+{after}"""
+    else:
+        md = f"""# {meta['id']} — gói đăng bài
+
+- Video: `export/{name}.mp4` ({dur_txt})
+- Ảnh bìa (thumbnail): `{cover}` (1080×1920)
+{warn_md}
 ## YouTube Shorts
 **Tiêu đề** ({len(title)}/100 ký tự, nên ≤ 60):
 ```
@@ -250,6 +346,7 @@ def publish_kit(ep_dir: Path) -> Path:
 ```
 - [ ] Ảnh bìa: trong app YouTube (Tải lên → Chỉnh sửa ảnh thu nhỏ) chọn tải ảnh `_cover.png` nếu tài khoản có tùy chọn này; nếu chỉ cho chọn khung hình thì chọn khung rõ chữ nhất
 - [ ] Thêm vào playlist series · [ ] "Altered or synthetic content": **Không** (animation/TTS không cần khai báo) · [ ] Ghim bình luận
+- [ ] Nếu Short này cắt từ một video dài: gắn **Video liên quan** (Related video) trỏ về video dài
 
 ## TikTok
 **Caption** (dòng đầu là hook — chỉ ~80–90 ký tự đầu hiện trước nút "thêm"):
@@ -263,13 +360,7 @@ def publish_kit(ep_dir: Path) -> Path:
 - [ ] Ảnh bìa: "Chọn ảnh bìa" → **Tải lên** `_cover.png` (chữ đã nằm trong vùng 3:4 giữa ảnh nên lưới hồ sơ không cắt mất)
 - [ ] Bật bình luận · [ ] Ghim bình luận câu hỏi A/B
 
-## Sau khi đăng
-```
-python voz.py post {meta['id']} youtube --url <link>
-python voz.py post {meta['id']} tiktok --url <link>
-python voz.py metrics {meta['id']} youtube --views N --likes N --comments N --avg-view-pct N   # sau 48h và 7 ngày
-```
-"""
+{after}"""
     out = ep_dir / "export" / "publish.md"
     out.parent.mkdir(exist_ok=True)
     out.write_text(md, encoding="utf-8")

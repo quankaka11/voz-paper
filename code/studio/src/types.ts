@@ -23,6 +23,10 @@ export type EpisodeProps = {
   format?: string | null;
   brand: {name: string; handle: string};
   music?: string | null;
+  /** nhạc đổi theo chương (build tính sẵn frame): thay cho `music` khi có */
+  musicTracks?: {src: string; from: number; to: number; volume?: number}[];
+  /** mốc chương (cho publish-kit / render theo đoạn) — Remotion không dùng */
+  chapters?: {title: string; scene: string; frame: number}[];
   musicVolume?: number;
   showCaptions?: boolean;
   showWatermark?: boolean;

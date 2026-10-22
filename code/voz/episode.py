@@ -157,6 +157,51 @@ def _with_brand_scenes(spec: dict, ch: dict, meta: dict, fmt: str = "short") -> 
     return scenes
 
 
+def _copy_music(music: str, build_dir: Path) -> str:
+    src = (config.ROOT / music) if not Path(music).is_absolute() else Path(music)
+    if not src.exists():
+        raise SystemExit(f"Không thấy nhạc nền {src}")
+    (build_dir / "music").mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src, build_dir / "music" / src.name)
+    return f"music/{src.name}"
+
+
+def _music(music, scenes: list[dict], build_dir: Path) -> tuple[str | None, list[dict]]:
+    """Nhạc nền: một file cho cả tập ("music": "brand/music/x.mp3"), hoặc đổi theo chương —
+    "music": [{"from": "s01", "src": "brand/music/a.mp3"}, {"from": "c2", "src": "…", "volume": 0.1}]
+    (mỗi bài chạy từ cảnh `from` tới bài kế tiếp; "src": null = lặng). Trả (music, musicTracks)."""
+    if not music:
+        return None, []
+    if isinstance(music, str):
+        return _copy_music(music, build_dir), []
+    starts, acc = {}, 0
+    for s in scenes:
+        starts[s["id"]] = acc
+        acc += s["durationInFrames"]
+    tracks = []
+    for t in music:
+        if t.get("from") not in starts:
+            raise SystemExit(f"music: không có cảnh '{t.get('from')}'")
+        tracks.append({"src": _copy_music(t["src"], build_dir) if t.get("src") else None, "from": starts[t["from"]],
+                       **({"volume": t["volume"]} if "volume" in t else {})})
+    tracks.sort(key=lambda t: t["from"])
+    for i, t in enumerate(tracks):
+        t["to"] = tracks[i + 1]["from"] if i + 1 < len(tracks) else acc
+    return None, [t for t in tracks if t["src"]]
+
+
+def _chapter_warnings(chapters: list[dict], total_frames: float, fps: int) -> list[str]:
+    """Luật chương của YouTube: ≥ 3 chương, mỗi chương ≥ 10s (mốc 0:00 do publish-kit tự thêm nếu thiếu)."""
+    w = []
+    marks = ([0] if chapters[0]["frame"] > 0 else []) + [c["frame"] for c in chapters]
+    if len(marks) < 3:
+        w.append(f"chỉ {len(marks)} mốc chương — YouTube cần ≥ 3 chương để hiện chapters")
+    for a, b in zip(marks, marks[1:] + [total_frames]):
+        if (b - a) / fps < 10:
+            w.append(f"chương bắt đầu ở {a / fps:.0f}s chỉ dài {(b - a) / fps:.1f}s < 10s — YouTube sẽ bỏ qua chapters")
+    return w
+
+
 def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
     ch = config.channel()
     fps = ch.get("fps", 30)
@@ -172,7 +217,7 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
     cw = spec.get("caption_words") or ch.get("caption_words", 5)
     pad = spec.get("pad", ch.get("scene_pad_seconds", 0.35))
 
-    scenes, rows, warns = [], [], []
+    scenes, rows, warns, chapters = [], [], [], []
     seen = set()
     for i, sc in enumerate(_with_brand_scenes(spec, ch, meta, fmt)):
         sid = sc.get("id") or f"s{i + 1:02d}"
@@ -197,8 +242,11 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
             cache_f = build_dir / "tts" / f"{sid}.json"
             key = tts.cache_key(vo, voice, speed, cw)
             cached = config.load_json(cache_f)
-            if not force_tts and cached and cached.get("key") == key and mp3.exists():
+            if not force_tts and cached and mp3.exists() and cached.get("key") in (key, tts.legacy_cache_key(vo, voice, speed, cw)):
                 res = cached
+                if res.get("key") != key:  # chuyển sang khóa mới, giữ nguyên audio
+                    res["key"] = key
+                    config.save_json(cache_f, res)
             else:
                 print(f"  TTS {sid} …", flush=True)
                 res = tts.synthesize(vo, mp3, voice=voice, speed=speed, caption_words=cw, verify=verify)
@@ -213,6 +261,9 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
         seconds = (dur_ms / 1000 + sc.get("pad", pad)) if dur_ms else float(sc.get("duration", 2.5))
         seconds = max(seconds, float(sc.get("min_duration", 0)))
         frames = math.ceil(seconds * fps)
+        chapter = sc.get("chapter") or (props.get("title") if sc["type"] == "chapter" else None)
+        if chapter:
+            chapters.append({"title": chapter, "scene": sid, "frame": sum(s["durationInFrames"] for s in scenes)})
         scenes.append({
             "id": sid, "type": sc["type"], "durationInFrames": frames, "audio": audio, "captions": captions,
             "source": sc.get("source"), "illustrative": bool(sc.get("illustrative")), "transition": sc.get("transition"),
@@ -221,19 +272,12 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
         rows.append((sid, sc["type"], frames / fps, len(vo.split())))
 
     _sync_tree(ep_dir / "assets", build_dir / "assets")
-    music = spec.get("music", ch.get("music"))  # "music": null trong episode.json = tắt nhạc
-    if music:
-        src = (config.ROOT / music) if not Path(music).is_absolute() else Path(music)
-        if not src.exists():
-            raise SystemExit(f"Không thấy nhạc nền {src}")
-        (build_dir / "music").mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, build_dir / "music" / src.name)
-        music = f"music/{src.name}"
+    music, tracks = _music(spec.get("music", ch.get("music")), scenes, build_dir)  # "music": null = tắt nhạc
 
     brand = {"name": ch.get("channel", "VOZ STORY"), "handle": ch.get("handle", "")}
     props = {
         "id": meta.get("id", ep_dir.name), "title": meta.get("title", ""), "format": fmt, "brand": brand,
-        "music": music, "musicVolume": spec.get("music_volume", ch.get("music_volume", 0.08)),
+        "music": music, "musicTracks": tracks, "chapters": chapters, "musicVolume": spec.get("music_volume", ch.get("music_volume", 0.08)),
         "showCaptions": spec.get("captions", fc["captions"]), "showWatermark": spec.get("watermark", True),
         "tone": spec.get("tone") or ch.get("tone"), "sfx": spec.get("sfx", ch.get("sfx", True)),
         "sfxVolume": spec.get("sfx_volume", ch.get("sfx_volume", 1.0)), "grain": spec.get("grain", ch.get("grain", 1.0)),
@@ -248,6 +292,8 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
     config.save_json(build_dir / "cover.json", cover)
 
     total = sum(r[2] for r in rows)
+    if chapters:
+        warns += _chapter_warnings(chapters, total * fps, fps)
     print(f"\n{'cảnh':<6}{'loại':<11}{'giây':>6}  {'từ':>4}")
     for sid, typ, sec, words in rows:
         print(f"{sid:<6}{typ:<11}{sec:>6.1f}  {words:>4}")
