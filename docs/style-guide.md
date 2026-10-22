@@ -80,3 +80,37 @@ cần kiểm chứng bằng biểu đồ retention của chính kênh ([klap.app
   thì đặt `outlet` là "HỒ SƠ VOZ · …" để không bị hiểu là báo thật.
 - Ảnh người thật: không đặt vào vai tiêu cực; không ghép người thật với thông điệp họ không nói.
 - Mọi ảnh trong `sources.json` (xem skill `voz-assets`); ghi công CC BY trong mô tả.
+
+## 7. Khung ngang 16:9 — video dài (bản 4, 22/10/2026)
+Cùng chất liệu cắt dán, nhưng video dài cần **nhịp thở** và **bằng chứng** nhiều hơn Shorts. Mẫu đủ cảnh: `code/samples/long-test`.
+Checklist nội dung đầy đủ: `docs/longform-checklist.md`.
+
+**Bố cục**
+- Toạ độ lớp theo khung **1920×1080**. Chữ quan trọng trong x 120–1800, y 70–1010; ảnh/vật thể được tràn mép.
+- Khung ngang rộng → **bố cục 2 cột** là mặc định: chữ/nhãn một bên, hình một bên (cảnh dựng sẵn tự chia khi có tiêu đề).
+  Collage: chia khung thành 2–3 "vùng" (vd chân dung trái — vật thể giữa — nhãn phải) thay vì xếp chồng dọc như Shorts.
+- Dòng chữ không chạy hết bề ngang: tiêu đề tối đa ~60% bề rộng; nhãn ≤ 7 từ như cũ.
+- Góc dưới-trái dành cho lower third (`props.lower`); dải y ≈ 900–1000 dành cho phụ đề nếu bật — đừng đặt nhãn quan trọng ở đó.
+- 20s cuối là màn hình kết thúc: khung phải có 2 ô trống cho phần tử YouTube — không thêm gì đè lên.
+
+**Nhịp**
+- Không khung nào đứng yên quá 5–6 giây (Shorts: 1,5–3 giây). Video dài được phép chậm hơn ở đoạn giải thích, nhưng phải có chuyển động
+  nhỏ (lớp mới theo `cue`, máy lia, đường kẻ dần).
+- Mỗi 60–90 giây một **nhịp giữ chân**: đổi nền, thẻ chương, bản đồ, tư liệu thật, con số lớn, hoặc khoảng lặng trước cú lật.
+- Mỗi chương nên có **một tông nền riêng** (vd chương lịch sử `cream`/`sepia`, chương hôm nay `charcoal`, chương số liệu `grid`).
+
+**Bằng chứng trước, minh họa sau**
+| Nhịp video dài | Công thức |
+|---|---|
+| Cold open (0–30s) | tư liệu/vật thể thật + câu hỏi trung tâm bằng nhãn giấy; chứng minh tiêu đề trong 10 giây |
+| Mở chương | `chapter`: số poster + tên chương + (ảnh tách nền của nhân vật/vật thể chương đó) |
+| Nhân vật lịch sử | chân dung `bw` dán băng dính + `lower` (tên, vai trò, năm sinh–mất) + `timeline` khi cần đặt vào bối cảnh |
+| Tư liệu gốc | `callout`: ảnh lưu trữ in giấy, vòng tròn vàng khoanh chi tiết, nhãn đánh máy — mỗi chương lịch sử ≥ 1 lần |
+| Diễn biến theo thời gian | `timeline` (sự kiện) hoặc `lineChart` (số liệu); ghi `source` |
+| Địa lý / chuỗi cung ứng | `map` nhìn rộng → zoom theo lời → tuyến nét đứt; có Việt Nam là có Hoàng Sa, Trường Sa |
+| Phim tư liệu | `footage` style `print` (khung phim trên giấy) — ngắn 3–6 giây, tắt tiếng gốc, ghi nguồn |
+| Lời người thật | `quote` (nguyên văn có nguồn) hoặc `document` (bút dạ quang quét câu chính) |
+| Kết | trả lời + `question` A/B → màn hình kết thúc tự chèn |
+
+**Ảnh AI:** không dùng làm tư liệu hay "ảnh lịch sử" — người xem kênh giải thích tin vào hình là bằng chứng. Chỉ dùng cho nền, texture,
+ảnh bìa cách điệu; dựng lại sự kiện thật trông như thật thì phải khai báo nội dung tổng hợp trên YouTube.

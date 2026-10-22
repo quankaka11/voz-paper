@@ -2,12 +2,19 @@
 
 ## Hiện tại
 
-- Giọng mặc định: **`nam_bac_tram`** (ZipVoice — nam Bắc, trầm ~125 Hz, nhịp tốt). Đổi ở `config/channel.json`.
+- Giọng kênh: **`blv`** — giọng clone của một thành viên trong đội (ZipVoice). Đổi ở `config/channel.json` (`voice`).
+  Giọng dự phòng có sẵn trên server: `nam_bac_tram` (nam Bắc, trầm ~125 Hz). Không clone giọng người ngoài đội.
 - Nghe thử: `python voz.py say "câu bất kỳ"` → `build/say.mp3`. Xem server sẽ đọc thế nào: thêm `--dry`.
 - Từ đọc sai → thêm vào `config/lexicon.json` (vd `"Shopee": "sốp pi"`).
 - Chuẩn hóa tự động trong `code/voz/tts.py`: `39.000đ` → "đồng", `39K` → "nghìn", `m²` → "mét vuông", `quý I/2026` → "quý một năm 2026".
 
 ## Viết lời cho TTS
+
+**Video dài (10–14 phút):** đo thực tế giọng `blv` ≈ 3,5–4,5 âm tiết/giây (gồm nghỉ giữa cảnh) → 12 phút ≈ 2.800–3.200 âm tiết.
+Chống đều đều: chia lời thành cảnh 4–10 giây, đặt khoảng lặng (cảnh không lời 0,5–1s hoặc `pad`) trước cú lật, đổi nhạc theo chương.
+Tên nước ngoài: đọc theo cách quen của người Việt (Mỹ, Pháp, "Mắc-Lin"), thêm vào `config/lexicon.json`, hiện chữ gốc trên lower third.
+
+**Shorts:**
 
 - Nhịp mục tiêu **≈ 5 âm tiết/giây** → video 55s ≈ 250–290 âm tiết lời đọc (đã trừ khoảng nghỉ giữa cảnh).
 - Câu ngắn, mỗi câu một ý. Dấu chấm tạo ngắt nghỉ; dấu phẩy tạo nhịp.
