@@ -46,6 +46,16 @@
     },
     "transition": "sheet",
     "min_duration": 4.5,
-    "tagline": true
+    "tagline": true,
+    "long": {
+      "_note": "Ghi đè cho định dạng long: màn hình kết thúc YouTube ≥ 20s, chừa 2 khung cho phần tử Video (toạ độ trong publish.md).",
+      "vo": "Bình luận ý kiến của bạn ngay bên dưới. Nếu thấy hữu ích, hãy đăng ký {channel}, và xem tiếp một câu chuyện khác ngay trên màn hình nhé.",
+      "vo_ab": "Bình luận lựa chọn của bạn ngay bên dưới. Nếu thấy hữu ích, hãy đăng ký {channel}, và xem tiếp một câu chuyện khác ngay trên màn hình nhé.",
+      "cta": "Đăng ký",
+      "cta_done": "Đã đăng ký",
+      "cues": {"comment": "bình luận", "follow": "đăng ký", "bell": "xem tiếp"},
+      "min_duration": 20,
+      "slots": ["Xem tiếp", "Tập khác"]
+    }
   }
 }

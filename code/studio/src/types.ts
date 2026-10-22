@@ -55,6 +55,10 @@ export type CoverProps = {
   lines?: (string | {text: string; color?: string})[];
   tone?: string;
   treat?: string;
+  /** chỉ bản 16:9: mảng giấy màu xé chéo sau vật thể ('red' | 'yellow' | 'navy' | 'teal' | false) */
+  panel?: string | false;
+  /** short (1080×1920) | long (thumbnail 1280×720) */
+  format?: string | null;
   episodeNo?: string;
   brand: {name: string; handle: string};
 };

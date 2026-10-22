@@ -99,9 +99,11 @@ def _sync_tree(src: Path, dst: Path):
                 shutil.copy2(f, t)
 
 
-def _brand_conf(ch: dict, spec: dict, key: str) -> dict | None:
-    """Cấu hình intro/outro: channel.json > key, ghi đè bằng episode.json > key; `false` (hoặc enabled: false) = tắt."""
-    conf = ch.get(key) or {}
+def _brand_conf(ch: dict, spec: dict, key: str, fmt: str = "short") -> dict | None:
+    """Cấu hình intro/outro: channel.json > key ← channel.json > key > <format> ← episode.json > key;
+    `false` (hoặc enabled: false) = tắt."""
+    conf = {k: v for k, v in (ch.get(key) or {}).items() if k not in config.FORMATS}
+    conf.update((ch.get(key) or {}).get(fmt) or {})
     over = spec.get(key)
     if over is False:
         return None
@@ -109,13 +111,13 @@ def _brand_conf(ch: dict, spec: dict, key: str) -> dict | None:
     return None if merged.get("enabled") is False else merged
 
 
-def _with_brand_scenes(spec: dict, ch: dict, meta: dict) -> list[dict]:
+def _with_brand_scenes(spec: dict, ch: dict, meta: dict, fmt: str = "short") -> list[dict]:
     """Chèn cảnh `intro` sau hook (mặc định sau cảnh 1) và `outro` ở cuối — trừ khi episode.json đã tự có cảnh loại đó."""
     scenes = [dict(sc) for sc in spec["scenes"]]
     types = {sc.get("type") for sc in scenes}
     name = ch.get("channel", "VOZ STORY")
     ep_no = re.sub(r"\D", "", meta.get("id", ""))[-2:] or None
-    intro = _brand_conf(ch, spec, "intro")
+    intro = _brand_conf(ch, spec, "intro", fmt)
     if intro and "intro" not in types:
         topic = (intro.get("topic") or "").strip()
         vo = (intro.get("vo") if topic else intro.get("vo_plain")) or ""
@@ -132,7 +134,7 @@ def _with_brand_scenes(spec: dict, ch: dict, meta: dict) -> list[dict]:
         if intro.get("min_duration"):
             sc["min_duration"] = intro["min_duration"]
         scenes.insert(min(int(intro.get("after", 1)), len(scenes)), sc)
-    outro = _brand_conf(ch, spec, "outro")
+    outro = _brand_conf(ch, spec, "outro", fmt)
     if outro and "outro" not in types:
         last = scenes[-1] if scenes else {}
         has_ab = last.get("type") == "question" and len((last.get("props") or {}).get("options") or []) >= 2
@@ -143,6 +145,8 @@ def _with_brand_scenes(spec: dict, ch: dict, meta: dict) -> list[dict]:
             "cta": outro.get("cta", "Theo dõi"), "ctaDone": outro.get("cta_done", "Đã theo dõi"),
             "tagline": ch.get("tagline") if outro.get("tagline", True) else None, "cues": cues,
         }
+        if outro.get("slots"):
+            props["slots"] = outro["slots"]
         vo = (outro.get("vo_ab") if has_ab else None) or outro.get("vo", "")
         sc = {"id": "outro", "type": "outro", "vo": vo.format(channel=name).strip(),
               "transition": outro.get("transition", "sheet"), "props": props, "min_duration": outro.get("min_duration", 4.5)}
@@ -170,7 +174,7 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
 
     scenes, rows, warns = [], [], []
     seen = set()
-    for i, sc in enumerate(_with_brand_scenes(spec, ch, meta)):
+    for i, sc in enumerate(_with_brand_scenes(spec, ch, meta, fmt)):
         sid = sc.get("id") or f"s{i + 1:02d}"
         if sid in seen:
             raise SystemExit(f"Trùng id cảnh: {sid}")

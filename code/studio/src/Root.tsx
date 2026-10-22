@@ -31,7 +31,17 @@ export const RemotionRoot: React.FC = () => (
         return {durationInFrames: Math.max(1, total), width: f.width, height: f.height};
       }}
     />
-    <Still id="Cover" component={Cover as unknown as React.FC<Record<string, unknown>>} width={1080} height={1920} defaultProps={demoCover as unknown as Record<string, unknown>} />
+    <Still
+      id="Cover"
+      component={Cover as unknown as React.FC<Record<string, unknown>>}
+      width={1080}
+      height={1920}
+      defaultProps={demoCover as unknown as Record<string, unknown>}
+      // long: thumbnail YouTube 1280×720 (giới hạn 2MB — render.py tự nén JPG nếu cần)
+      calculateMetadata={({props}: {props: Record<string, unknown>}) =>
+        (props as unknown as CoverProps).format === 'long' ? {width: 1280, height: 720} : {width: 1080, height: 1920}
+      }
+    />
     <Still id="LogoMark" component={BrandMark as unknown as React.FC<Record<string, unknown>>} width={800} height={800} defaultProps={{variant: 'mark', bg: false}} />
     <Still id="LogoFull" component={BrandMark as unknown as React.FC<Record<string, unknown>>} width={640} height={260} defaultProps={{variant: 'full', bg: false}} />
     <Still id="LogoFullDark" component={BrandMark as unknown as React.FC<Record<string, unknown>>} width={640} height={260} defaultProps={{variant: 'full', dark: true, bg: true}} />
