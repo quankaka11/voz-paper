@@ -1,0 +1,21 @@
+{
+  "_note": "{ID} — {TITLE}. Video dài 16:9. Định dạng: docs/scene-types.md. Viết bằng skill voz-script-long; mẫu đủ cảnh: code/samples/long-test.",
+  "format": "{FORMAT}",
+  "intro": {"topic": "", "label": ""},
+  "cover": {"kicker": "{SERIES}", "headline": "", "lines": ["{TITLE}"], "image": null, "panel": "red", "stamp": null, "arrow": false},
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "collage",
+      "vo": "",
+      "props": {"layers": []}
+    },
+    {
+      "id": "c1",
+      "type": "chapter",
+      "transition": "tear",
+      "vo": "",
+      "props": {"title": ""}
+    }
+  ]
+}

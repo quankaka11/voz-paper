@@ -177,6 +177,30 @@ def pick(ep_dir: Path, key: str, name: str) -> Path:
     return dst
 
 
+def add_manual(ep_dir: Path, file: str, name: str | None, title: str, author: str, license: str, url: str,
+               kind: str | None = None) -> Path:
+    """Đưa ảnh/phim tải tay (NARA, Library of Congress, Prelinger, Europeana… — các kho chặn tải tự động) vào assets/
+    và ghi nguồn. License NC/ND bị từ chối như với `img search`."""
+    if BLOCKED.search(license):
+        raise SystemExit(f"License '{license}' không cho dùng thương mại/chỉnh sửa — không dùng được")
+    src = Path(file)
+    if not src.exists():
+        raise SystemExit(f"Không thấy file {src}")
+    dst = ep_dir / "assets" / f"{name or src.stem}{src.suffix.lower()}"
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    if src.resolve() != dst.resolve():
+        shutil.copy2(src, dst)
+    kind = kind or ("video" if dst.suffix in (".mp4", ".mov", ".webm") else "image")
+    free = re.search(r"public domain|\bpd\b|pdm|cc0|no known (copyright )?restrictions", license, re.I)
+    add_source(ep_dir, {
+        "type": kind, "file": f"assets/{dst.name}", "title": title, "author": author, "license": license,
+        "license_url": None, "url": url, "via": "manual", "attribution_required": not free,
+        "retrieved": dt.date.today().isoformat(),
+    })
+    print(f"→ {dst.relative_to(ep_dir)}  ({license}; nguồn: {url})")
+    return dst
+
+
 def add_source(ep_dir: Path, entry: dict) -> None:
     f = ep_dir / "sources.json"
     data = config.load_json(f, [])

@@ -89,6 +89,8 @@ def cmd_img(a):
         assets.pick(ep, a.key, a.name)
     elif a.img_cmd == "cutout":
         assets.cutout(ep, a.file, a.model)
+    elif a.img_cmd == "add":
+        assets.add_manual(ep, a.file, a.name, a.title, a.author, a.license, a.url)
 
 
 def cmd_brand(a):
@@ -187,6 +189,14 @@ def build_parser() -> argparse.ArgumentParser:
     i.add_argument("ep")
     i.add_argument("file", help="đường dẫn trong thư mục tập, vd assets/nha.jpg")
     i.add_argument("--model", default="isnet-general-use")
+    i = isub.add_parser("add", help="đưa ảnh/phim tải tay (NARA, LoC, Prelinger…) vào assets/ + ghi sources.json")
+    i.add_argument("ep")
+    i.add_argument("file", help="đường dẫn file đã tải về")
+    i.add_argument("--as", dest="name", help="tên file trong assets/ (không đuôi)")
+    i.add_argument("--title", required=True)
+    i.add_argument("--author", default="không rõ")
+    i.add_argument("--license", required=True, help='vd "Public domain", "No known restrictions (LoC)", "CC BY 4.0"')
+    i.add_argument("--url", required=True, help="trang gốc của tư liệu")
     s.set_defaults(fn=cmd_img)
 
     sub.add_parser("brand", help="xuất lại logo PNG vào brand/").set_defaults(fn=cmd_brand)

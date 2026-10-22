@@ -64,7 +64,10 @@ def new(title: str, slug: str | None, series: str | None, topic: str | None, fmt
     fill = {"{ID}": ep_id, "{TITLE}": title, "{DATE}": dt.date.today().isoformat(),
             "{SERIES}": ch.get("series", {}).get(series or "", ""), "{FORMAT}": fmt}
     for name in ("research.md", "script.md", "episode.json"):
-        text = (config.TEMPLATES / name).read_text(encoding="utf-8")
+        # video dài dùng bộ mẫu riêng (dàn ý chương, tư liệu, vòng mở) nếu có: research_long.md, script_long.md, episode_long.json
+        stem, ext = name.rsplit(".", 1)
+        tpl = config.TEMPLATES / f"{stem}_long.{ext}"
+        text = (tpl if fmt == "long" and tpl.exists() else config.TEMPLATES / name).read_text(encoding="utf-8")
         for k, v in fill.items():
             text = text.replace(k, json.dumps(v, ensure_ascii=False)[1:-1] if name.endswith(".json") else v)
         (ep_dir / name).write_text(text, encoding="utf-8")
