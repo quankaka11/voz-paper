@@ -222,7 +222,8 @@ export const MapScene: React.FC<{scene: Scene}> = ({scene}) => {
 export const DocumentScene: React.FC<{scene: Scene}> = ({scene}) => {
   const {outlet, date, headline, paragraphs = [], image, caption, treat = 'bw', tilt = -6, paper = 'news', tape = true} = scene.props;
   const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const {fps, width, height} = useVideoConfig();
+  const wide = width > height;
   const dark = useContext(DarkContext);
   const paras = (paragraphs as any[]).map((p, i) => {
     const o = typeof p === 'string' ? {text: p} : p;
@@ -237,8 +238,9 @@ export const DocumentScene: React.FC<{scene: Scene}> = ({scene}) => {
     <AbsoluteFill style={{perspective: 1700, justifyContent: 'center', alignItems: 'center'}}>
       <div
         style={{
-          width: 880,
-          marginTop: -330,
+          // khung ngang: tờ báo rộng hơn, căn giữa khung
+          width: wide ? 1180 : 880,
+          marginTop: wide ? 0 : -330,
           transform: `rotateX(${rx}deg) rotateZ(${tilt}deg) translateY(${(1 - easeInOut(e)) * 500}px)`,
           transformStyle: 'preserve-3d',
           filter: `drop-shadow(0 30px 40px rgba(0,0,0,${dark ? 0.6 : 0.3}))`,
@@ -252,7 +254,7 @@ export const DocumentScene: React.FC<{scene: Scene}> = ({scene}) => {
             </div>
           ) : null}
           {headline ? (
-            <div style={{fontFamily: fonts.serif, fontWeight: 900, fontSize: 56, lineHeight: 1.1, color: '#111', marginBottom: 18, opacity: 1 - dim * 0.5}}>{headline}</div>
+            <div style={{fontFamily: fonts.serif, fontWeight: 900, fontSize: wide ? 66 : 56, lineHeight: 1.1, color: '#111', marginBottom: 18, opacity: 1 - dim * 0.5}}>{headline}</div>
           ) : null}
           {image ? (
             <div style={{height: 260, overflow: 'hidden', marginBottom: 14, opacity: 1 - dim * 0.55}}>
@@ -266,7 +268,7 @@ export const DocumentScene: React.FC<{scene: Scene}> = ({scene}) => {
               style={{
                 fontFamily: fonts.serif,
                 fontWeight: 700,
-                fontSize: 35,
+                fontSize: wide ? 42 : 35,
                 lineHeight: 1.4,
                 color: '#222',
                 marginBottom: 16,

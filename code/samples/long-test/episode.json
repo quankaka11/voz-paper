@@ -1,0 +1,470 @@
+{
+  "_note": "Tập KIỂM TRA định dạng 16:9 (format long): mỗi loại cảnh một lần, toạ độ collage/map theo khung 1920×1080. Chạy sau khi sửa thư viện cảnh: python voz.py render code/samples/long-test --draft. Không phải video đăng.",
+  "format": "long",
+  "captions": true,
+  "tone": "charcoal",
+  "intro": {
+    "topic": "định dạng video dài",
+    "label": "Kiểm tra khung 16:9"
+  },
+  "cover": {
+    "kicker": "Chuyện ly cà phê",
+    "headline": "1819",
+    "lines": [
+      "Thứ giữ bạn tỉnh táo",
+      {
+        "text": "đến từ một nhà thơ?",
+        "color": "yellow"
+      }
+    ],
+    "image": "assets/goethe_cut.png"
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "vo": "Mỗi sáng, hàng triệu người uống cà phê để tỉnh táo.",
+      "props": {
+        "kicker": "Chuyện ly cà phê",
+        "text": "Thứ giữ bạn ==tỉnh táo== đến từ đâu?",
+        "sub": "Một câu chuyện bắt đầu năm 1819.",
+        "image": {
+          "src": "assets/phin_cut.png",
+          "treat": "color"
+        }
+      }
+    },
+    {
+      "id": "s02",
+      "type": "collage",
+      "transition": "sheet",
+      "source": "Wikipedia: Friedlieb Ferdinand Runge",
+      "vo": "Năm 1819, nhà thơ Goethe đưa cho nhà hóa học Runge một hộp hạt cà phê.",
+      "props": {
+        "camera": [
+          {
+            "zoom": 1.0
+          },
+          {
+            "cue": "Runge",
+            "x": 1060,
+            "y": 540,
+            "zoom": 1.06
+          }
+        ],
+        "layers": [
+          {
+            "kind": "number",
+            "value": "1819",
+            "style": "poster",
+            "size": 260,
+            "x": 200,
+            "y": 150,
+            "anchor": "tl",
+            "rot": -2,
+            "cue": "1819"
+          },
+          {
+            "kind": "image",
+            "src": "assets/goethe_cut.png",
+            "w": 420,
+            "treat": "bw",
+            "x": 760,
+            "y": 600,
+            "rot": -2,
+            "cue": "Goethe"
+          },
+          {
+            "kind": "tag",
+            "text": "Nhà thơ",
+            "x": 760,
+            "y": 800,
+            "cue": "Goethe"
+          },
+          {
+            "kind": "image",
+            "src": "assets/runge_cut.png",
+            "w": 400,
+            "treat": "bw",
+            "x": 1360,
+            "y": 560,
+            "rot": 2,
+            "cue": "Runge"
+          },
+          {
+            "kind": "tag",
+            "text": "Nhà hóa học",
+            "color": "red",
+            "x": 1360,
+            "y": 780,
+            "cue": "Runge"
+          },
+          {
+            "kind": "arrow",
+            "from": [
+              960,
+              520
+            ],
+            "to": [
+              1150,
+              480
+            ],
+            "bend": -0.3,
+            "cue": "hộp hạt"
+          },
+          {
+            "kind": "label",
+            "text": "một hộp hạt cà phê",
+            "color": "yellow",
+            "size": 56,
+            "x": 1060,
+            "y": 300,
+            "rot": 2,
+            "cue": "hộp hạt"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03",
+      "type": "map",
+      "transition": "push",
+      "vo": "Cà phê đi từ châu Phi sang châu Âu, rồi tới Việt Nam.",
+      "props": {
+        "views": [
+          {
+            "center": [
+              40,
+              20
+            ],
+            "zoom": 1.6
+          },
+          {
+            "cue": "Việt Nam",
+            "center": [
+              95,
+              18
+            ],
+            "zoom": 2.2
+          }
+        ],
+        "highlight": [
+          {
+            "country": "Ethiopia",
+            "cue": "châu Phi"
+          },
+          {
+            "country": "Pháp",
+            "color": "#2A9D8F",
+            "cue": "châu Âu"
+          },
+          {
+            "country": "Việt Nam",
+            "cue": "Việt Nam"
+          }
+        ],
+        "routes": [
+          {
+            "from": [
+              39,
+              8
+            ],
+            "to": [
+              2,
+              47
+            ],
+            "cue": "sang châu Âu"
+          },
+          {
+            "from": [
+              2,
+              47
+            ],
+            "to": [
+              106,
+              16
+            ],
+            "cue": "tới Việt Nam",
+            "bend": -0.2
+          }
+        ],
+        "points": [
+          {
+            "at": [
+              106,
+              16
+            ],
+            "label": "Việt Nam",
+            "cue": "Việt Nam"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s04",
+      "type": "bigNumber",
+      "transition": "cut",
+      "illustrative": true,
+      "vo": "Một ly cà phê phin có thể chứa khoảng một trăm miligam caffeine.",
+      "props": {
+        "kicker": "Trong một ly",
+        "countTo": 100,
+        "suffix": " mg",
+        "label": "caffeine trong một ly phin",
+        "note": "con số minh họa",
+        "image": {
+          "src": "assets/phin_cut.png",
+          "treat": "color"
+        }
+      }
+    },
+    {
+      "id": "s05",
+      "type": "document",
+      "transition": "tear",
+      "vo": "Runge ghi lại rằng ông tách được một chất kết tinh màu trắng.",
+      "props": {
+        "outlet": "Sổ tay thí nghiệm",
+        "date": "1819",
+        "headline": "Chất kết tinh trong hạt cà phê",
+        "paragraphs": [
+          "Mẫu thử được nghiền và đun với nước.",
+          {
+            "text": "Ông thu được ==một chất kết tinh màu trắng==.",
+            "cue": "chất kết tinh"
+          },
+          "Chất này về sau được gọi là caffeine."
+        ]
+      }
+    },
+    {
+      "id": "s06",
+      "type": "receipt",
+      "transition": "sheet",
+      "illustrative": true,
+      "vo": "Giờ một ly cà phê ngoài tiệm gồm tiền hạt, tiền mặt bằng và tiền công.",
+      "props": {
+        "kicker": "Bóc tách",
+        "text": "Bạn trả cho ==những gì==?",
+        "title": "LY CÀ PHÊ",
+        "items": [
+          {
+            "label": "Hạt cà phê",
+            "value": "4.000đ",
+            "cue": "tiền hạt"
+          },
+          {
+            "label": "Mặt bằng",
+            "value": "12.000đ",
+            "cue": "mặt bằng"
+          },
+          {
+            "label": "Tiền công",
+            "value": "8.000đ",
+            "cue": "tiền công"
+          }
+        ],
+        "total": {
+          "label": "TỔNG",
+          "value": "24.000đ"
+        }
+      }
+    },
+    {
+      "id": "s07",
+      "type": "bars",
+      "transition": "push-up",
+      "illustrative": true,
+      "vo": "Phần lớn tiền không nằm ở hạt cà phê, mà ở mặt bằng.",
+      "props": {
+        "title": "Tiền đi đâu?",
+        "unit": "%",
+        "bars": [
+          {
+            "label": "Hạt cà phê",
+            "value": 17
+          },
+          {
+            "label": "Mặt bằng",
+            "value": 50,
+            "highlight": true,
+            "cue": "mặt bằng"
+          },
+          {
+            "label": "Tiền công",
+            "value": 33
+          }
+        ]
+      }
+    },
+    {
+      "id": "s08",
+      "type": "compare",
+      "transition": "zoom",
+      "vo": "Pha ở nhà thì rẻ, nhưng ra quán thì bạn mua cả không gian.",
+      "props": {
+        "title": "Ở nhà hay ra quán?",
+        "left": {
+          "title": "Ở nhà",
+          "tone": "good",
+          "items": [
+            "Rẻ hơn",
+            {
+              "text": "Tự pha",
+              "cue": "ở nhà"
+            }
+          ]
+        },
+        "right": {
+          "title": "Ra quán",
+          "tone": "bad",
+          "items": [
+            "Đắt hơn",
+            {
+              "text": "Mua cả ==không gian==",
+              "cue": "không gian"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "s09",
+      "type": "flow",
+      "transition": "sheet",
+      "vo": "Từ nông trại, hạt đi qua nhà rang, rồi tới quán, rồi tới bạn.",
+      "props": {
+        "layout": "chain",
+        "title": "Hành trình của hạt",
+        "nodes": [
+          {
+            "label": "Nông trại",
+            "emoji": "🌱"
+          },
+          {
+            "label": "Nhà rang",
+            "emoji": "🔥",
+            "cue": "nhà rang"
+          },
+          {
+            "label": "Quán",
+            "emoji": "☕",
+            "cue": "tới quán"
+          },
+          {
+            "label": "Bạn",
+            "emoji": "🙋",
+            "highlight": true,
+            "cue": "tới bạn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s10",
+      "type": "flow",
+      "transition": "push",
+      "vo": "Mỗi ly tiền của bạn chia cho nhiều bên.",
+      "props": {
+        "title": "Ai nhận tiền?",
+        "center": {
+          "label": "Bạn",
+          "emoji": "🙋"
+        },
+        "nodes": [
+          {
+            "label": "Nông dân",
+            "emoji": "🌱"
+          },
+          {
+            "label": "Chủ nhà",
+            "emoji": "🏠"
+          },
+          {
+            "label": "Nhân viên",
+            "emoji": "🧑‍🍳"
+          },
+          {
+            "label": "Thuế",
+            "emoji": "🧾"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s11",
+      "type": "list",
+      "transition": "tear",
+      "vo": "Tóm lại có ba điều cần nhớ.",
+      "props": {
+        "kicker": "Tóm lại",
+        "title": "Ba điều cần nhớ",
+        "items": [
+          {
+            "text": "Caffeine được tìm ra năm ==1819=="
+          },
+          {
+            "text": "Mặt bằng chiếm phần lớn giá"
+          },
+          {
+            "text": "Bạn trả cho cả **không gian**"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s12",
+      "type": "image",
+      "transition": "sheet",
+      "vo": "Hạt cà phê thực ra là hạt của một loại quả màu đỏ.",
+      "props": {
+        "src": "assets/hat-ca-phe.jpg",
+        "kicker": "Bạn có biết",
+        "text": "Hạt cà phê là ==hạt của quả==",
+        "caption": "Quả cà phê chín",
+        "credit": "CNEcija12345, CC BY-SA 4.0"
+      }
+    },
+    {
+      "id": "s13",
+      "type": "phone",
+      "transition": "push",
+      "illustrative": true,
+      "vo": "Ứng dụng giao đồ uống còn cộng thêm phí giao hàng.",
+      "props": {
+        "kicker": "Đặt qua app",
+        "title": "Thêm một lớp phí",
+        "app": "Ứng dụng giao đồ",
+        "price": "24.000đ",
+        "rows": [
+          {
+            "emoji": "☕",
+            "label": "Cà phê sữa",
+            "value": "24.000đ"
+          },
+          {
+            "emoji": "🛵",
+            "label": "Phí giao",
+            "value": "+15.000đ",
+            "highlight": true,
+            "cue": "phí giao"
+          }
+        ],
+        "stamp": "+60%"
+      }
+    },
+    {
+      "id": "s14",
+      "type": "question",
+      "transition": "zoom",
+      "vo": "Còn bạn, bạn pha ở nhà hay ra quán?",
+      "props": {
+        "text": "Bạn pha ở nhà hay ==ra quán==?",
+        "options": [
+          "Pha ở nhà",
+          "Ra quán"
+        ]
+      }
+    }
+  ]
+}

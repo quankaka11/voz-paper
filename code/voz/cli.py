@@ -43,7 +43,8 @@ def cmd_render(a):
     render.loudnorm(out)
     if not a.draft:
         render.remotion_still("Cover", b / "cover.json", b, ep / "export" / f"{name}_cover.png")
-    sh = render.sheet(out, b / "sheet.jpg")
+    times, labels = render.scene_times(b / "props.json")
+    sh = render.sheet(out, b / "sheet.jpg", times=times, labels=labels)  # mỗi cảnh một khung
     print(f"→ video: {out}\n→ contact sheet: {sh}")
     problems = render.check(out, episode.format_of(ep)) if not a.draft else []
     for p in problems:

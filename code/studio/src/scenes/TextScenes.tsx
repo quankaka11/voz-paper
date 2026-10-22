@@ -2,7 +2,8 @@ import React, {useContext} from 'react';
 import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 import {Scene} from '../types';
 import {colors, fonts} from '../theme';
-import {Heading, Kicker, Stage, useRevealFrame} from '../ui/layout';
+import {Heading, Kicker, Split, Stage, useRevealFrame} from '../ui/layout';
+import {useFormat} from '../ui/format';
 import {boil, clamp01, onTwos, useEnter, useSlap} from '../ui/anim';
 import {DarkContext, RichText} from '../ui/RichText';
 import {Logo} from '../ui/Logo';
@@ -12,12 +13,14 @@ import {Sfx} from '../ui/Sfx';
 /** Ảnh tách nền trồi lên từ mép dưới khung (núi, toà nhà, người) — nằm sau phụ đề, chỉ để tạo không khí. */
 export const BottomImage: React.FC<{image?: any; delay?: number}> = ({image, delay = 6}) => {
   const p = useSlap(delay, 16);
+  const f = useFormat();
   if (!image) return null;
   const im = typeof image === 'string' ? {src: image} : image;
+  // khung ngang: ảnh trồi lên ở 1/4 bên phải, chữ chiếm phần trái
   return (
     <>
-      <div style={{position: 'absolute', left: im.x ?? 540, bottom: im.bottom ?? -30, transform: `translateX(-50%) translateY(${(1 - p) * 700}px) rotate(${im.rot ?? 0}deg)`}}>
-        <Sticker src={im.src} w={im.w ?? 900} treat={im.treat ?? 'bw'} border={im.border ?? 8} />
+      <div style={{position: 'absolute', left: im.x ?? (f.wide ? f.width * 0.76 : f.width / 2), bottom: im.bottom ?? -30, transform: `translateX(-50%) translateY(${(1 - p) * 700}px) rotate(${im.rot ?? 0}deg)`}}>
+        <Sticker src={im.src} w={im.w ?? (f.wide ? 620 : 900)} treat={im.treat ?? 'bw'} border={im.border ?? 8} />
       </div>
       <Sfx name="paper" at={delay} />
     </>
@@ -35,10 +38,13 @@ export const TitleScene: React.FC<{scene: Scene}> = ({scene}) => {
   const s = useEnter(22);
   const dark = useContext(DarkContext);
   const reveal = useRevealFrame(scene.durationInFrames);
+  const f = useFormat();
+  // khung ngang: thu hẹp cột chữ (dòng quá dài khó đọc), chừa 1/3 phải cho ảnh nếu có; ảnh nằm thấp nên chữ căn giữa
+  const st: React.CSSProperties = f.wide ? {width: f.content.width * (image ? 0.58 : 0.86)} : image ? {paddingTop: 60} : {};
   return (
     <AbsoluteFill>
       <BottomImage image={image} />
-      <Stage align={image ? 'top' : 'center'} style={image ? {paddingTop: 60} : undefined}>
+      <Stage align={image && !f.wide ? 'top' : 'center'} style={st}>
         {emoji ? (
           <div style={{marginBottom: 30, alignSelf: 'flex-start', transform: `scale(${e}) rotate(${-8 + boil('em', frame, 1.5)}deg)`, transformOrigin: 'left bottom'}}>
             <EmojiSticker char={emoji} size={160} />
@@ -96,11 +102,13 @@ export const BigNumberScene: React.FC<{scene: Scene}> = ({scene}) => {
       ? `${prefix}${n.toLocaleString('vi-VN', {minimumFractionDigits: decimals, maximumFractionDigits: decimals})}${suffix}`
       : String(value ?? '');
   const l = useSlap(18);
+  const f = useFormat();
   const big = size ?? (shown.length > 7 ? 200 : shown.length > 5 ? 240 : 290);
+  const st: React.CSSProperties = f.wide ? {width: f.content.width * (image ? 0.58 : 0.86)} : image ? {paddingTop: 80} : {};
   return (
     <AbsoluteFill>
       <BottomImage image={image} delay={10} />
-      <Stage align={image ? 'top' : 'center'} style={image ? {paddingTop: 80} : undefined}>
+      <Stage align={image && !f.wide ? 'top' : 'center'} style={st}>
         <Kicker text={kicker} />
         <div style={{transform: `scale(${interpolate(p, [0, 1], [1.35, 1])}) rotate(${interpolate(p, [0, 1], [-5, -1.5])}deg)`, transformOrigin: 'left center', opacity: Math.min(1, p * 3)}}>
           <BigNum text={shown} style={style} size={big} color={color ?? (style === 'ink' ? colors.coral : undefined)} unit={unit} />
@@ -120,77 +128,105 @@ export const BigNumberScene: React.FC<{scene: Scene}> = ({scene}) => {
   );
 };
 
-/** list — danh sách ý, mỗi ý một mảnh giấy. props: kicker?, title?, items: [{emoji?, text, color?, cue?}] */
+/** list — danh sách ý, mỗi ý một mảnh giấy. props: kicker?, title?, items: [{emoji?, text, color?, cue?}]
+ *  Khung ngang: tiêu đề cột trái, các ý cột phải. */
 export const ListScene: React.FC<{scene: Scene}> = ({scene}) => {
   const {kicker, title, items = []} = scene.props;
   const reveal = useRevealFrame(scene.durationInFrames);
   const frame = useCurrentFrame();
+  const f = useFormat();
+  const list = (
+    <div style={{marginTop: f.wide ? 0 : 40, display: 'flex', flexDirection: 'column', gap: 24, alignSelf: 'stretch'}}>
+      {items.map((it: any, i: number) => {
+        const at = reveal(it, i, items.length, 14);
+        const p = clamp01(onTwos(frame), at, at + 8);
+        const rot = (i % 2 ? 1.2 : -1.2) + boil(`li${i}`, frame, 0.25);
+        return (
+          <div key={i} style={{opacity: p > 0 ? 1 : 0, transform: `translateX(${(1 - p) * 120}px) rotate(${rot}deg)`}}>
+            <Torn seed={`li-${i}`} bg={i % 2 ? '#F4EFE3' : '#ECE4D2'} pad="20px 30px" rough={9}>
+              <div style={{display: 'flex', alignItems: 'center', gap: 24}}>
+                {it.emoji ? (
+                  <EmojiSticker char={it.emoji} size={64} />
+                ) : (
+                  <div style={{fontFamily: fonts.heavy, fontSize: 70, color: it.color ?? colors.red, width: 60, textAlign: 'center'}}>{i + 1}</div>
+                )}
+                <div style={{fontFamily: fonts.sans, fontWeight: 700, fontSize: 48, lineHeight: 1.25, color: colors.ink}}>
+                  <RichText text={it.text} delay={at + 6} />
+                </div>
+              </div>
+            </Torn>
+            <Sfx name="paper" at={at} />
+          </div>
+        );
+      })}
+    </div>
+  );
+  if (f.wide && (title || kicker)) {
+    return (
+      <Split side={list} sideWidth={f.content.width * 0.56}>
+        <Kicker text={kicker} />
+        {title ? <Heading text={title} size={84} /> : null}
+      </Split>
+    );
+  }
   return (
-    <Stage>
+    <Stage style={f.wide ? {width: f.content.width * 0.7, left: f.content.left + f.content.width * 0.15} : undefined}>
       <Kicker text={kicker} />
       {title ? <Heading text={title} size={78} /> : null}
-      <div style={{marginTop: 40, display: 'flex', flexDirection: 'column', gap: 24}}>
-        {items.map((it: any, i: number) => {
-          const at = reveal(it, i, items.length, 14);
-          const p = clamp01(onTwos(frame), at, at + 8);
-          const rot = (i % 2 ? 1.2 : -1.2) + boil(`li${i}`, frame, 0.25);
-          return (
-            <div key={i} style={{opacity: p > 0 ? 1 : 0, transform: `translateX(${(1 - p) * 120}px) rotate(${rot}deg)`}}>
-              <Torn seed={`li-${i}`} bg={i % 2 ? '#F4EFE3' : '#ECE4D2'} pad="20px 30px" rough={9}>
-                <div style={{display: 'flex', alignItems: 'center', gap: 24}}>
-                  {it.emoji ? (
-                    <EmojiSticker char={it.emoji} size={64} />
-                  ) : (
-                    <div style={{fontFamily: fonts.heavy, fontSize: 70, color: it.color ?? colors.red, width: 60, textAlign: 'center'}}>{i + 1}</div>
-                  )}
-                  <div style={{fontFamily: fonts.sans, fontWeight: 700, fontSize: 48, lineHeight: 1.25, color: colors.ink}}>
-                    <RichText text={it.text} delay={at + 6} />
-                  </div>
-                </div>
-              </Torn>
-              <Sfx name="paper" at={at} />
-            </div>
-          );
-        })}
-      </div>
+      {list}
     </Stage>
   );
 };
 
-/** question — kết bài, câu hỏi mở cho bình luận. props: text, options?: string[], sub?, endCard? (false khi tập có outro) */
+/** question — kết bài, câu hỏi mở cho bình luận. props: text, options?: string[], sub?, endCard? (false khi tập có outro)
+ *  Khung ngang: câu hỏi cột trái, các lựa chọn cột phải. */
 export const QuestionScene: React.FC<{scene: Scene}> = ({scene}) => {
   const {text, options = [], sub, endCard = true} = scene.props;
   const frame = useCurrentFrame();
   const dark = useContext(DarkContext);
   const reveal = useRevealFrame(scene.durationInFrames);
   const lg = useEnter(Math.max(0, scene.durationInFrames - 40));
+  const f = useFormat();
+  const opts = options.length ? (
+    <div style={{marginTop: f.wide ? 0 : 44, display: 'flex', flexDirection: 'column', gap: 22, alignSelf: f.wide ? 'stretch' : undefined}}>
+      {options.map((o: string, i: number) => {
+        const at = reveal(undefined, i, options.length, 24, 0.5);
+        const p = clamp01(onTwos(frame), at, at + 8);
+        return (
+          <div key={i} style={{alignSelf: 'flex-start', opacity: p > 0 ? 1 : 0, transform: `translateY(${(1 - p) * 40}px) rotate(${i % 2 ? 1 : -1}deg)`}}>
+            <Torn seed={`q-${i}`} bg={i % 2 ? '#F2D43D' : '#ECE4D2'} pad="16px 30px" rough={8}>
+              <div style={{fontFamily: fonts.sans, fontWeight: 800, fontSize: 46, color: colors.ink}}>
+                <span style={{fontFamily: fonts.heavy, fontWeight: 400, color: colors.red, marginRight: 20}}>{String.fromCharCode(65 + i)}</span>
+                {o}
+              </div>
+            </Torn>
+            <Sfx name="paper" at={at} />
+          </div>
+        );
+      })}
+    </div>
+  ) : null;
+  const card = endCard ? (
+    <div style={{marginTop: 56, opacity: lg, display: 'flex', alignItems: 'center', gap: 24}}>
+      <Logo size={70} dark={dark} />
+      <div style={{fontFamily: fonts.sans, fontWeight: 600, fontSize: 34, color: dark ? colors.paper : colors.ink}}>Theo dõi để xem tập tiếp theo</div>
+    </div>
+  ) : null;
+  if (f.wide && opts) {
+    return (
+      <Split side={opts}>
+        <Kicker text={sub ?? 'Còn bạn thì sao?'} />
+        <Heading text={text} size={92} />
+        {card}
+      </Split>
+    );
+  }
   return (
-    <Stage>
+    <Stage style={f.wide ? {width: f.content.width * 0.86} : undefined}>
       <Kicker text={sub ?? 'Còn bạn thì sao?'} />
       <Heading text={text} size={88} />
-      <div style={{marginTop: 44, display: 'flex', flexDirection: 'column', gap: 22}}>
-        {options.map((o: string, i: number) => {
-          const at = reveal(undefined, i, options.length, 24, 0.5);
-          const p = clamp01(onTwos(frame), at, at + 8);
-          return (
-            <div key={i} style={{alignSelf: 'flex-start', opacity: p > 0 ? 1 : 0, transform: `translateY(${(1 - p) * 40}px) rotate(${i % 2 ? 1 : -1}deg)`}}>
-              <Torn seed={`q-${i}`} bg={i % 2 ? '#F2D43D' : '#ECE4D2'} pad="16px 30px" rough={8}>
-                <div style={{fontFamily: fonts.sans, fontWeight: 800, fontSize: 46, color: colors.ink}}>
-                  <span style={{fontFamily: fonts.heavy, fontWeight: 400, color: colors.red, marginRight: 20}}>{String.fromCharCode(65 + i)}</span>
-                  {o}
-                </div>
-              </Torn>
-              <Sfx name="paper" at={at} />
-            </div>
-          );
-        })}
-      </div>
-      {endCard ? (
-        <div style={{marginTop: 56, opacity: lg, display: 'flex', alignItems: 'center', gap: 24}}>
-          <Logo size={70} dark={dark} />
-          <div style={{fontFamily: fonts.sans, fontWeight: 600, fontSize: 34, color: dark ? colors.paper : colors.ink}}>Theo dõi để xem tập tiếp theo</div>
-        </div>
-      ) : null}
+      {opts}
+      {card}
     </Stage>
   );
 };

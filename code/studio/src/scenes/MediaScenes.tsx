@@ -2,7 +2,8 @@ import React, {useContext} from 'react';
 import {AbsoluteFill, Img, interpolate, useCurrentFrame} from 'remotion';
 import {Scene} from '../types';
 import {colors, fonts} from '../theme';
-import {Heading, Kicker, Stage, useRevealFrame} from '../ui/layout';
+import {Heading, Kicker, Split, Stage, useRevealFrame} from '../ui/layout';
+import {useFormat} from '../ui/format';
 import {useEnter, useSlap} from '../ui/anim';
 import {imgSrc, Photo, Sticker, TREAT} from '../ui/collage';
 import {DarkContext} from '../ui/RichText';
@@ -17,6 +18,7 @@ const clampI = (f: number, a: number, b: number) =>
  * image — một ảnh minh họa có Ken Burns.
  * style: "polaroid" (khung giấy + băng dính, nghiêng) | "cutout" (PNG đã tách nền, viền trắng sticker) | "full" (tràn khung)
  * props: src, style?, kenburns?: in|out|left|right, kicker?, text?, caption?, credit?, tilt?, treat? (color|bw|sepia|faded)
+ * Khung ngang: có `text` thì chữ cột trái, ảnh cột phải.
  */
 export const ImageScene: React.FC<{scene: Scene}> = ({scene}) => {
   const {src: s, style = 'polaroid', kenburns = 'in', kicker, text, credit, caption, tilt = -2.5, treat = 'color'} = scene.props;
@@ -28,6 +30,7 @@ export const ImageScene: React.FC<{scene: Scene}> = ({scene}) => {
   const tx = kenburns === 'left' ? -40 * t : kenburns === 'right' ? 40 * t : 0;
   const e = useSlap(0, 14);
   const txt = useEnter(14);
+  const f = useFormat();
 
   const cap = (
     <>
@@ -57,19 +60,33 @@ export const ImageScene: React.FC<{scene: Scene}> = ({scene}) => {
     );
   }
 
+  const pic = (
+    <div style={{display: 'flex', justifyContent: 'center', transform: `translateY(${(1 - e) * -120}px) scale(${1.12 - 0.12 * e}) rotate(${tilt}deg)`, opacity: Math.min(1, e * 3)}}>
+      {style === 'cutout' ? (
+        <div style={{maxWidth: f.wide ? 900 : 860}}>
+          <Sticker src={s} w={f.wide ? 860 : 820} h={f.wide ? 620 : 680} treat={treat} zoom={scale} />
+        </div>
+      ) : (
+        <Photo src={s} w={f.wide ? 820 : 700} h={f.wide ? 580 : 560} caption={caption} treat={treat} zoom={scale} pan={tx} />
+      )}
+    </div>
+  );
+  if (f.wide && text) {
+    return (
+      <>
+        <Sfx name="paper" at={0} />
+        <Split side={pic} sideWidth={900} reverse>
+          <Kicker text={kicker} />
+          {cap}
+        </Split>
+      </>
+    );
+  }
   return (
     <Stage>
       <Kicker text={kicker} />
       <Sfx name="paper" at={0} />
-      <div style={{display: 'flex', justifyContent: 'center', transform: `translateY(${(1 - e) * -120}px) scale(${1.12 - 0.12 * e}) rotate(${tilt}deg)`, opacity: Math.min(1, e * 3)}}>
-        {style === 'cutout' ? (
-          <div style={{maxWidth: 860}}>
-            <Sticker src={s} w={820} h={680} treat={treat} zoom={scale} />
-          </div>
-        ) : (
-          <Photo src={s} w={700} h={560} caption={caption} treat={treat} zoom={scale} pan={tx} />
-        )}
-      </div>
+      {pic}
       {cap}
     </Stage>
   );
@@ -78,6 +95,7 @@ export const ImageScene: React.FC<{scene: Scene}> = ({scene}) => {
 /**
  * phone — điện thoại mô phỏng giao diện app (không dùng logo thật).
  * props: app, price?, tagline?, rows?: [{emoji, label, value?, atMs?}], stamp?, kicker?, title?
+ * Khung ngang: tiêu đề cột trái, điện thoại cột phải (thấp hơn để vừa chiều cao 1080).
  */
 export const PhoneScene: React.FC<{scene: Scene}> = ({scene}) => {
   const {app = 'Ứng dụng', price, tagline, rows = [], stamp, kicker, title} = scene.props;
@@ -85,19 +103,13 @@ export const PhoneScene: React.FC<{scene: Scene}> = ({scene}) => {
   const reveal = useRevealFrame(scene.durationInFrames);
   const e = useEnter(0, 16);
   const st = useEnter(Math.round(scene.durationInFrames * 0.45), 10);
-  return (
-    <Stage>
-      <Kicker text={kicker} />
-      {title ? (
-        <div style={{marginBottom: 30}}>
-          <Heading text={title} size={60} />
-        </div>
-      ) : null}
+  const f = useFormat();
+  const phone = (
       <div style={{alignSelf: 'center', position: 'relative', transform: `translateY(${(1 - e) * 300}px)`}}>
         <div
           style={{
-            width: 560,
-            height: title ? 780 : 920,
+            width: f.wide ? 540 : 560,
+            height: f.wide ? 720 : title ? 780 : 920,
             background: colors.ink,
             borderRadius: 64,
             padding: 18,
@@ -182,6 +194,24 @@ export const PhoneScene: React.FC<{scene: Scene}> = ({scene}) => {
           </div>
         ) : null}
       </div>
+  );
+  if (f.wide) {
+    return (
+      <Split side={phone} sideWidth={640}>
+        <Kicker text={kicker} />
+        {title ? <Heading text={title} size={80} /> : null}
+      </Split>
+    );
+  }
+  return (
+    <Stage>
+      <Kicker text={kicker} />
+      {title ? (
+        <div style={{marginBottom: 30}}>
+          <Heading text={title} size={60} />
+        </div>
+      ) : null}
+      {phone}
     </Stage>
   );
 };

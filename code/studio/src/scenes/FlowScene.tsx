@@ -7,6 +7,7 @@ import {boil, onTwos, useEnter} from '../ui/anim';
 import {EmojiSticker, HandArrow, Sticker, Torn} from '../ui/collage';
 import {DarkContext} from '../ui/RichText';
 import {Sfx} from '../ui/Sfx';
+import {useFormat} from '../ui/format';
 
 type Node = {label: string; emoji?: string; note?: string; atMs?: number; highlight?: boolean};
 
@@ -69,7 +70,7 @@ const Arrow: React.FC<{x1: number; y1: number; x2: number; y2: number; p: number
 /**
  * flow — sơ đồ hệ thống.
  * layout "radial": center + nodes tỏa xung quanh (direction out|in).
- * layout "chain": các node nối tiếp từ trên xuống (dòng tiền, quy trình).
+ * layout "chain": các node nối tiếp từ trên xuống (dòng tiền, quy trình); khung ngang: từ trái sang phải, so le lên xuống.
  * props: kicker?, title?, layout?, center?: Node, nodes: Node[], direction?, arrowLabels?: string[]
  */
 export const FlowScene: React.FC<{scene: Scene}> = ({scene}) => {
@@ -81,13 +82,16 @@ export const FlowScene: React.FC<{scene: Scene}> = ({scene}) => {
   const ac = dark ? '#F4F1EA' : colors.ink;
   const f2 = onTwos(frame);
   const content = useContent();
+  const {wide} = useFormat();
   const W = content.width;
   const H = content.bottom - content.top - (title ? 170 : 40);
 
   if (layout === 'chain') {
     const n = nodes.length;
-    const gap = H / Math.max(n, 1);
-    const pos = nodes.map((_: Node, i: number) => ({x: i % 2 === 0 ? W * 0.3 : W * 0.7, y: gap * (i + 0.5)}));
+    const gap = (wide ? W : H) / Math.max(n, 1);
+    const pos = nodes.map((_: Node, i: number) =>
+      wide ? {x: gap * (i + 0.5), y: i % 2 === 0 ? H * 0.34 : H * 0.7} : {x: i % 2 === 0 ? W * 0.3 : W * 0.7, y: gap * (i + 0.5)},
+    );
     return (
       <Stage align="top">
         <Kicker text={kicker} />
@@ -118,7 +122,7 @@ export const FlowScene: React.FC<{scene: Scene}> = ({scene}) => {
   const n = nodes.length;
   // Thẻ rộng 290 → giữ tâm thẻ trong [145, W-145] và cách node trung tâm đủ xa để không chồng.
   const RX = W / 2 - 150;
-  const RY = H * 0.36;
+  const RY = H * (wide ? 0.42 : 0.36);
   const pos = nodes.map((_: Node, i: number) => {
     if (n === 3) {
       return [
@@ -127,7 +131,8 @@ export const FlowScene: React.FC<{scene: Scene}> = ({scene}) => {
         {x: cx - RX, y: cy + RY * 0.8},
       ][i];
     }
-    const a = -Math.PI / 2 + (Math.PI * 2 * i) / n + (n === 2 ? Math.PI / 2 : 0);
+    // khung ngang thấp: số node chẵn xoay nửa bước để không có node nằm thẳng trên/dưới node trung tâm
+    const a = -Math.PI / 2 + (Math.PI * 2 * i) / n + (n === 2 ? Math.PI / 2 : wide && n % 2 === 0 ? Math.PI / n : 0);
     return {x: cx + Math.cos(a) * RX, y: cy + Math.sin(a) * RY};
   });
   return (

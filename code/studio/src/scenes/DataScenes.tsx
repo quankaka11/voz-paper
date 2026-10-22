@@ -2,7 +2,8 @@ import React, {useContext} from 'react';
 import {interpolate, useCurrentFrame} from 'remotion';
 import {Scene} from '../types';
 import {colors, fonts} from '../theme';
-import {Heading, Kicker, Stage, useRevealFrame} from '../ui/layout';
+import {Heading, Kicker, Split, Stage, useRevealFrame} from '../ui/layout';
+import {useFormat} from '../ui/format';
 import {useEnter} from '../ui/anim';
 import {DarkContext, Highlight, RichText} from '../ui/RichText';
 import {Tape, Torn} from '../ui/collage';
@@ -14,19 +15,19 @@ const clampI = (f: number, a: number, b: number) =>
 
 /**
  * receipt — hóa đơn bóc tách từng khoản.
- * props: title, items: [{label, value, note?, color?, atMs?}], total: {label, value, atMs?}
+ * props: kicker?, text? (tiêu đề lớn — khung ngang đặt cột trái, hóa đơn cột phải), title, items: [{label, value, note?, color?, atMs?}],
+ *        total: {label, value, atMs?}
  */
 export const ReceiptScene: React.FC<{scene: Scene}> = ({scene}) => {
-  const {kicker, title, items = [], total} = scene.props;
+  const {kicker, text, title, items = [], total} = scene.props;
   const frame = useCurrentFrame();
   const reveal = useRevealFrame(scene.durationInFrames);
   const enter = useEnter(0);
+  const f = useFormat();
   const totalAt = total?.atMs !== undefined ? reveal(total, 0, 1) : reveal(undefined, items.length, items.length + 1, 12, 0.7);
   const tp = clampI(frame, totalAt, totalAt + 10);
   const zig = 'polygon(' + Array.from({length: 25}, (_, i) => `${(i * 100) / 24}% ${i % 2 ? 100 : 97}%`).join(',') + ',100% 0,0 0)';
-  return (
-    <Stage>
-      <Kicker text={kicker} />
+  const paper = (
       <div
         style={{
           alignSelf: 'center',
@@ -73,6 +74,20 @@ export const ReceiptScene: React.FC<{scene: Scene}> = ({scene}) => {
           </>
         ) : null}
       </div>
+  );
+  if (f.wide && text) {
+    return (
+      <Split side={paper} sideWidth={900}>
+        <Kicker text={kicker} />
+        <Heading text={text} size={84} />
+      </Split>
+    );
+  }
+  return (
+    <Stage>
+      <Kicker text={kicker} />
+      {text ? <Heading text={text} size={74} /> : null}
+      {paper}
     </Stage>
   );
 };
@@ -86,13 +101,18 @@ export const BarsScene: React.FC<{scene: Scene}> = ({scene}) => {
   const frame = useCurrentFrame();
   const dark = useContext(DarkContext);
   const reveal = useRevealFrame(scene.durationInFrames);
+  const f = useFormat();
   const m = max ?? Math.max(...bars.map((b: any) => b.value), 1);
   const fg = dark ? colors.paper : colors.ink;
+  // khung ngang: nhãn cột trái cùng hàng với cột giấy (đỡ tốn chiều cao), cột dài tới ~1000px
+  const labelW = f.wide ? 420 : 0;
+  const barMax = f.wide ? f.content.width - labelW - 300 : 600;
+  const barH = f.wide ? (bars.length > 4 ? 64 : 80) : 88;
   return (
     <Stage>
       <Kicker text={kicker} />
       {title ? <Heading text={title} size={74} /> : null}
-      <div style={{marginTop: 44, display: 'flex', flexDirection: 'column', gap: 30}}>
+      <div style={{marginTop: 44, display: 'flex', flexDirection: 'column', gap: f.wide ? 24 : 30}}>
         {bars.map((b: any, i: number) => {
           const at = reveal(b, i, bars.length, 14, 0.55);
           const p = interpolate(onTwos(frame), [at, at + 20], [0, 1], {
@@ -100,16 +120,17 @@ export const BarsScene: React.FC<{scene: Scene}> = ({scene}) => {
             extrapolateRight: 'clamp',
             easing: (t) => 1 - Math.pow(1 - t, 3),
           });
-          const w = Math.max(30, (b.value / m) * 600 * p);
+          const w = Math.max(30, (b.value / m) * barMax * p);
           const val = b.display ?? `${(b.value * p).toLocaleString('vi-VN', {maximumFractionDigits: b.decimals ?? 0})}${unit}`;
           const bg = b.highlight ? colors.red : dark ? '#ECE4D2' : colors.navy;
+          const label = <div style={{fontFamily: fonts.sans, fontWeight: 700, fontSize: 44, color: fg, marginBottom: f.wide ? 0 : 10, width: labelW || undefined, flexShrink: 0, lineHeight: 1.15}}>{b.label}</div>;
           return (
-            <div key={i} style={{opacity: clampI(frame, at - 4, at + 2)}}>
+            <div key={i} style={{opacity: clampI(frame, at - 4, at + 2), display: f.wide ? 'flex' : 'block', alignItems: 'center', gap: 28}}>
               <Sfx name="paper" at={at} />
-              <div style={{fontFamily: fonts.sans, fontWeight: 700, fontSize: 44, color: fg, marginBottom: 10}}>{b.label}</div>
+              {label}
               <div style={{display: 'flex', alignItems: 'center', gap: 22}}>
                 <Torn seed={`bar-${i}`} bg={bg} rough={12} pad="0" style={{transform: `rotate(${i % 2 ? 0.6 : -0.6}deg)`}}>
-                  <div style={{height: 88, width: w}} />
+                  <div style={{height: barH, width: w}} />
                 </Torn>
                 <div style={{fontFamily: fonts.heavy, fontSize: 70, color: b.highlight ? (dark ? colors.yellow : colors.red) : fg}}>
                   {p > 0.98 && b.display ? b.display : val}
@@ -131,6 +152,7 @@ export const CompareScene: React.FC<{scene: Scene}> = ({scene}) => {
   const {kicker, title, left, right} = scene.props;
   const frame = useCurrentFrame();
   const reveal = useRevealFrame(scene.durationInFrames);
+  const f = useFormat();
   const cols = [left, right];
   const n = (left?.items?.length ?? 0) + (right?.items?.length ?? 0);
   let k = 0;
@@ -138,7 +160,7 @@ export const CompareScene: React.FC<{scene: Scene}> = ({scene}) => {
     <Stage>
       <Kicker text={kicker} />
       {title ? <Heading text={title} size={74} /> : null}
-      <div style={{marginTop: 50, display: 'flex', gap: 30}}>
+      <div style={{marginTop: 50, display: 'flex', gap: f.wide ? 70 : 30}}>
         {cols.map((c: any, ci: number) => {
           const tone = c?.tone ?? (ci === 0 ? 'good' : 'bad');
           const accent = tone === 'good' ? colors.teal : tone === 'bad' ? colors.red : colors.navy;
@@ -147,13 +169,13 @@ export const CompareScene: React.FC<{scene: Scene}> = ({scene}) => {
             <div key={ci} style={{flex: 1, position: 'relative', opacity: e, transform: `translateY(${(1 - e) * 80}px) rotate(${ci ? 1.4 : -1.4}deg)`}}>
               <Sfx name="paper" at={ci * 4} />
               <Torn seed={`cmp-${ci}`} bg={ci ? '#F4EFE3' : '#ECE4D2'} pad="30px 26px 34px" rough={7} style={{display: 'block'}}>
-                <div style={{fontFamily: fonts.condensed, fontWeight: 700, fontSize: 52, letterSpacing: 2, textTransform: 'uppercase', color: accent, marginBottom: 18}}>{c?.title}</div>
+                <div style={{fontFamily: fonts.condensed, fontWeight: 700, fontSize: f.wide ? 62 : 52, letterSpacing: 2, textTransform: 'uppercase', color: accent, marginBottom: 18}}>{c?.title}</div>
                 {(c?.items ?? []).map((it: any, i: number) => {
                   const item = typeof it === 'string' ? {text: it} : it;
                   const at = reveal(item, k++, n, 12, 0.7);
                   const p = clampI(onTwos(frame), at, at + 6);
                   return (
-                    <div key={i} style={{display: 'flex', gap: 12, alignItems: 'flex-start', opacity: p, marginBottom: 14, fontFamily: fonts.sans, fontWeight: 700, fontSize: 40, lineHeight: 1.25, color: colors.ink}}>
+                    <div key={i} style={{display: 'flex', gap: 12, alignItems: 'flex-start', opacity: p, marginBottom: 14, fontFamily: fonts.sans, fontWeight: 700, fontSize: f.wide ? 48 : 40, lineHeight: 1.25, color: colors.ink}}>
                       <Sfx name="type" at={at} />
                       <span style={{fontFamily: fonts.heavy, color: accent, minWidth: 34}}>{i + 1}.</span>
                       <RichText text={item.text} />

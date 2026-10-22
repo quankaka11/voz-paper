@@ -95,8 +95,23 @@ def check(mp4: Path, fmt: str = "short") -> list[str]:
     return problems
 
 
-def sheet(mp4: Path, out: Path, n: int = 12, width: int | None = None) -> Path:
-    """Contact sheet n khung chia đều để duyệt nhanh bằng mắt (khung ngang: ảnh rộng hơn, ít cột hơn)."""
+def scene_times(props: Path, at: float = 0.8) -> tuple[list[float], list[str]]:
+    """Mốc chụp mỗi cảnh (giây) tại `at` thời lượng cảnh — lúc hầu hết lớp đã hiện — kèm nhãn "id · loại"."""
+    p = config.load_json(props, {}) or {}
+    fps = config.channel().get("fps", 30)
+    times, labels, start = [], [], 0
+    for sc in p.get("scenes", []):
+        d = sc["durationInFrames"]
+        times.append((start + d * at) / fps)
+        labels.append(f"{sc['id']} · {sc['type']}")
+        start += d
+    return times, labels
+
+
+def sheet(mp4: Path, out: Path, n: int = 12, width: int | None = None,
+          times: list[float] | None = None, labels: list[str] | None = None) -> Path:
+    """Contact sheet để duyệt bằng mắt: n khung chia đều, hoặc đúng các mốc `times` (vd mỗi cảnh một khung — scene_times).
+    Khung ngang: ảnh rộng hơn, ít cột hơn."""
     from PIL import Image, ImageDraw
 
     info = probe(mp4)
@@ -107,7 +122,7 @@ def sheet(mp4: Path, out: Path, n: int = 12, width: int | None = None) -> Path:
     tmp = out.parent / "_frames"
     shutil.rmtree(tmp, ignore_errors=True)
     tmp.mkdir(parents=True)
-    times = [dur * (i + 0.5) / n for i in range(n)]
+    times = [min(t, dur - 0.05) for t in times] if times else [dur * (i + 0.5) / n for i in range(n)]
     for i, t in enumerate(times):
         subprocess.run([config.tool("ffmpeg"), "-y", "-loglevel", "error", "-ss", f"{t:.2f}", "-i", str(mp4),
                         "-frames:v", "1", "-vf", f"scale={width}:-1", str(tmp / f"{i:02d}.jpg")], check=True)
@@ -120,7 +135,8 @@ def sheet(mp4: Path, out: Path, n: int = 12, width: int | None = None) -> Path:
     for i, (im, t) in enumerate(zip(ims, times)):
         x, y = (i % cols) * w, (i // cols) * (h + 24)
         canvas.paste(im, (x, y + 24))
-        d.text((x + 6, y + 4), f"{int(t // 60)}:{t % 60:04.1f}" if t >= 60 else f"{t:5.1f}s", fill="black")
+        stamp = f"{int(t // 60)}:{t % 60:04.1f}" if t >= 60 else f"{t:5.1f}s"
+        d.text((x + 6, y + 4), f"{stamp}  {labels[i]}" if labels and i < len(labels) else stamp, fill="black")
     canvas.save(out, quality=85)
     shutil.rmtree(tmp, ignore_errors=True)
     return out
