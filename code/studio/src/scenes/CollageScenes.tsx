@@ -16,7 +16,7 @@ import {Sfx} from '../ui/Sfx';
 
 /**
  * collage — "một tấm poster cắt dán cho mỗi nhịp lời": tự do đặt ảnh sticker, polaroid, nhãn giấy xé, số lớn,
- * chữ cắt rời, mũi tên, dây nối… theo toạ độ khung 1080×1920, mỗi lớp hiện đúng lúc lời đọc chạm `cue`.
+ * chữ cắt rời, mũi tên, dây nối… theo toạ độ khung đang render (1080×1920 | 1920×1080), mỗi lớp hiện đúng lúc lời đọc chạm `cue`.
  * props: layers: Layer[], camera?, handheld?
  */
 export const CollageScene: React.FC<{scene: Scene}> = ({scene}) => (
@@ -29,9 +29,10 @@ export const CollageScene: React.FC<{scene: Scene}> = ({scene}) => (
 
 type LonLat = [number, number];
 
-const W = 1080;
-const H = 1920;
-const S0 = W / (2 * Math.PI); // zoom 1 = cả thế giới rộng bằng khung
+// Đường biên tính sẵn một lần ở tỉ lệ khung dọc (rộng 1080); khung ngang nhân thêm W/BASE_W vào zoom
+// → zoom 1 ở mọi định dạng = cả thế giới rộng bằng khung.
+const BASE_W = 1080;
+const S0 = BASE_W / (2 * Math.PI);
 const proj = geoMercator().scale(S0).translate([0, 0]).precision(0.2);
 const pathGen = geoPath(proj);
 
@@ -78,7 +79,7 @@ type View = {center?: LonLat; zoom?: number; move?: number; atMs?: number; at?: 
 
 const useMapCam = (views: View[], dur: number) => {
   const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const {fps, width: W, height: H} = useVideoConfig();
   const first = views[0] ?? {};
   const p0 = proj(first.center ?? [106, 16]) as [number, number];
   let cur = {x: p0[0], y: p0[1], z: first.zoom ?? 6};
@@ -91,12 +92,12 @@ const useMapCam = (views: View[], dur: number) => {
     const nz = v.zoom ?? cur.z;
     cur = {x: cur.x + (q[0] - cur.x) * p, y: cur.y + (q[1] - cur.y) * p, z: Math.exp(Math.log(cur.z) + (Math.log(nz) - Math.log(cur.z)) * p)};
   }
-  const z = cur.z * (1 + 0.03 * (frame / Math.max(1, dur)));
+  const z = cur.z * (1 + 0.03 * (frame / Math.max(1, dur))) * (W / BASE_W);
   const toScreen = (ll: LonLat): [number, number] => {
     const p = proj(ll) as [number, number];
     return [(p[0] - cur.x) * z + W / 2, (p[1] - cur.y) * z + H / 2];
   };
-  return {x: cur.x, y: cur.y, z, toScreen};
+  return {x: cur.x, y: cur.y, z, toScreen, W, H};
 };
 
 /**
@@ -110,6 +111,7 @@ export const MapScene: React.FC<{scene: Scene}> = ({scene}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const cam = useMapCam(views, scene.durationInFrames);
+  const {W, H} = cam;
   const g = `translate(${W / 2} ${H / 2}) scale(${cam.z}) translate(${-cam.x} ${-cam.y})`;
   const hl = (highlight as any[])
     .map((h, i) => ({...h, path: findCountry(h.country), at: layerFrame(h, fps, 8 + i * 6)}))

@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {interpolate, useCurrentFrame} from 'remotion';
 import {Scene} from '../types';
 import {colors, fonts} from '../theme';
-import {CONTENT, Heading, Kicker, Stage, useRevealFrame} from '../ui/layout';
+import {Heading, Kicker, Stage, useContent, useRevealFrame} from '../ui/layout';
 import {boil, onTwos, useEnter} from '../ui/anim';
 import {EmojiSticker, HandArrow, Sticker, Torn} from '../ui/collage';
 import {DarkContext} from '../ui/RichText';
@@ -80,8 +80,9 @@ export const FlowScene: React.FC<{scene: Scene}> = ({scene}) => {
   const dark = useContext(DarkContext);
   const ac = dark ? '#F4F1EA' : colors.ink;
   const f2 = onTwos(frame);
-  const W = CONTENT.width;
-  const H = CONTENT.bottom - CONTENT.top - (title ? 170 : 40);
+  const content = useContent();
+  const W = content.width;
+  const H = content.bottom - content.top - (title ? 170 : 40);
 
   if (layout === 'chain') {
     const n = nodes.length;

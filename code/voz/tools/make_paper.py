@@ -4,6 +4,8 @@
                    vết bẩn, vết xước, vignette nướng sẵn để Remotion không phải blend mỗi frame.
 - grain-<i>.png  : 4 lớp hạt film + bụi trong suốt, phủ lên MỌI thứ (cả ảnh) và đổi mỗi 2 frame → khung hình
                    "sống" và các ảnh cắt dán từ nhiều nguồn trông cùng một chất liệu.
+- *-wide.*       : cùng bộ trên cho khung ngang 1920×1080 (định dạng long) — tạo riêng để thớ giấy, ô lưới, hạt
+                   film không bị kéo méo.
 Chạy lại khi đổi màu trong theme.ts.
 """
 import sys
@@ -13,7 +15,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 OUT = Path(__file__).resolve().parents[2] / "studio" / "src" / "assets"
-W, H = 1080, 1920
+W, H = 1080, 1920  # đặt lại theo từng định dạng trong main()
 
 # tông: (màu nền, độ thớ giấy, độ vết bẩn, màu vignette, độ vignette, lưới (màu, alpha) | None, vết xước)
 TONES = {
@@ -28,7 +30,13 @@ TONES = {
 CELL = 92  # ô lưới (px)
 
 
-def _noise(rng, shape_small, blur, size=(W, H)):
+def _sh(a, b):
+    """Kích thước lưới nhiễu (hàng, cột) viết cho khung dọc → đảo lại ở khung ngang để hạt không bị kéo méo."""
+    return (a, b) if H >= W else (b, a)
+
+
+def _noise(rng, shape_small, blur, size=None):
+    size = size or (W, H)
     n = rng.normal(0, 1, shape_small)
     n = (n - n.min()) / np.ptp(n)
     img = Image.fromarray((n * 255).astype("uint8")).resize(size, Image.BICUBIC).filter(ImageFilter.GaussianBlur(blur))
@@ -58,24 +66,27 @@ def _grid(rng, rgb, a, grime):
         d.line([(0, y), (W, y)], fill=255, width=3)
     g = np.asarray(img.filter(ImageFilter.GaussianBlur(0.8)), dtype=np.float32) / 255
     # nét lưới mòn không đều: chỗ bẩn thì mờ đi, thêm đứt đoạn
-    wear = np.clip(0.35 + 0.9 * _noise(rng, (60, 34), 4) - 0.5 * grime, 0, 1)
+    wear = np.clip(0.35 + 0.9 * _noise(rng, _sh(60, 34), 4) - 0.5 * grime, 0, 1)
     return g * wear * a, np.array(rgb, np.float32) / 255
 
 
-def main():
-    rng = np.random.default_rng(7)
-    fib = _noise(rng, (240, 135), 6)
+def make_set(seed: int, size: tuple[int, int], suffix: str = "") -> None:
+    """Nền từng tông + 4 lớp hạt film cho một kích thước khung. suffix "" = khung dọc, "-wide" = khung ngang."""
+    global W, H
+    W, H = size
+    rng = np.random.default_rng(seed)
+    fib = _noise(rng, _sh(240, 135), 6)
     yy, xx = np.mgrid[0:H, 0:W]
     r = np.sqrt(((xx - W / 2) / (W / 2)) ** 2 + ((yy - H / 2) / (H / 2)) ** 2) / np.sqrt(2)
     for tone, (rgb, fib_a, stain_a, vig_rgb, vig_a, grid, scratch_a) in TONES.items():
         base = np.ones((H, W, 3), np.float32) * np.array(rgb, np.float32) / 255
         base *= (1 - fib_a + fib_a * (0.55 + 0.45 * fib))[..., None]
         # vết bẩn lớn (loang màu) + vết đốm nhỏ
-        stain = _noise(rng, (14, 8), 40) * 0.6 + _noise(rng, (70, 40), 6) * 0.4
+        stain = _noise(rng, _sh(14, 8), 40) * 0.6 + _noise(rng, _sh(70, 40), 6) * 0.4
         base *= (1 - stain_a + stain_a * (0.45 + 0.75 * stain))[..., None]
         g = np.clip(rng.normal(0.5, 0.12, (H, W)), 0, 1).astype(np.float32)
         base *= (0.94 + 0.12 * g)[..., None]
-        mott = _noise(rng, (480, 270), 1.2)  # thớ bìa các-tông mịn
+        mott = _noise(rng, _sh(480, 270), 1.2)  # thớ bìa các-tông mịn
         base *= (0.93 + 0.14 * mott)[..., None]
         if grid:
             ga, gc = _grid(rng, grid[0], grid[1], stain)
@@ -85,7 +96,7 @@ def main():
             base = base * (1 - s) + np.array([0.92, 0.9, 0.85], np.float32) * s
         v = np.clip((r - 0.45) / 0.55, 0, 1)[..., None] ** 1.4 * vig_a
         base = base * (1 - v) + np.array(vig_rgb, np.float32) / 255 * v
-        Image.fromarray((np.clip(base, 0, 1) * 255).astype("uint8")).save(OUT / f"bg-{tone}.jpg", quality=90)
+        Image.fromarray((np.clip(base, 0, 1) * 255).astype("uint8")).save(OUT / f"bg-{tone}{suffix}.jpg", quality=90)
 
     # hạt film trong suốt: nửa độ phân giải (hạt to, tự nhiên hơn), xám ±, kèm bụi trắng/đen thưa
     gw, gh = W // 2, H // 2
@@ -100,7 +111,12 @@ def main():
             x, y, rr = rng.uniform(0, gw), rng.uniform(0, gh), rng.uniform(0.5, 1.3)
             c = 230 if rng.random() < 0.5 else 15
             d.ellipse([x - rr, y - rr, x + rr, y + rr], fill=(c, c, c, int(rng.uniform(60, 120))))
-        im.save(OUT / f"grain-{i}.png", optimize=True)
+        im.save(OUT / f"grain-{i}{suffix}.png", optimize=True)
+    return rng
+
+
+def main():
+    rng = make_set(7, (1080, 1920))  # khung dọc: giữ seed 7 → bộ nền cũ không đổi khi chạy lại
 
     # mặt nạ "mực in mòn" (mask-image) cho số/chữ in typo và con dấu: trắng đặc, lỗ thủng nhỏ trong suốt
     S = 512
@@ -113,6 +129,8 @@ def main():
     a = np.asarray(m, dtype=np.float32) / 255 * np.clip(0.55 + 1.6 * blot, 0, 1) ** 0.6
     a = np.clip((a - 0.25) / 0.6, 0, 1)
     Image.fromarray(np.dstack([np.full((S, S, 3), 255, "uint8"), (a * 255).astype("uint8")]), "RGBA").save(OUT / "speckle.png", optimize=True)
+
+    make_set(8, (1920, 1080), "-wide")
 
     for old in OUT.glob("bg-light-*.jpg"):
         old.unlink()

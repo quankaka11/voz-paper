@@ -45,7 +45,7 @@ def cmd_render(a):
         render.remotion_still("Cover", b / "cover.json", b, ep / "export" / f"{name}_cover.png")
     sh = render.sheet(out, b / "sheet.jpg")
     print(f"→ video: {out}\n→ contact sheet: {sh}")
-    problems = render.check(out) if not a.draft else []
+    problems = render.check(out, episode.format_of(ep)) if not a.draft else []
     for p in problems:
         print("  ✗", p)
     if not a.draft and not problems:
@@ -66,7 +66,7 @@ def cmd_cover(a):
 def cmd_check(a):
     ep = episode.find(a.ep)
     mp4 = ep / "export" / f"{_out_name(ep)}.mp4"
-    problems = render.check(mp4)
+    problems = render.check(mp4, episode.format_of(ep))
     print("\n".join(f"  ✗ {p}" for p in problems) or "  ✓ đạt kiểm tra kỹ thuật")
 
 
@@ -153,7 +153,7 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--force-tts", action="store_true")
     s.set_defaults(fn=cmd_render)
 
-    s = sub.add_parser("cover", help="chỉ render ảnh bìa 9:16")
+    s = sub.add_parser("cover", help="chỉ render ảnh bìa (9:16 với short, 16:9 với long)")
     s.add_argument("ep")
     s.set_defaults(fn=cmd_cover)
 

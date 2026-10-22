@@ -57,6 +57,39 @@ export const resolveTone = (t?: string | null) => {
 
 export const VIDEO = {width: 1080, height: 1920, fps: 30};
 
-// Vùng an toàn 9:16: tránh giao diện TikTok/Shorts (thanh trên, cột nút phải, caption + nút dưới).
-// Ảnh/nền được phép tràn ra ngoài vùng này; chữ quan trọng thì không.
-export const SAFE = {top: 200, bottom: 1920 - 520, left: 80, right: 1080 - 150};
+/**
+ * Hai định dạng của kênh (episode.json > format, mặc định "short"):
+ *  short — 1080×1920 (Shorts/TikTok). Vùng an toàn tránh thanh trên, cột nút phải, caption + nút dưới.
+ *  long  — 1920×1080 (YouTube video dài). Vùng an toàn ~6% mỗi mép (TV cắt viền, thanh điều khiển khi rê chuột).
+ * Ảnh/nền được phép tràn ra ngoài vùng an toàn; chữ quan trọng thì không.
+ */
+export type FormatName = 'short' | 'long';
+export type Format = {
+  name: FormatName;
+  width: number;
+  height: number;
+  wide: boolean;
+  safe: {top: number; bottom: number; left: number; right: number};
+  /** vùng nội dung của các cảnh dựng sẵn (title, list, bars…): trên phụ đề, trong vùng an toàn */
+  content: {left: number; width: number; top: number; bottom: number};
+};
+const mk = (name: FormatName, width: number, height: number, safe: Format['safe'], content: Format['content']): Format => ({
+  name,
+  width,
+  height,
+  wide: width > height,
+  safe,
+  content,
+});
+const SAFE_SHORT = {top: 200, bottom: 1920 - 520, left: 80, right: 1080 - 150};
+const SAFE_LONG = {top: 70, bottom: 1080 - 70, left: 120, right: 1920 - 120};
+export const FORMATS: Record<FormatName, Format> = {
+  short: mk('short', 1080, 1920, SAFE_SHORT, {left: SAFE_SHORT.left, width: SAFE_SHORT.right - SAFE_SHORT.left, top: SAFE_SHORT.top + 40, bottom: SAFE_SHORT.bottom - 200}),
+  long: mk('long', 1920, 1080, SAFE_LONG, {left: SAFE_LONG.left + 40, width: SAFE_LONG.right - SAFE_LONG.left - 80, top: SAFE_LONG.top + 50, bottom: SAFE_LONG.bottom - 110}),
+};
+export const resolveFormat = (f?: string | null): Format => FORMATS[(f as FormatName) ?? 'short'] ?? FORMATS.short;
+/** Định dạng theo khung composition đang render (ngang → long). */
+export const formatOf = (width: number, height: number): Format => (width > height ? FORMATS.long : FORMATS.short);
+
+/** Vùng an toàn của định dạng short — giữ cho mã cũ; mã mới dùng useFormat().safe. */
+export const SAFE = SAFE_SHORT;

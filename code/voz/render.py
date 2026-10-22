@@ -10,7 +10,7 @@ from pathlib import Path
 
 from . import config
 
-LUFS_TARGET = -14.0  # mức to phổ biến cho TikTok/Shorts
+LUFS_TARGET = -14.0  # mức to phổ biến cho YouTube/TikTok (YouTube chuẩn hóa về khoảng -14)
 
 
 def _run(cmd: list[str], cwd: Path | None = None) -> None:
@@ -61,8 +61,9 @@ def measure_lufs(mp4: Path) -> float | None:
     return float(m[-1]) if m else None
 
 
-def check(mp4: Path) -> list[str]:
-    """Kiểm tra kỹ thuật theo chuẩn Shorts/TikTok. Trả danh sách lỗi (rỗng = đạt)."""
+def check(mp4: Path, fmt: str = "short") -> list[str]:
+    """Kiểm tra kỹ thuật theo định dạng (short: Shorts/TikTok · long: YouTube 16:9). Trả danh sách lỗi (rỗng = đạt)."""
+    fc = config.fmt_conf(fmt)
     info = probe(mp4)
     v = next((s for s in info.get("streams", []) if s["codec_type"] == "video"), None)
     a = next((s for s in info.get("streams", []) if s["codec_type"] == "audio"), None)
@@ -74,14 +75,17 @@ def check(mp4: Path) -> list[str]:
     if v:
         fps = float(Fraction(v.get("r_frame_rate", "0/1")))
         print(f"  hình     {v['width']}x{v['height']} {v['codec_name']} {fps:.0f}fps {v.get('pix_fmt')}")
-        if (v["width"], v["height"]) != (1080, 1920):
-            problems.append("độ phân giải không phải 1080x1920")
+        rw, rh = fc["resolution"]
+        if (v["width"], v["height"]) != (rw, rh):
+            problems.append(f"độ phân giải không phải {rw}x{rh} ({fmt})")
     else:
         problems.append("không có luồng hình")
     print(f"  thời lượng {dur:.1f}s")
-    hi = config.channel().get("target_seconds", [45, 175])[1]
+    lo, hi = fc["target_seconds"]
     if dur > hi:
-        problems.append(f"dài hơn {hi}s (Shorts/TikTok tối đa 3 phút)")
+        problems.append(f"dài hơn {hi}s" + (" (Shorts/TikTok tối đa 3 phút)" if fmt == "short" else ""))
+    if fmt == "long" and dur < lo:
+        problems.append(f"ngắn hơn {lo}s — video dài dưới 8 phút không chèn được quảng cáo giữa video")
     if a:
         print(f"  âm thanh {a['codec_name']} {a.get('sample_rate')}Hz  loudness {lufs} LUFS")
         if lufs is not None and abs(lufs - LUFS_TARGET) > 2:
@@ -91,11 +95,15 @@ def check(mp4: Path) -> list[str]:
     return problems
 
 
-def sheet(mp4: Path, out: Path, n: int = 12, width: int = 270) -> Path:
-    """Contact sheet n khung chia đều để duyệt nhanh bằng mắt."""
+def sheet(mp4: Path, out: Path, n: int = 12, width: int | None = None) -> Path:
+    """Contact sheet n khung chia đều để duyệt nhanh bằng mắt (khung ngang: ảnh rộng hơn, ít cột hơn)."""
     from PIL import Image, ImageDraw
 
-    dur = float(probe(mp4)["format"]["duration"])
+    info = probe(mp4)
+    dur = float(info["format"]["duration"])
+    v = next((s for s in info.get("streams", []) if s["codec_type"] == "video"), {})
+    wide = v.get("width", 0) > v.get("height", 1)
+    width = width or (400 if wide else 270)
     tmp = out.parent / "_frames"
     shutil.rmtree(tmp, ignore_errors=True)
     tmp.mkdir(parents=True)
@@ -104,7 +112,7 @@ def sheet(mp4: Path, out: Path, n: int = 12, width: int = 270) -> Path:
         subprocess.run([config.tool("ffmpeg"), "-y", "-loglevel", "error", "-ss", f"{t:.2f}", "-i", str(mp4),
                         "-frames:v", "1", "-vf", f"scale={width}:-1", str(tmp / f"{i:02d}.jpg")], check=True)
     ims = [Image.open(p) for p in sorted(tmp.glob("*.jpg"))]
-    cols = min(6, len(ims))
+    cols = min(4 if wide else 6, len(ims))
     rows = (len(ims) + cols - 1) // cols
     w, h = ims[0].size
     canvas = Image.new("RGB", (cols * w, rows * (h + 24)), "white")
@@ -112,7 +120,7 @@ def sheet(mp4: Path, out: Path, n: int = 12, width: int = 270) -> Path:
     for i, (im, t) in enumerate(zip(ims, times)):
         x, y = (i % cols) * w, (i // cols) * (h + 24)
         canvas.paste(im, (x, y + 24))
-        d.text((x + 6, y + 4), f"{t:5.1f}s", fill="black")
+        d.text((x + 6, y + 4), f"{int(t // 60)}:{t % 60:04.1f}" if t >= 60 else f"{t:5.1f}s", fill="black")
     canvas.save(out, quality=85)
     shutil.rmtree(tmp, ignore_errors=True)
     return out

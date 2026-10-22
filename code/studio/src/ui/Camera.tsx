@@ -8,25 +8,28 @@ import {layerFrame} from './Layers';
  * Máy quay của cảnh. `camera` trong props:
  *  - chuỗi preset: "in" (mặc định, đẩy chậm) | "out" | "left" | "right" | "up" | "down" | "none"
  *  - hoặc danh sách điểm nhìn khớp lời đọc: [{cue, x, y, zoom, rot?, move?}] — máy lia/zoom tới điểm (x,y)
- *    của khung 1080×1920 khi giọng đọc tới `cue` (Vox: một bảng cắt dán lớn, máy đi từ chi tiết này sang chi tiết khác).
+ *    của khung đang render (1080×1920 | 1920×1080) khi giọng đọc tới `cue` (Vox: một bảng cắt dán lớn, máy đi từ chi tiết này sang chi tiết khác).
  *  - `handheld: true` thêm rung tay nhẹ.
  */
 export type CamKey = {x?: number; y?: number; zoom?: number; rot?: number; move?: number; atMs?: number; at?: number};
 
-const W = 1080;
-const H = 1920;
-
-const PRESET: Record<string, [CamKey, CamKey]> = {
-  in: [{zoom: 1}, {zoom: 1.045}],
-  out: [{zoom: 1.08}, {zoom: 1}],
-  left: [{x: 590, zoom: 1.06}, {x: 490, zoom: 1.06}],
-  right: [{x: 490, zoom: 1.06}, {x: 590, zoom: 1.06}],
-  up: [{y: 1040, zoom: 1.06}, {y: 880, zoom: 1.06}],
-  down: [{y: 880, zoom: 1.06}, {y: 1040, zoom: 1.06}],
-  none: [{zoom: 1}, {zoom: 1}],
+/** Preset theo khung W×H: lia ±50px ngang, ±80px dọc quanh tâm (cùng biên độ ở cả hai định dạng). */
+const preset = (name: string, W: number, H: number): [CamKey, CamKey] | undefined => {
+  const cx = W / 2;
+  const cy = H / 2;
+  const P: Record<string, [CamKey, CamKey]> = {
+    in: [{zoom: 1}, {zoom: 1.045}],
+    out: [{zoom: 1.08}, {zoom: 1}],
+    left: [{x: cx + 50, zoom: 1.06}, {x: cx - 50, zoom: 1.06}],
+    right: [{x: cx - 50, zoom: 1.06}, {x: cx + 50, zoom: 1.06}],
+    up: [{y: cy + 80, zoom: 1.06}, {y: cy - 80, zoom: 1.06}],
+    down: [{y: cy - 80, zoom: 1.06}, {y: cy + 80, zoom: 1.06}],
+    none: [{zoom: 1}, {zoom: 1}],
+  };
+  return P[name];
 };
 
-const full = (k: CamKey, prev?: Required<Pick<CamKey, 'x' | 'y' | 'zoom' | 'rot'>>) => ({
+const full = (k: CamKey, W: number, H: number, prev?: Required<Pick<CamKey, 'x' | 'y' | 'zoom' | 'rot'>>) => ({
   x: k.x ?? prev?.x ?? W / 2,
   y: k.y ?? prev?.y ?? H / 2,
   zoom: k.zoom ?? prev?.zoom ?? 1,
@@ -35,15 +38,15 @@ const full = (k: CamKey, prev?: Required<Pick<CamKey, 'x' | 'y' | 'zoom' | 'rot'
 
 export const useCameraTransform = (camera: string | CamKey[] | undefined, dur: number, handheld = false) => {
   const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const {fps, width: W, height: H} = useVideoConfig();
   let x: number;
   let y: number;
   let zoom: number;
   let rot: number;
   if (!Array.isArray(camera)) {
-    const [a, b] = PRESET[camera ?? 'in'] ?? PRESET.in;
-    const fa = full(a);
-    const fb = full(b, fa);
+    const [a, b] = preset(camera ?? 'in', W, H) ?? preset('in', W, H)!;
+    const fa = full(a, W, H);
+    const fb = full(b, W, H, fa);
     const t = interpolate(frame, [0, dur], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
     x = fa.x + (fb.x - fa.x) * t;
     y = fa.y + (fb.y - fa.y) * t;
@@ -51,12 +54,12 @@ export const useCameraTransform = (camera: string | CamKey[] | undefined, dur: n
     rot = fa.rot + (fb.rot - fa.rot) * t;
   } else {
     // điểm đầu (không cue) = trạng thái mở cảnh; mỗi điểm sau lia tới trong `move` frame kể từ cue
-    let cur = full(camera[0] && layerFrame(camera[0], fps, -1) <= 0 ? camera[0] : {});
+    let cur = full(camera[0] && layerFrame(camera[0], fps, -1) <= 0 ? camera[0] : {}, W, H);
     for (let i = 0; i < camera.length; i++) {
       const k = camera[i];
       const at = layerFrame(k, fps, i === 0 ? 0 : Math.round((dur * i) / camera.length));
       if (at <= 0 && i === 0) continue;
-      const nxt = full(k, cur);
+      const nxt = full(k, W, H, cur);
       const mv = k.move ?? 20;
       if (frame <= at) break;
       const p = easeInOut(Math.min(1, (frame - at) / mv));
@@ -74,7 +77,7 @@ export const useCameraTransform = (camera: string | CamKey[] | undefined, dur: n
     zoom = cur.zoom * drift;
     rot = cur.rot;
   }
-  // không lia quá mép bảng: vùng nhìn [x ± 540/zoom] luôn nằm trong khung gốc (zoom ≥ 1)
+  // không lia quá mép bảng: vùng nhìn [x ± W/2/zoom] luôn nằm trong khung gốc (zoom ≥ 1)
   if (zoom >= 1) {
     x = Math.min(W - W / 2 / zoom, Math.max(W / 2 / zoom, x));
     y = Math.min(H - H / 2 / zoom, Math.max(H / 2 / zoom, y));

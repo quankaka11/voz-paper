@@ -1,6 +1,7 @@
 import React from 'react';
 import {interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
-import {colors, fonts, VIDEO} from '../theme';
+import {colors, fonts} from '../theme';
+import {useFormat} from './format';
 import {boil, clamp01, ease, easeInOut, onTwos} from './anim';
 import {BigNum, EmojiSticker, HandArrow, Label, Photo, Pin, Ransom, Scribble, Stamp, Sticker, StringLine, Tag, Tape} from './collage';
 import {RichText} from './RichText';
@@ -8,7 +9,7 @@ import {Sfx} from './Sfx';
 
 /**
  * Lớp cắt dán — mỗi phần tử trong `layers` của cảnh collage/map.
- * Toạ độ x, y tính theo khung 1080×1920 (điểm neo mặc định ở giữa phần tử).
+ * Toạ độ x, y tính theo khung đang render — 1080×1920 (short) hoặc 1920×1080 (long) — (điểm neo mặc định ở giữa phần tử).
  * Thời điểm: `cue` (cụm từ trong lời đọc → atMs) hoặc `at` (giây); rời khung: `outCue` / `out`.
  */
 export type Layer = {
@@ -112,7 +113,7 @@ const exitStyle = (t: number) => {
 
 const DRAWN = new Set(['arrow', 'string', 'scribble']);
 
-const LayerBody: React.FC<{l: Layer; t: number; fps: number; idx: number}> = ({l, t, fps, idx}) => {
+const LayerBody: React.FC<{l: Layer; t: number; fps: number; idx: number; W: number; H: number}> = ({l, t, fps, idx, W, H}) => {
   const seed = l.seed ?? `${l.kind}-${idx}`;
   switch (l.kind) {
     case 'image':
@@ -197,7 +198,7 @@ const LayerBody: React.FC<{l: Layer; t: number; fps: number; idx: number}> = ({l
       );
     case 'dim':
       // phủ tối toàn khung để làm nổi các lớp phía sau nó trong danh sách
-      return <div style={{width: VIDEO.width, height: VIDEO.height, background: l.color ?? 'rgba(10,10,12,0.6)'}} />;
+      return <div style={{width: W, height: H, background: l.color ?? 'rgba(10,10,12,0.6)'}} />;
     default:
       return <div style={{color: colors.coral, fontSize: 30}}>lớp lạ: {l.kind}</div>;
   }
@@ -207,6 +208,7 @@ const LayerBody: React.FC<{l: Layer; t: number; fps: number; idx: number}> = ({l
 export const Layers: React.FC<{layers: Layer[]; dur: number; autoFrom?: number; autoSpread?: number}> = ({layers, dur, autoFrom = 6, autoSpread = 0.6}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
+  const {width: W, height: H} = useFormat();
   const n = layers.length;
   const to = Math.max(autoFrom, dur * autoSpread);
   const starts = layers.map((l, i) => layerFrame(l, fps, n <= 1 ? autoFrom : autoFrom + ((to - autoFrom) * i) / (n - 1)));
@@ -231,7 +233,7 @@ export const Layers: React.FC<{layers: Layer[]; dur: number; autoFrom?: number; 
       let el: React.ReactNode = null;
       if (l.kind === 'arrow') el = <HandArrow from={l.from} to={l.to} bend={l.bend} p={p} color={l.color} width={l.width} />;
       if (l.kind === 'string') el = <StringLine from={l.from} to={l.to} p={p} color={l.color} width={l.width} pins={l.pins} />;
-      if (l.kind === 'scribble') el = <Scribble cx={l.x ?? 540} cy={l.y ?? 960} rx={(l.w ?? 300) / 2} ry={(l.h ?? 160) / 2} p={p} color={l.color} width={l.width} seed={`sc-${i}`} />;
+      if (l.kind === 'scribble') el = <Scribble cx={l.x ?? W / 2} cy={l.y ?? H / 2} rx={(l.w ?? 300) / 2} ry={(l.h ?? 160) / 2} p={p} color={l.color} width={l.width} seed={`sc-${i}`} />;
       svgLayers.push(
         <g key={i} opacity={ex.o}>
           {el}
@@ -249,8 +251,8 @@ export const Layers: React.FC<{layers: Layer[]; dur: number; autoFrom?: number; 
         key={i}
         style={{
           position: 'absolute',
-          left: full ? 0 : l.x ?? 540,
-          top: full ? 0 : l.y ?? 960,
+          left: full ? 0 : l.x ?? W / 2,
+          top: full ? 0 : l.y ?? H / 2,
           zIndex: l.z,
           opacity: e.o * ex.o * (l.opacity ?? 1),
           transform: full
@@ -259,7 +261,7 @@ export const Layers: React.FC<{layers: Layer[]; dur: number; autoFrom?: number; 
           transformOrigin: 'center',
         }}
       >
-        <LayerBody l={l} t={t} fps={fps} idx={i} />
+        <LayerBody l={l} t={t} fps={fps} idx={i} W={W} H={H} />
       </div>,
     );
   });
@@ -268,7 +270,7 @@ export const Layers: React.FC<{layers: Layer[]; dur: number; autoFrom?: number; 
     <>
       {htmlLayers}
       {svgLayers.length ? (
-        <svg width={VIDEO.width} height={VIDEO.height} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', zIndex: 50}}>
+        <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', zIndex: 50}}>
           {svgLayers}
         </svg>
       ) : null}

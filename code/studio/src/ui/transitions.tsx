@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, random} from 'remotion';
+import {AbsoluteFill, random, useVideoConfig} from 'remotion';
 import type {TransitionPresentation, TransitionPresentationComponentProps} from '@remotion/transitions';
 import {slide} from '@remotion/transitions/slide';
 import {easeInOut} from './anim';
@@ -26,6 +26,7 @@ export const pickTransition = (name: string | undefined, index: number): string 
 type P = Record<string, unknown>;
 
 const Sheet: React.FC<TransitionPresentationComponentProps<P>> = ({children, presentationDirection, presentationProgress}) => {
+  const {width} = useVideoConfig();
   const p = easeInOut(presentationProgress);
   if (presentationDirection === 'exiting') {
     return <AbsoluteFill style={{filter: `brightness(${1 - 0.35 * p})`}}>{children}</AbsoluteFill>;
@@ -33,7 +34,8 @@ const Sheet: React.FC<TransitionPresentationComponentProps<P>> = ({children, pre
   return (
     <AbsoluteFill
       style={{
-        transform: `translateX(${(1 - p) * 1150}px) rotate(${(1 - p) * 9}deg)`,
+        // đặt vào từ ngoài mép phải; khung ngang xoay ít hơn để góc tờ giấy không quét quá cao
+        transform: `translateX(${(1 - p) * width * 1.065}px) rotate(${(1 - p) * (width > 1500 ? 5 : 9)}deg)`,
         transformOrigin: '0% 100%',
         boxShadow: '-30px 0 60px rgba(0,0,0,0.5)',
       }}
@@ -43,23 +45,24 @@ const Sheet: React.FC<TransitionPresentationComponentProps<P>> = ({children, pre
   );
 };
 
-const tearEdge = (y: number) => {
+const tearEdge = (y: number, H: number) => {
   const pts: string[] = [];
   const N = 22;
   for (let i = 0; i <= N; i++) {
     const j = (random(`tear-${i}`) - 0.5) * 70 + Math.sin(i * 1.3) * 18;
     pts.push(`${(i / N) * 100}% ${y + j}px`);
   }
-  return `polygon(${pts.join(',')}, 100% 2100px, 0% 2100px)`;
+  return `polygon(${pts.join(',')}, 100% ${H * 1.1}px, 0% ${H * 1.1}px)`;
 };
 
 const Tear: React.FC<TransitionPresentationComponentProps<P>> = ({children, presentationDirection, presentationProgress}) => {
+  const {height: H} = useVideoConfig();
   const p = easeInOut(presentationProgress);
   if (presentationDirection === 'exiting') return <AbsoluteFill>{children}</AbsoluteFill>;
-  const y = 2000 - p * 2100;
+  const y = H * 1.04 - p * H * 1.1;
   return (
     <AbsoluteFill style={{filter: p < 1 ? 'drop-shadow(0 -14px 18px rgba(0,0,0,0.55))' : undefined}}>
-      <AbsoluteFill style={{clipPath: p < 1 ? tearEdge(y) : undefined}}>{children}</AbsoluteFill>
+      <AbsoluteFill style={{clipPath: p < 1 ? tearEdge(y, H) : undefined}}>{children}</AbsoluteFill>
     </AbsoluteFill>
   );
 };

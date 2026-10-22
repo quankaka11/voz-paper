@@ -3,7 +3,7 @@ import {Composition, Still} from 'remotion';
 import {Episode} from './Episode';
 import {BrandMark, Cover} from './Cover';
 import {EpisodeProps, CoverProps} from './types';
-import {VIDEO} from './theme';
+import {resolveFormat, VIDEO} from './theme';
 import demo from './demo.json';
 
 const demoCover: CoverProps = {
@@ -27,7 +27,8 @@ export const RemotionRoot: React.FC = () => (
       calculateMetadata={({props}: {props: Record<string, unknown>}) => {
         const p = props as unknown as EpisodeProps;
         const total = p.scenes.reduce((a, s) => a + s.durationInFrames, 0);
-        return {durationInFrames: Math.max(1, total)};
+        const f = resolveFormat(p.format);
+        return {durationInFrames: Math.max(1, total), width: f.width, height: f.height};
       }}
     />
     <Still id="Cover" component={Cover as unknown as React.FC<Record<string, unknown>>} width={1080} height={1920} defaultProps={demoCover as unknown as Record<string, unknown>} />

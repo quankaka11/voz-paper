@@ -29,6 +29,12 @@ def find(ep: str) -> Path:
     return hits[0]
 
 
+def format_of(ep_dir: Path) -> str:
+    """Định dạng của tập: episode.json > format, mặc định channel.json > format ("short")."""
+    spec = config.load_json(ep_dir / "episode.json", {}) or {}
+    return spec.get("format") or config.channel().get("format", "short")
+
+
 def _fold(s: str) -> str:
     s = unicodedata.normalize("NFD", s.lower()).replace("đ", "d")
     s = "".join(c for c in s if unicodedata.category(c) != "Mn")
@@ -154,6 +160,8 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
     if not spec:
         raise SystemExit(f"Thiếu {ep_dir / 'episode.json'}")
     meta = config.load_json(ep_dir / "meta.json", {})
+    fmt = format_of(ep_dir)
+    fc = config.fmt_conf(fmt)
     build_dir = ep_dir / "build"
     voice = spec.get("voice") or ch.get("voice")
     speed = spec.get("speed") or ch.get("speed")
@@ -220,9 +228,9 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
 
     brand = {"name": ch.get("channel", "VOZ STORY"), "handle": ch.get("handle", "")}
     props = {
-        "id": meta.get("id", ep_dir.name), "title": meta.get("title", ""), "brand": brand,
+        "id": meta.get("id", ep_dir.name), "title": meta.get("title", ""), "format": fmt, "brand": brand,
         "music": music, "musicVolume": spec.get("music_volume", ch.get("music_volume", 0.08)),
-        "showCaptions": spec.get("captions", True), "showWatermark": spec.get("watermark", True),
+        "showCaptions": spec.get("captions", fc["captions"]), "showWatermark": spec.get("watermark", True),
         "tone": spec.get("tone") or ch.get("tone"), "sfx": spec.get("sfx", ch.get("sfx", True)),
         "sfxVolume": spec.get("sfx_volume", ch.get("sfx_volume", 1.0)), "grain": spec.get("grain", ch.get("grain", 1.0)),
         "scenes": scenes,
@@ -230,6 +238,7 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
     config.save_json(build_dir / "props.json", props)
     cover = dict(spec.get("cover") or {"text": meta.get("title", "")})
     cover.setdefault("brand", brand)
+    cover.setdefault("format", fmt)
     cover.setdefault("tone", spec.get("tone") or ch.get("tone"))
     cover.setdefault("episodeNo", re.sub(r"\D", "", meta.get("id", ""))[-2:] or None)
     config.save_json(build_dir / "cover.json", cover)
@@ -238,9 +247,9 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
     print(f"\n{'cảnh':<6}{'loại':<11}{'giây':>6}  {'từ':>4}")
     for sid, typ, sec, words in rows:
         print(f"{sid:<6}{typ:<11}{sec:>6.1f}  {words:>4}")
-    lo, hi = ch.get("target_seconds", [45, 175])
-    flag = "" if lo <= total <= hi else f"  ⚠ ngoài khoảng mục tiêu {lo}–{hi}s"
-    print(f"TỔNG  {total:.1f}s{flag}")
+    lo, hi = fc["target_seconds"]
+    flag = "" if lo <= total <= hi else f"  ⚠ ngoài khoảng mục tiêu {lo}–{hi}s ({fmt})"
+    print(f"TỔNG  {total:.1f}s  · định dạng {fmt}{flag}")
     for w in warns:
         print("  ⚠", w)
-    return {"props": props, "total_seconds": total, "warnings": warns}
+    return {"props": props, "total_seconds": total, "warnings": warns, "format": fmt}

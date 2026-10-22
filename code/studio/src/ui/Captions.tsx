@@ -1,7 +1,8 @@
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame, useVideoConfig} from 'remotion';
 import {Caption} from '../types';
-import {colors, fonts, SAFE} from '../theme';
+import {colors, fonts} from '../theme';
+import {useFormat} from './format';
 
 /**
  * Phụ đề theo cụm từ (timing do ZipVoice trả về), kiểu nhãn hộp đen của Vox: chữ trắng trên dải đen,
@@ -11,6 +12,7 @@ import {colors, fonts, SAFE} from '../theme';
 export const Captions: React.FC<{captions: Caption[]; dark?: boolean}> = ({captions}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
+  const fmt = useFormat();
   const ms = (frame / fps) * 1000;
   const idx = captions.findIndex((c, i) => {
     const next = captions[i + 1];
@@ -39,9 +41,10 @@ export const Captions: React.FC<{captions: Caption[]; dark?: boolean}> = ({capti
       <div
         style={{
           position: 'absolute',
-          left: SAFE.left - 20,
-          right: 1080 - SAFE.right - 20,
-          top: SAFE.bottom - 150,
+          left: fmt.safe.left - 20,
+          right: fmt.width - fmt.safe.right - 20,
+          // khung ngang: dải chữ sát mép dưới vùng an toàn, không che hình giữa khung
+          top: fmt.safe.bottom - (fmt.wide ? 96 : 150),
           display: 'flex',
           justifyContent: 'center',
         }}
@@ -50,7 +53,7 @@ export const Captions: React.FC<{captions: Caption[]; dark?: boolean}> = ({capti
           style={{
             fontFamily: fonts.sans,
             fontWeight: 800,
-            fontSize: 54,
+            fontSize: fmt.wide ? 46 : 54,
             lineHeight: 1.42,
             textAlign: 'center',
             color: '#F7F4EC',

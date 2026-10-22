@@ -1,36 +1,75 @@
 import React, {useContext} from 'react';
 import {AbsoluteFill, useVideoConfig} from 'remotion';
-import {colors, fonts, SAFE} from '../theme';
+import {colors, fonts} from '../theme';
 import {DarkContext, RichText} from './RichText';
 import {Label} from './collage';
 import {useEnter} from './anim';
+import {useFormat} from './format';
 
-/** Vùng nội dung chính: nằm trên phụ đề, tránh cột nút bên phải. */
-export const CONTENT = {left: SAFE.left, width: SAFE.right - SAFE.left, top: SAFE.top + 40, bottom: SAFE.bottom - 200};
+/** Vùng nội dung chính của định dạng đang render: nằm trên phụ đề, trong vùng an toàn. */
+export const useContent = () => useFormat().content;
 
 export const Stage: React.FC<{children: React.ReactNode; align?: 'center' | 'top'; style?: React.CSSProperties}> = ({
   children,
   align = 'center',
   style,
-}) => (
-  <AbsoluteFill>
-    <div
-      style={{
-        position: 'absolute',
-        left: CONTENT.left,
-        width: CONTENT.width,
-        top: CONTENT.top,
-        height: CONTENT.bottom - CONTENT.top,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: align === 'center' ? 'center' : 'flex-start',
-        ...style,
-      }}
-    >
-      {children}
-    </div>
-  </AbsoluteFill>
-);
+}) => {
+  const c = useContent();
+  return (
+    <AbsoluteFill>
+      <div
+        style={{
+          position: 'absolute',
+          left: c.left,
+          width: c.width,
+          top: c.top,
+          height: c.bottom - c.top,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: align === 'center' ? 'center' : 'flex-start',
+          ...style,
+        }}
+      >
+        {children}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/**
+ * Bố cục 2 cột cho khung ngang (long): chữ bên trái, hình bên phải. Ở khung dọc (short) xếp chồng như Stage.
+ * `side` rộng `sideWidth` (mặc định 46% vùng nội dung) và căn giữa theo chiều dọc.
+ */
+export const Split: React.FC<{
+  children: React.ReactNode;
+  side: React.ReactNode;
+  sideWidth?: number;
+  align?: 'center' | 'top';
+  reverse?: boolean;
+  gap?: number;
+}> = ({children, side, sideWidth, align = 'center', reverse = false, gap = 80}) => {
+  const f = useFormat();
+  if (!f.wide) {
+    return (
+      <Stage align={align}>
+        {children}
+        {side}
+      </Stage>
+    );
+  }
+  const c = f.content;
+  const sw = sideWidth ?? Math.round(c.width * 0.46);
+  return (
+    <AbsoluteFill>
+      <div style={{position: 'absolute', left: c.left, width: c.width, top: c.top, height: c.bottom - c.top, display: 'flex', flexDirection: reverse ? 'row-reverse' : 'row', alignItems: 'center', gap}}>
+        <div style={{flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: align === 'center' ? 'center' : 'flex-start', alignSelf: align === 'center' ? 'center' : 'stretch'}}>
+          {children}
+        </div>
+        <div style={{width: sw, flexShrink: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>{side}</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
 
 /** Nhãn nhỏ phía trên tiêu đề — mảnh giấy xé (đen trên nền sáng, vàng trên nền tối). */
 export const Kicker: React.FC<{text?: string; dark?: boolean; delay?: number}> = ({text, dark, delay = 0}) => {

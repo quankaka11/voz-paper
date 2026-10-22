@@ -19,6 +19,8 @@ export type Scene = {
 export type EpisodeProps = {
   id: string;
   title: string;
+  /** short (9:16, mặc định) | long (16:9) */
+  format?: string | null;
   brand: {name: string; handle: string};
   music?: string | null;
   musicVolume?: number;

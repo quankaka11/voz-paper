@@ -52,6 +52,21 @@ def channel() -> dict:
     return load_json(CONFIG / "channel.json", {})
 
 
+FORMATS = ("short", "long")
+_FORMAT_DEFAULTS = {
+    "short": {"resolution": [1080, 1920], "target_seconds": [45, 175], "captions": True},
+    "long": {"resolution": [1920, 1080], "target_seconds": [480, 1200], "captions": False},
+}
+
+
+def fmt_conf(name: str) -> dict:
+    """Cấu hình một định dạng: mặc định trong code ← channel.json > formats > name."""
+    if name not in FORMATS:
+        raise SystemExit(f"Định dạng lạ '{name}' (có: {', '.join(FORMATS)})")
+    over = (channel().get("formats") or {}).get(name) or {}
+    return {**_FORMAT_DEFAULTS[name], **over}
+
+
 @lru_cache
 def lexicon() -> dict[str, str]:
     d = load_json(CONFIG / "lexicon.json", {})
