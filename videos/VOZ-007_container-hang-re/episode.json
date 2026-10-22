@@ -1,0 +1,21 @@
+{
+  "_note": "VOZ-007 — Vì sao hàng đi nửa vòng Trái Đất mà phí ship vẫn rẻ?. Video dài 16:9. Định dạng: docs/scene-types.md. Viết bằng skill voz-script-long; mẫu đủ cảnh: code/samples/long-test.",
+  "format": "long",
+  "intro": {"topic": "", "label": ""},
+  "cover": {"kicker": "Cỗ máy phía sau cuộc sống", "headline": "", "lines": ["Vì sao hàng đi nửa vòng Trái Đất mà phí ship vẫn rẻ?"], "image": null, "panel": "red", "stamp": null, "arrow": false},
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "collage",
+      "vo": "",
+      "props": {"layers": []}
+    },
+    {
+      "id": "c1",
+      "type": "chapter",
+      "transition": "tear",
+      "vo": "",
+      "props": {"title": ""}
+    }
+  ]
+}

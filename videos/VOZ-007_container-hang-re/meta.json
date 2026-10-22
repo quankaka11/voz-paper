@@ -1,0 +1,45 @@
+{
+  "id": "VOZ-007",
+  "slug": "container-hang-re",
+  "title": "Vì sao hàng đi nửa vòng Trái Đất mà phí ship vẫn rẻ?",
+  "series": "co-may-cuoc-song",
+  "format": "long",
+  "topic_ref": null,
+  "stage": "researched",
+  "created": "2026-10-22T21:28",
+  "updated": "2026-10-22T22:03",
+  "duration_s": null,
+  "files": {
+    "video": "export/VOZ-007_container-hang-re.mp4",
+    "cover": "export/VOZ-007_container-hang-re_cover.png"
+  },
+  "publish": {
+    "title": "Vì sao hàng đi nửa vòng Trái Đất mà phí ship vẫn rẻ?",
+    "description": "",
+    "hashtags": []
+  },
+  "platforms": {
+    "youtube": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    },
+    "tiktok": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-22T21:28",
+      "event": "tạo tập"
+    },
+    {
+      "at": "2026-10-22T22:03",
+      "event": "stage: idea → researched"
+    }
+  ]
+}
