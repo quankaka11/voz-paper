@@ -91,6 +91,8 @@ def cmd_img(a):
         assets.cutout(ep, a.file, a.model)
     elif a.img_cmd == "add":
         assets.add_manual(ep, a.file, a.name, a.title, a.author, a.license, a.url)
+    elif a.img_cmd == "commons":
+        assets.commons(ep, a.title, a.name)
 
 
 def cmd_brand(a):
@@ -197,6 +199,10 @@ def build_parser() -> argparse.ArgumentParser:
     i.add_argument("--author", default="không rõ")
     i.add_argument("--license", required=True, help='vd "Public domain", "No known restrictions (LoC)", "CC BY 4.0"')
     i.add_argument("--url", required=True, help="trang gốc của tư liệu")
+    i = isub.add_parser("commons", help="lấy đúng một file Wikimedia Commons theo tên + ghi sources.json")
+    i.add_argument("ep")
+    i.add_argument("title", help='tên file, vd "File:Container twistlock connector.agr.jpg"')
+    i.add_argument("--as", dest="name", required=True)
     s.set_defaults(fn=cmd_img)
 
     sub.add_parser("brand", help="xuất lại logo PNG vào brand/").set_defaults(fn=cmd_brand)

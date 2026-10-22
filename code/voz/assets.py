@@ -11,6 +11,7 @@ import shutil
 import time
 from io import BytesIO
 from pathlib import Path
+from urllib.parse import quote
 
 import requests
 
@@ -174,6 +175,49 @@ def pick(ep_dir: Path, key: str, name: str) -> Path:
         "attribution_required": c.get("attribution_required", True), "retrieved": dt.date.today().isoformat(),
     })
     print(f"→ {dst.relative_to(ep_dir)}  ({c['license']}; credit: {c['author'] or '—'})")
+    return dst
+
+
+def commons(ep_dir: Path, title: str, name: str) -> Path:
+    """Lấy đúng một file Commons theo tên ("File:…" hoặc tên file) — khi đã biết file cần dùng (vd danh sách tư liệu
+    từ bước nghiên cứu). Tải thumbnail ≤1600px, đọc license/tác giả từ extmetadata, ghi sources.json; chặn NC/ND."""
+    t = title if title.startswith("File:") else f"File:{title}"
+    r = requests.get("https://commons.wikimedia.org/w/api.php", headers=UA, timeout=30, params={
+        "action": "query", "format": "json", "titles": t, "prop": "imageinfo",
+        "iiprop": "url|extmetadata|size", "iiurlwidth": 1600,
+    })
+    page = next(iter((r.json().get("query", {}).get("pages") or {}).values()), {})
+    ii = (page.get("imageinfo") or [None])[0]
+    if not ii:
+        raise SystemExit(f"Không thấy {t} trên Commons")
+    md = ii.get("extmetadata", {})
+    lic = _strip_html(md.get("LicenseShortName", {}).get("value"))
+    if not lic or BLOCKED.search(lic):
+        raise SystemExit(f"License '{lic}' không dùng được cho {t}")
+    # upload.wikimedia.org hay trả 429 với đường thumbnail khi tải dồn → xen kẽ đường Special:FilePath, chờ theo Retry-After
+    urls = [_wiki_thumb(ii), "https://commons.wikimedia.org/wiki/Special:FilePath/"
+            + quote(t.removeprefix("File:").replace(" ", "_")) + "?width=1600"]
+    for attempt in range(6):
+        img = requests.get(urls[attempt % 2], headers=UA, timeout=60)
+        if img.status_code != 429:
+            break
+        wait = int(img.headers.get("Retry-After", "0") or 0) or 10
+        print(f"  429 — chờ {wait}s", flush=True)
+        time.sleep(wait)
+    img.raise_for_status()
+    from PIL import Image
+
+    dst = ep_dir / "assets" / f"{name}.jpg"
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    Image.open(BytesIO(img.content)).convert("RGB").save(dst, quality=92)
+    author = _strip_html(md.get("Artist", {}).get("value"))[:120]
+    add_source(ep_dir, {
+        "type": "image", "file": f"assets/{dst.name}", "title": t.removeprefix("File:"), "author": author, "license": lic,
+        "license_url": md.get("LicenseUrl", {}).get("value"), "url": ii.get("descriptionurl"), "via": "wikimedia",
+        "attribution_required": md.get("AttributionRequired", {}).get("value", "true") != "false",
+        "retrieved": dt.date.today().isoformat(),
+    })
+    print(f"→ {dst.relative_to(ep_dir)}  ({lic}; credit: {author or '—'})")
     return dst
 
 

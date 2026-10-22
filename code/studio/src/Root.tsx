@@ -6,11 +6,10 @@ import {EpisodeProps, CoverProps} from './types';
 import {resolveFormat, VIDEO} from './theme';
 import demo from './demo.json';
 
+// Chỉ những trường mọi ảnh bìa đều có: Remotion gộp defaultProps vào props của lệnh still, nên kicker/emoji/số tập ở đây
+// sẽ lọt vào ảnh bìa của tập không khai báo trường đó.
 const demoCover: CoverProps = {
-  kicker: 'Ai đang trả tiền?',
   text: 'App ==miễn phí== kiếm tiền từ đâu?',
-  emoji: '📱',
-  episodeNo: '01',
   brand: {name: 'VOZ STORY', handle: '@vozstory'},
 };
 
