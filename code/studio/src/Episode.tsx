@@ -7,6 +7,7 @@ import {FilmGrain, Paper} from './ui/Paper';
 import {Watermark} from './ui/Watermark';
 import {Captions} from './ui/Captions';
 import {SourceLine} from './ui/SourceLine';
+import {LowerThird} from './ui/LowerThird';
 import {colors, fonts, resolveTone, TONES} from './theme';
 import {DarkContext} from './ui/RichText';
 import {Camera} from './ui/Camera';
@@ -35,6 +36,7 @@ const SceneView: React.FC<{sc: Scene; tone: string}> = ({sc, tone}) => {
         </Camera>
       </DarkContext.Provider>
       <SourceLine source={sc.source} illustrative={sc.illustrative} dark={dark} />
+      {sc.props?.lower ? <LowerThird lower={sc.props.lower} dur={sc.durationInFrames} /> : null}
     </AbsoluteFill>
   );
 };

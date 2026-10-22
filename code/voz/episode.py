@@ -10,7 +10,8 @@ from pathlib import Path
 from . import config, tts
 
 SCENE_TYPES = {"title", "bigNumber", "list", "question", "receipt", "bars", "compare", "flow", "image", "phone",
-               "collage", "map", "document", "intro", "outro"}
+               "collage", "map", "document", "intro", "outro",
+               "chapter", "timeline", "callout", "lineChart", "quote", "footage"}
 TRANSITIONS = {"auto", "cut", "sheet", "push", "push-up", "tear", "zoom"}
 TONES = {"charcoal", "cream", "navy", "grid", "grid-blue", "grid-red", "map", "light", "dark"}
 
@@ -271,6 +272,9 @@ def build(ep_dir: Path, force_tts: bool = False, verify: bool = False) -> dict:
         })
         rows.append((sid, sc["type"], frames / fps, len(vo.split())))
 
+    chap = [s for s in scenes if s["type"] == "chapter"]
+    for k, s in enumerate(chap, 1):  # thẻ chương tự đánh số + tổng số chương (cho dải tiến độ)
+        s["props"] = {"no": k, "total": len(chap), **s["props"]}
     _sync_tree(ep_dir / "assets", build_dir / "assets")
     music, tracks = _music(spec.get("music", ch.get("music")), scenes, build_dir)  # "music": null = tắt nhạc
 

@@ -1,5 +1,5 @@
 {
-  "_note": "Tập KIỂM TRA định dạng 16:9 (format long): mỗi loại cảnh một lần, toạ độ collage/map theo khung 1920×1080. Chạy sau khi sửa thư viện cảnh: python voz.py render code/samples/long-test --draft. Không phải video đăng.",
+  "_note": "Tập KIỂM TRA định dạng 16:9 (format long): mỗi loại cảnh một lần (kể cả cảnh video dài: chapter, timeline, callout, lineChart, quote, footage), toạ độ collage/map theo khung 1920×1080. Chạy sau khi sửa thư viện cảnh: python voz.py render code/samples/long-test --draft. Không phải video đăng.",
   "format": "long",
   "captions": true,
   "tone": "charcoal",
@@ -31,6 +31,19 @@
         "image": {
           "src": "assets/phin_cut.png",
           "treat": "color"
+        }
+      }
+    },
+    {
+      "id": "c1",
+      "type": "chapter",
+      "transition": "tear",
+      "vo": "Phần một. Một nhà thơ và hạt cà phê.",
+      "props": {
+        "title": "Nhà thơ và hạt cà phê",
+        "sub": "Caffeine được tìm ra như thế nào?",
+        "image": {
+          "src": "assets/goethe_cut.png"
         }
       }
     },
@@ -69,7 +82,7 @@
             "src": "assets/goethe_cut.png",
             "w": 420,
             "treat": "bw",
-            "x": 760,
+            "x": 900,
             "y": 600,
             "rot": -2,
             "cue": "Goethe"
@@ -77,8 +90,8 @@
           {
             "kind": "tag",
             "text": "Nhà thơ",
-            "x": 760,
-            "y": 800,
+            "x": 900,
+            "y": 740,
             "cue": "Goethe"
           },
           {
@@ -122,7 +135,12 @@
             "rot": 2,
             "cue": "hộp hạt"
           }
-        ]
+        ],
+        "lower": {
+          "text": "Friedlieb Ferdinand Runge",
+          "role": "Nhà hóa học Đức, 1794–1867",
+          "cue": "Runge"
+        }
       }
     },
     {
@@ -238,6 +256,86 @@
       }
     },
     {
+      "id": "t1",
+      "type": "timeline",
+      "transition": "push",
+      "vo": "Năm 1819, caffeine được tách ra. Năm 1857, cây cà phê tới Việt Nam. Và tới năm 2000, Việt Nam thành nước xuất khẩu lớn thứ hai thế giới.",
+      "props": {
+        "title": "Hành trình của caffeine",
+        "events": [
+          {
+            "year": 1819,
+            "label": "Runge tách được caffeine",
+            "cue": "1819"
+          },
+          {
+            "year": 1857,
+            "label": "Cà phê tới Việt Nam",
+            "cue": "1857"
+          },
+          {
+            "year": 2000,
+            "label": "Việt Nam xuất khẩu lớn thứ hai",
+            "highlight": true,
+            "cue": "năm 2000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "k1",
+      "type": "callout",
+      "transition": "sheet",
+      "source": "Wikimedia Commons, CC BY 4.0",
+      "vo": "Đây là chân dung Runge. Để ý ánh mắt, và chiếc cổ áo kiểu thế kỷ mười chín.",
+      "props": {
+        "src": "assets/runge.jpg",
+        "kicker": "Tư liệu",
+        "callouts": [
+          {
+            "x": 0.5,
+            "y": 0.3,
+            "r": 0.12,
+            "label": "Ánh mắt nhà hóa học",
+            "cue": "ánh mắt"
+          },
+          {
+            "x": 0.5,
+            "y": 0.62,
+            "r": 0.1,
+            "label": "Cổ áo thế kỷ 19",
+            "cue": "cổ áo"
+          }
+        ],
+        "credit": "Burkhard Mücke, CC BY 4.0"
+      }
+    },
+    {
+      "id": "q1",
+      "type": "quote",
+      "transition": "sheet",
+      "source": "Lời tương truyền, 1832",
+      "vo": "Tương truyền, lời cuối của Goethe là: thêm ánh sáng.",
+      "props": {
+        "text": "Thêm ==ánh sáng!==",
+        "author": "Goethe",
+        "role": "lời cuối (tương truyền)",
+        "date": "1832",
+        "image": {
+          "src": "assets/goethe_cut.png"
+        }
+      }
+    },
+    {
+      "id": "c2",
+      "type": "chapter",
+      "transition": "tear",
+      "vo": "Phần hai. Ly cà phê hôm nay.",
+      "props": {
+        "title": "Ly cà phê hôm nay"
+      }
+    },
+    {
       "id": "s06",
       "type": "receipt",
       "transition": "sheet",
@@ -298,6 +396,59 @@
       }
     },
     {
+      "id": "l1",
+      "type": "lineChart",
+      "transition": "push-up",
+      "illustrative": true,
+      "vo": "Giá một ly cà phê ngoài quán tăng đều qua các năm, và tăng nhanh hơn sau năm 2020.",
+      "props": {
+        "title": "Giá một ly cà phê",
+        "unit": "k",
+        "series": [
+          {
+            "name": "Ly cà phê sữa",
+            "points": [
+              [
+                2010,
+                12
+              ],
+              [
+                2013,
+                15
+              ],
+              [
+                2016,
+                18
+              ],
+              [
+                2019,
+                20
+              ],
+              [
+                2020,
+                22
+              ],
+              [
+                2022,
+                26
+              ],
+              [
+                2025,
+                30
+              ]
+            ]
+          }
+        ],
+        "annotate": [
+          {
+            "x": 2020,
+            "label": "Sau 2020 tăng nhanh",
+            "cue": "sau năm 2020"
+          }
+        ]
+      }
+    },
+    {
       "id": "s08",
       "type": "compare",
       "transition": "zoom",
@@ -326,6 +477,15 @@
             }
           ]
         }
+      }
+    },
+    {
+      "id": "c3",
+      "type": "chapter",
+      "transition": "tear",
+      "vo": "Phần ba. Từ hạt tới bạn.",
+      "props": {
+        "title": "Từ hạt tới bạn"
       }
     },
     {
@@ -423,6 +583,20 @@
         "text": "Hạt cà phê là ==hạt của quả==",
         "caption": "Quả cà phê chín",
         "credit": "CNEcija12345, CC BY-SA 4.0"
+      }
+    },
+    {
+      "id": "f1",
+      "type": "footage",
+      "transition": "cut",
+      "vo": "Đây là cảnh phim thử nghiệm, để kiểm tra phim tư liệu trong video.",
+      "props": {
+        "src": "assets/test_clip.mp4",
+        "style": "print",
+        "kicker": "Phim tư liệu",
+        "text": "Khung ==phim tư liệu==",
+        "caption": "clip thử nghiệm",
+        "credit": "ffmpeg testsrc"
       }
     },
     {
