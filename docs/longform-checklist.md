@@ -59,7 +59,7 @@
 - [ ] Kết 60–90s: trả lời câu hỏi, nối vào đời sống người xem, nêu giới hạn, câu hỏi A/B để bình luận; màn hình kết thúc 20s tự chèn.
 
 **Lời đọc**
-- [ ] 2.800–3.200 âm tiết cho 12 phút (đo thực tế bằng `build` — giọng `blv` đọc khoảng 3,5–4,5 âm tiết/giây, chỉnh sau tập đầu).
+- [ ] ≈ 2.150 âm tiết cho 10 phút, 2.550 cho 12 phút (giọng `blv` ≈ 3,6 âm tiết/giây gồm nghỉ — đo ở VOZ-007; kiểm lại bằng `build`).
 - [ ] Văn nói, xưng "bạn"; câu ngắn, mỗi câu một ý; con số viết theo cách đọc.
 - [ ] Mỗi câu đẩy câu chuyện tiến lên — **cắt mọi đoạn lặp lại điều đã nói** (lỗi giết retention phổ biến nhất của video dài).
 - [ ] Không đọc lại chữ trên màn hình; không câu đệm kiểu "nhưng sự thật còn đáng sợ hơn".

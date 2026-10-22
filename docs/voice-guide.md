@@ -10,7 +10,8 @@
 
 ## Viết lời cho TTS
 
-**Video dài (10–14 phút):** đo thực tế giọng `blv` ≈ 3,5–4,5 âm tiết/giây (gồm nghỉ giữa cảnh) → 12 phút ≈ 2.800–3.200 âm tiết.
+**Video dài (10–14 phút):** đo thực tế giọng `blv` (VOZ-007, 22/10/2026): 1.889 âm tiết chữ viết → 530 giây nội dung, tức
+**≈ 3,6 âm tiết/giây gồm nghỉ giữa cảnh** (số viết bằng chữ số đọc ra dài hơn). → 10 phút ≈ 2.150 âm tiết, 12 phút ≈ 2.550 âm tiết.
 Chống đều đều: chia lời thành cảnh 4–10 giây, đặt khoảng lặng (cảnh không lời 0,5–1s hoặc `pad`) trước cú lật, đổi nhạc theo chương.
 Tên nước ngoài: đọc theo cách quen của người Việt (Mỹ, Pháp, "Mắc-Lin"), thêm vào `config/lexicon.json`, hiện chữ gốc trên lower third.
 

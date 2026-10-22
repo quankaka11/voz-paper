@@ -1,6 +1,6 @@
 ---
 name: voz-script-long
-description: Viết kịch bản video DÀI 16:9 (10–14 phút) kiểu Vox cho VOZ STORY và chuyển thành episode.json chạy được — lời hứa & đóng gói trước, dàn ý 3–5 chương (cổng duyệt), cold open 30 giây, vòng mở, nhịp giữ chân 60–90 giây, lời đọc ~3.000 âm tiết cho TTS, chọn cảnh tư liệu (callout, timeline, lineChart, map, quote, footage), mốc chương YouTube, ảnh bìa 1280×720, danh sách Shorts cắt ra. Dùng khi tập có "format": "long", hoặc người dùng nói "video dài", "kịch bản dài", "long-form", "viết chương".
+description: Viết kịch bản video DÀI 16:9 (10–14 phút) kiểu Vox cho VOZ STORY và chuyển thành episode.json chạy được — lời hứa & đóng gói trước, dàn ý 3–5 chương (cổng duyệt), cold open 30 giây, vòng mở, nhịp giữ chân 60–90 giây, lời đọc ~2.200–2.600 âm tiết cho TTS, chọn cảnh tư liệu (callout, timeline, lineChart, map, quote, footage), mốc chương YouTube, ảnh bìa 1280×720, danh sách Shorts cắt ra. Dùng khi tập có "format": "long", hoặc người dùng nói "video dài", "kịch bản dài", "long-form", "viết chương".
 ---
 
 # Viết kịch bản video dài (format `long`)
@@ -40,7 +40,8 @@ Trụ B **luôn quay về Việt Nam** ở 25–35% cuối; trụ A **luôn có 
 **Nhịp giữ chân mỗi 60–90 giây** (lập bảng trong `script.md`): điều bất ngờ · đổi nền · bản đồ · tư liệu thật · con số lớn · câu hỏi · khoảng lặng.
 
 ## 4. Lời đọc (vo)
-- **2.800–3.200 âm tiết** cho 12 phút (giọng `blv` ≈ 3,5–4,5 âm tiết/giây gồm nghỉ — đo lại sau `build`). Mỗi chương 500–800 âm tiết.
+- **≈ 2.150 âm tiết cho 10 phút, 2.550 cho 12 phút** (giọng `blv` ≈ 3,6 âm tiết/giây gồm nghỉ, đo ở VOZ-007 — xem `docs/voice-guide.md`). Mỗi chương 400–600 âm tiết.
+  Video phải ≥ 8 phút (480s) mới chèn được quảng cáo giữa video — `build` báo khi thiếu.
 - Cảnh dài 4–10 giây, 1–3 câu; câu ngắn, văn nói, xưng "bạn"; số viết theo cách đọc ("1.200 container mỗi tháng").
 - Trước cú lật: câu ngắn + cảnh không lời 0,5–1s (`duration`) hoặc `pad` lớn hơn để tạo khoảng lặng.
 - **Cắt lặp**: đọc lại cả kịch bản, xoá mọi câu nhắc lại điều đã nói (trừ một câu tóm tắt ở đầu mỗi chương).
