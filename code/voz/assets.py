@@ -8,6 +8,7 @@ from __future__ import annotations
 import datetime as dt
 import re
 import shutil
+import subprocess
 import time
 from io import BytesIO
 from pathlib import Path
@@ -230,11 +231,19 @@ def add_manual(ep_dir: Path, file: str, name: str | None, title: str, author: st
     src = Path(file)
     if not src.exists():
         raise SystemExit(f"Không thấy file {src}")
-    dst = ep_dir / "assets" / f"{name or src.stem}{src.suffix.lower()}"
+    kind = kind or ("video" if src.suffix.lower() in (".mp4", ".mov", ".webm", ".ogv", ".mkv") else "image")
+    dst = ep_dir / "assets" / f"{name or src.stem}{'.mp4' if kind == 'video' else src.suffix.lower()}"
     dst.parent.mkdir(parents=True, exist_ok=True)
-    if src.resolve() != dst.resolve():
+    if kind == "video":
+        # chuẩn hóa cho Remotion (OffthreadVideo): H.264 30fps nhịp đều, timestamp từ 0, không B-frame, không tiếng —
+        # clip 25fps/ogv/webm gốc hay gây lỗi "No frame found at position" khi render
+        tmp = dst.with_suffix(".tmp.mp4")
+        subprocess.run([config.tool("ffmpeg"), "-y", "-loglevel", "error", "-i", str(src), "-an",
+                        "-vf", "setpts=PTS-STARTPTS,fps=30,scale='min(1920,iw)':-2", "-c:v", "libx264", "-crf", "20",
+                        "-pix_fmt", "yuv420p", "-bf", "0", "-g", "30", "-movflags", "+faststart", str(tmp)], check=True)
+        tmp.replace(dst)
+    elif src.resolve() != dst.resolve():
         shutil.copy2(src, dst)
-    kind = kind or ("video" if dst.suffix in (".mp4", ".mov", ".webm") else "image")
     free = re.search(r"public domain|\bpd\b|pdm|cc0|no known (copyright )?restrictions", license, re.I)
     add_source(ep_dir, {
         "type": kind, "file": f"assets/{dst.name}", "title": title, "author": author, "license": license,
