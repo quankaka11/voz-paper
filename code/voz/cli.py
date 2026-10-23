@@ -54,7 +54,7 @@ def cmd_render(a):
         print("  ✗", p)
     if not a.draft and not problems:
         print("  ✓ đạt kiểm tra kỹ thuật")
-    if not a.draft and ep.parent == config.VIDEOS:
+    if not a.draft and config.VIDEOS in ep.parents:  # tập thật (kể cả Short trong shorts/), không phải code/samples
         status.mark_rendered(ep, float(render.probe(out)["format"]["duration"]))
         status.publish_kit(ep)  # mỗi bản cuối luôn kèm gói đăng: ảnh bìa + tiêu đề/mô tả/caption/bình luận ghim
 
@@ -99,7 +99,7 @@ def cmd_brand(a):
 
 
 def cmd_new(a):
-    status.new(a.title, a.slug, a.series, a.topic, a.format)
+    status.new(a.title, a.slug, a.series, a.topic, a.format, parent=episode.find(a.parent) if a.parent else None)
 
 
 def cmd_status(a):
@@ -212,6 +212,7 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--topic", help="số thứ tự chủ đề trong data/topics.md")
     s.add_argument("--format", choices=config.FORMATS, default=config.channel().get("format", "short"),
                    help="short = Shorts/TikTok 9:16 · long = YouTube video dài 16:9")
+    s.add_argument("--parent", help="mã video dài (vd VOZ-007) → tạo Short đi kèm trong thư mục video đó, mã VOZ-007-Sk")
     s.set_defaults(fn=cmd_new)
 
     s = sub.add_parser("status", help="bảng mọi tập (+ cập nhật videos/INDEX.md) hoặc xem/đổi trạng thái 1 tập")

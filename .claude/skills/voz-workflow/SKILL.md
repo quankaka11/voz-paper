@@ -20,7 +20,7 @@ Hai định dạng (`episode.json > format`): **long** — video dài 16:9, 10�
 | 5 | Nháp | `voz-produce` | `python voz.py render VOZ-xxx --draft` (20–35 phút) → `build/sheet.jpg` | |
 | 6 | Bản cuối | `voz-produce` | `python voz.py render VOZ-xxx` (50–90 phút, theo đoạn) → mp4 + bìa + `.vi.srt` + `publish.md` | `rendered` |
 | ⛳ | **Cổng 2: người dùng xem video** | | | `approved` |
-| 7 | 3–4 Shorts phễu | `voz-script` mục 7 → `voz-produce` | tập `--format short` riêng | |
+| 7 | 3–4 Shorts phễu | `voz-script` mục 7 → `voz-produce` | `python voz.py new "…" --parent VOZ-NNN` → `videos/VOZ-NNN_slug/shorts/VOZ-NNN-Sk_slug/` | |
 | 8 | Đăng + ghi trạng thái | `voz-publish` | video dài trước, Shorts rải 7–10 ngày; `python voz.py post …` | `published` |
 | 9 | Số liệu 48h / 7 ngày + bài học | `voz-publish` | `metrics`, CTR/giữ chân → `docs/learnings.md` | |
 

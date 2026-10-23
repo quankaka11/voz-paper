@@ -93,8 +93,10 @@ Render bản cuối tự sinh `export/publish.md` từ các trường này.
 5. Gửi người dùng bảng kịch bản để duyệt **trước khi render bản cuối**.
 
 ## 7. Short làm phễu cho video dài
-Mỗi video dài có 3–4 Short (bảng "Shorts cắt từ tập này" trong `script.md` của tập dài). Tạo tập riêng:
-`python voz.py new "Tiêu đề Short" --format short --series …`, chép assets cần dùng, ghi nguồn lại vào `sources.json` của Short.
+Mỗi video dài có 3–4 Short (bảng "Shorts cắt từ tập này" trong `script.md` của tập dài). Tạo Short đi kèm:
+`python voz.py new "Tiêu đề Short" --parent VOZ-NNN` → `videos/VOZ-NNN_slug/shorts/VOZ-NNN-Sk_slug/` (mã `VOZ-NNN-Sk`, format short,
+cùng series), chép assets cần dùng từ video dài, ghi nguồn lại vào `sources.json` của Short. Lệnh khác nhận mã Short: `python voz.py render VOZ-007-S1`.
+`publish.md` của Short tự ghi video dài cần gắn "Video liên quan" (kèm link nếu video dài đã `post`).
 - **Một phát hiện trọn vẹn** trong 45–60s (người xem không cần xem bản dài vẫn hiểu) + **một câu hỏi lớn hơn** mà video dài trả lời.
   Không cắt kiểu teaser bỏ lửng — Short giữ chân kém thì không được đẩy, cũng không kéo được ai.
 - Hook 3 giây theo mục 1; bố cục **dọc riêng** (toạ độ 1080×1920), không crop từ khung 16:9.

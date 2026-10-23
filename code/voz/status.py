@@ -33,8 +33,23 @@ def slugify(s: str, max_len: int = 40) -> str:
 
 
 def episodes() -> list[Path]:
+    """Mọi tập: video ở videos/VOZ-NNN_slug/ và Short đi kèm ở videos/VOZ-NNN_slug/shorts/VOZ-NNN-Sk_slug/
+    (Short đứng ngay sau video dài của nó)."""
     prefix = config.channel().get("id_prefix", "VOZ")
-    return sorted(d for d in config.VIDEOS.glob(f"{prefix}-*") if (d / "meta.json").exists())
+    out = []
+    for d in sorted(config.VIDEOS.glob(f"{prefix}-*")):
+        if (d / "meta.json").exists():
+            out.append(d)
+            out += sorted(s for s in (d / "shorts").glob(f"{prefix}-*") if (s / "meta.json").exists())
+    return out
+
+
+def _used_ids(prefix: str) -> list[int]:
+    """Số tập đã dùng: thư mục, mã cũ ghi trong meta (former_id — tập đã đổi mã khi gom vào video dài) và nhánh git."""
+    nums = [int(m.group(1)) for d in config.VIDEOS.glob(f"{prefix}-*") if (m := re.match(rf"{prefix}-(\d+)", d.name))]
+    for f in config.VIDEOS.glob("**/meta.json"):
+        nums += [int(m.group(1)) for m in re.finditer(rf'"former_id": "{prefix}-(\d+)"', f.read_text(encoding="utf-8"))]
+    return nums + _branch_ids(prefix)
 
 
 def load(ep_dir: Path) -> dict:
@@ -59,14 +74,23 @@ def _branch_ids(prefix: str) -> list[int]:
     return [int(m.group(1)) for m in re.finditer(rf"video/{prefix}-(\d+)", out)]
 
 
-def new(title: str, slug: str | None, series: str | None, topic: str | None, fmt: str = "short") -> Path:
+def new(title: str, slug: str | None, series: str | None, topic: str | None, fmt: str = "short",
+        parent: Path | None = None) -> Path:
+    """Tạo tập mới. parent = thư mục video dài → tạo Short đi kèm trong <parent>/shorts/, mã <ID video dài>-Sk."""
     ch = config.channel()
     prefix = ch.get("id_prefix", "VOZ")
-    nums = [int(m.group(1)) for d in config.VIDEOS.glob(f"{prefix}-*") if (m := re.match(rf"{prefix}-(\d+)", d.name))]
-    nums += _branch_ids(prefix)  # mỗi tập một nhánh git → tập ở nhánh khác không có thư mục trên nhánh hiện tại
-    ep_id = f"{prefix}-{(max(nums) + 1 if nums else 1):03d}"
     slug = slugify(slug or title)
-    ep_dir = config.VIDEOS / f"{ep_id}_{slug}"
+    if parent:
+        pmeta = load(parent)
+        ks = [int(m.group(1)) for d in (parent / "shorts").glob("*") if (m := re.search(r"-S(\d+)_", d.name))]
+        ep_id = f"{pmeta['id']}-S{(max(ks) + 1 if ks else 1)}"
+        ep_dir = parent / "shorts" / f"{ep_id}_{slug}"
+        fmt = "short"
+        series = series or pmeta.get("series")
+    else:
+        nums = _used_ids(prefix)
+        ep_id = f"{prefix}-{(max(nums) + 1 if nums else 1):03d}"
+        ep_dir = config.VIDEOS / f"{ep_id}_{slug}"
     if series and series not in ch.get("series", {}):
         raise SystemExit(f"Series lạ '{series}'. Có: {', '.join(ch.get('series', {}))}")
     for sub in ("assets", "export"):
@@ -86,6 +110,7 @@ def new(title: str, slug: str | None, series: str | None, topic: str | None, fmt
     config.save_json(ep_dir / "sources.json", [])
     meta = {
         "id": ep_id, "slug": slug, "title": title, "series": series, "format": fmt,
+        **({"parent": load(parent)["id"]} if parent else {}),
         "topic_ref": f"data/topics.md#{topic}" if topic else None,
         "stage": "idea", "created": now(), "updated": now(), "duration_s": None,
         "files": {"video": f"export/{ep_id}_{slug}.mp4", "cover": f"export/{ep_id}_{slug}_cover.png"},
@@ -154,8 +179,8 @@ def table() -> list[list[str]]:
     for d in episodes():
         m = load(d)
         rows.append([
-            m["id"], m["title"][:48], config.channel().get("series", {}).get(m.get("series") or "", "")[:22],
-            "Dài" if m.get("format") == "long" else "Short",
+            ("↳ " if m.get("parent") else "") + m["id"], m["title"][:48], config.channel().get("series", {}).get(m.get("series") or "", "")[:22],
+            "Dài" if m.get("format") == "long" else ("Short phễu" if m.get("parent") else "Short"),
             STAGE_VI.get(m.get("stage", "idea"), m.get("stage")), _dur(m.get("duration_s")),
             POST_VI[m["platforms"]["youtube"]["status"]], POST_VI[m["platforms"]["tiktok"]["status"]],
             str(_latest(m, "youtube", "views") or "—"), str(_latest(m, "tiktok", "views") or "—"),
@@ -192,7 +217,7 @@ def write_index() -> None:
     ]
     for d, r in zip(episodes(), rows):
         r = list(r)
-        r[1] = f"[{r[1]}]({d.name}/)"
+        r[1] = f"[{r[1]}]({d.relative_to(config.VIDEOS).as_posix()}/)"
         lines.append("| " + " | ".join(r) + " |")
     counts = {s: 0 for s in STAGES}
     for d in episodes():
@@ -319,6 +344,13 @@ def publish_kit(ep_dir: Path) -> Path:
     cover = next((f"export/{name}_cover.{e}" for e in ("jpg", "png") if (ep_dir / "export" / f"{name}_cover.{e}").exists()),
                  f"export/{name}_cover.png")
     warn_md = "".join(f"- ⚠ {w}\n" for w in warns)
+    parent_dir = ep_dir.parent.parent if ep_dir.parent.name == "shorts" else None
+    if parent_dir and (parent_dir / "meta.json").exists():
+        pm = load(parent_dir)
+        link = (pm.get("platforms", {}).get("youtube", {}) or {}).get("url") or "(chưa đăng — đăng video dài trước)"
+        related = f"Gắn **Video liên quan** (Related video) → {pm['id']} \"{pm['title']}\" {link}"
+    else:
+        related = "Nếu Short này cắt từ một video dài: gắn **Video liên quan** (Related video) trỏ về video dài"
     variants = sorted(p.name for p in (ep_dir / "export").glob(f"{name}_cover_*.*") if p.suffix in (".png", ".jpg"))
     if variants:  # ảnh bìa nhiều phương án: liệt kê để người dùng chọn (chốt bằng cover_pick trong episode.json)
         warn_md += "- Phương án ảnh bìa: " + " · ".join(f"`export/{v}`" for v in variants) + "\n"
@@ -384,7 +416,7 @@ python voz.py post {meta['id']} youtube --url <link>
 ```
 - [ ] Ảnh bìa: trong app YouTube (Tải lên → Chỉnh sửa ảnh thu nhỏ) chọn tải ảnh `_cover.png` nếu tài khoản có tùy chọn này; nếu chỉ cho chọn khung hình thì chọn khung rõ chữ nhất
 - [ ] Thêm vào playlist series · [ ] "Altered or synthetic content": **Không** (animation/TTS không cần khai báo) · [ ] Ghim bình luận
-- [ ] Nếu Short này cắt từ một video dài: gắn **Video liên quan** (Related video) trỏ về video dài
+- [ ] {related}
 
 ## TikTok
 **Caption** (dòng đầu là hook — chỉ ~80–90 ký tự đầu hiện trước nút "thêm"):

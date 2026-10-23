@@ -24,10 +24,14 @@ videos/VOZ-001_slug/
   research.md · script.md · episode.json · sources.json · assets/
   build/         (git-ignore) audio TTS, props.json, draft.mp4, sheet.jpg
   export/        VOZ-001_slug.mp4 · VOZ-001_slug_cover.png (.jpg) · VOZ-001_slug.vi.srt · publish.md
+  shorts/        (video dài) Short phễu đi kèm: VOZ-007-S1_slug/ … cùng cấu trúc một tập (tạo: `voz.py new "…" --parent VOZ-007`)
 ```
 
 ## Quy ước
-- Mã tập `VOZ-NNN` tăng dần, không tái sử dụng; thư mục = file xuất = `VOZ-NNN_slug` (slug không dấu, gạch nối).
+- Mã tập `VOZ-NNN` tăng dần, không tái sử dụng (kể cả mã cũ `former_id`); thư mục = file xuất = `VOZ-NNN_slug` (slug không dấu, gạch nối).
+  Short phễu của video dài: mã `VOZ-NNN-Sk`, nằm trong `videos/VOZ-NNN_slug/shorts/`.
+- Git: nền tảng dùng chung (code, docs, skill, config) → commit + push `master`. Nội dung một video dài **và các Short của nó**
+  → nhánh `video/VOZ-NNN` (tạo tập bằng `voz.py new` trước rồi mới tạo nhánh); xong và người dùng đồng ý thì gộp vào `master`.
 - **Chỉ đổi trạng thái qua lệnh** (`voz.py status --stage`, `post`, `metrics`), không sửa tay `meta.json > stage/platforms` — lệnh tự ghi lịch sử và cập nhật INDEX.md.
 - Stage: `idea → researched → scripted → rendered → approved → published`. `approved` chỉ khi người dùng đã xem video.
 - Không tự đăng, không đổi `approved` thay người dùng.

@@ -17,14 +17,18 @@ TONES = {"charcoal", "cream", "navy", "grid", "grid-blue", "grid-red", "map", "l
 
 
 def find(ep: str) -> Path:
-    """Nhận 'VOZ-001', '1', '001', tên thư mục hoặc đường dẫn → thư mục tập."""
+    """Nhận 'VOZ-001', '1', '001', Short 'VOZ-007-S1' / '7-S1', tên thư mục hoặc đường dẫn → thư mục tập."""
     p = Path(ep)
     if p.is_dir() and ((p / "episode.json").exists() or (p / "meta.json").exists()):
         return p.resolve()
     prefix = config.channel().get("id_prefix", "VOZ")
-    m = re.fullmatch(rf"(?:{prefix}-?)?(\d+)", ep, re.I)
+    m = re.fullmatch(rf"(?:{prefix}-?)?(\d+)(?:-?S(\d+))?", ep, re.I)
     key = f"{prefix}-{int(m.group(1)):03d}" if m else ep
-    hits = sorted(d for d in config.VIDEOS.glob(f"{key}*") if d.is_dir())
+    if m and m.group(2):  # Short đi kèm: videos/<video dài>/shorts/VOZ-NNN-Sk_slug
+        key = f"{key}-S{int(m.group(2))}_"
+        hits = sorted(d for d in config.VIDEOS.glob(f"*/shorts/{key}*") if d.is_dir())
+    else:
+        hits = sorted(d for d in config.VIDEOS.glob(f"{key}*") if d.is_dir() and not re.match(rf"{key}-S\d", d.name))
     if not hits:
         raise SystemExit(f"Không tìm thấy tập '{ep}' trong {config.VIDEOS}")
     return hits[0]
