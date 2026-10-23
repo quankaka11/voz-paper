@@ -1,5 +1,5 @@
 {
-  "id": "VOZ-009",
+  "id": "VOZ-007-S2",
   "slug": "194582-kien-hang",
   "title": "Năm 1954, một con tàu chở 194.582 kiện hàng lẻ",
   "series": "co-may-cuoc-song",
@@ -7,11 +7,11 @@
   "topic_ref": null,
   "stage": "rendered",
   "created": "2026-10-23T19:57",
-  "updated": "2026-10-23T20:07",
+  "updated": "2026-10-23T20:21",
   "duration_s": 45.5,
   "files": {
-    "video": "export/VOZ-009_194582-kien-hang.mp4",
-    "cover": "export/VOZ-009_194582-kien-hang_cover.png"
+    "video": "export/VOZ-007-S2_194582-kien-hang.mp4",
+    "cover": "export/VOZ-007-S2_194582-kien-hang_cover.png"
   },
   "publish": {
     "title": "Năm 1954, một con tàu chở 194.582 kiện hàng lẻ",
@@ -23,8 +23,7 @@
       "#VOZSTORY"
     ],
     "tiktok_caption": "1954: một con tàu, 194.582 kiện hàng, bốc từng kiện một\nAi đã nghĩ ra cái hộp thay đổi tất cả?",
-    "pinned_comment": "📌 Theo bạn ai đã nghĩ ra chiếc container?\nA. Một kỹ sư hàng hải\nB. Một người lái xe tải\nComment A hoặc B nhé 👇 (Đáp án: video liên quan)",
-    "related_long": "VOZ-007"
+    "pinned_comment": "📌 Theo bạn ai đã nghĩ ra chiếc container?\nA. Một kỹ sư hàng hải\nB. Một người lái xe tải\nComment A hoặc B nhé 👇 (Đáp án: video liên quan)"
   },
   "platforms": {
     "youtube": {
@@ -48,6 +47,12 @@
     {
       "at": "2026-10-23T20:07",
       "event": "render bản cuối (45.5s)"
+    },
+    {
+      "at": "2026-10-23T20:21",
+      "event": "gom vào VOZ-007: VOZ-009 → VOZ-007-S2"
     }
-  ]
+  ],
+  "former_id": "VOZ-009",
+  "parent": "VOZ-007"
 }

@@ -1,8 +1,8 @@
-# VOZ-008 — gói đăng bài
+# VOZ-007-S1 — gói đăng bài
 
-- Video: `export/VOZ-008_800d-vuot-bien.mp4` (48.2s)
-- Ảnh bìa (thumbnail): `export/VOZ-008_800d-vuot-bien_cover.jpg` (1080×1920)
-- Phương án ảnh bìa: `export/VOZ-008_800d-vuot-bien_cover_5km.jpg` · `export/VOZ-008_800d-vuot-bien_cover_5km.png` · `export/VOZ-008_800d-vuot-bien_cover_800d.jpg` · `export/VOZ-008_800d-vuot-bien_cover_800d.png` · `export/VOZ-008_800d-vuot-bien_cover_hop-thep.jpg` · `export/VOZ-008_800d-vuot-bien_cover_hop-thep.png`
+- Video: `export/VOZ-007-S1_800d-vuot-bien.mp4` (48.2s)
+- Ảnh bìa (thumbnail): `export/VOZ-007-S1_800d-vuot-bien_cover.jpg` (1080×1920)
+- Phương án ảnh bìa: `export/VOZ-007-S1_800d-vuot-bien_cover_5km.jpg` · `export/VOZ-007-S1_800d-vuot-bien_cover_5km.png` · `export/VOZ-007-S1_800d-vuot-bien_cover_800d.jpg` · `export/VOZ-007-S1_800d-vuot-bien_cover_800d.png` · `export/VOZ-007-S1_800d-vuot-bien_cover_hop-thep.jpg` · `export/VOZ-007-S1_800d-vuot-bien_cover_hop-thep.png`
 
 ## YouTube Shorts
 **Tiêu đề** (46/100 ký tự, nên ≤ 60):
@@ -36,7 +36,7 @@ Comment A hoặc B nhé 👇 (Bản đầy đủ: video liên quan)
 ```
 - [ ] Ảnh bìa: trong app YouTube (Tải lên → Chỉnh sửa ảnh thu nhỏ) chọn tải ảnh `_cover.png` nếu tài khoản có tùy chọn này; nếu chỉ cho chọn khung hình thì chọn khung rõ chữ nhất
 - [ ] Thêm vào playlist series · [ ] "Altered or synthetic content": **Không** (animation/TTS không cần khai báo) · [ ] Ghim bình luận
-- [ ] Nếu Short này cắt từ một video dài: gắn **Video liên quan** (Related video) trỏ về video dài
+- [ ] Gắn **Video liên quan** (Related video) → VOZ-007 "Vì sao hàng đi nửa vòng Trái Đất mà phí ship vẫn rẻ?" (chưa đăng — đăng video dài trước)
 
 ## TikTok
 **Caption** (dòng đầu là hook — chỉ ~80–90 ký tự đầu hiện trước nút "thêm"):
@@ -58,7 +58,7 @@ Comment A hoặc B nhé 👇 (Bản đầy đủ: video liên quan)
 
 ## Sau khi đăng
 ```
-python voz.py post VOZ-008 youtube --url <link>
-python voz.py post VOZ-008 tiktok --url <link>
-python voz.py metrics VOZ-008 youtube --views N --likes N --comments N --avg-view-pct N   # sau 48h và 7 ngày
+python voz.py post VOZ-007-S1 youtube --url <link>
+python voz.py post VOZ-007-S1 tiktok --url <link>
+python voz.py metrics VOZ-007-S1 youtube --views N --likes N --comments N --avg-view-pct N   # sau 48h và 7 ngày
 ```

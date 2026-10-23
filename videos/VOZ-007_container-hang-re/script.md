@@ -147,6 +147,9 @@ Bản render: `build/thumbs/t1-800d.png`, `t2-freeship.png`, `t3-hop-thep.png` (
 | 8:04 | IMF: cước ×2 → lạm phát chỉ +0,7 điểm % (s56) |
 
 ## Shorts cắt từ tập này
+
+Đã làm (trong `shorts/`): **VOZ-007-S1** 800đ vượt biển (s01–s05) · **VOZ-007-S2** 194.582 kiện hàng (s09–s13) · **VOZ-007-S3** Freeship không miễn phí (s51–s53). Ý số 3 (cước chiều về 47 đô) chưa làm.
+
 | Short | Cảnh | Phát hiện trọn vẹn | Câu kết dẫn về video dài |
 |---|---|---|---|
 | 1 | s01–s05 | Áo đi biển ~800đ, 5 km cuối 21.000đ (×25) | Vì sao đoạn dài nhất lại rẻ nhất? |

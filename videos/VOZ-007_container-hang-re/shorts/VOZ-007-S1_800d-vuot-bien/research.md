@@ -1,6 +1,6 @@
-# VOZ-010 — Nghiên cứu: Freeship có thật sự miễn phí?
+# VOZ-007-S1 — Nghiên cứu: 800 đồng vượt biển, 21.000 đồng cho 5 km cuối?
 
-> Series: Ai đang trả tiền? · Ngày tạo: 2026-10-23 · Quy trình: skill `voz-research`
+> Series: Cỗ máy phía sau cuộc sống · Ngày tạo: 2026-10-23 · Quy trình: skill `voz-research`
 
 ## Câu hỏi trung tâm
 <!-- Một câu hỏi cụ thể, gần đời sống người Việt -->

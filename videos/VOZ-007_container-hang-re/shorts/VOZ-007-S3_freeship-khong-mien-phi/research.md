@@ -1,6 +1,6 @@
-# VOZ-009 — Nghiên cứu: Năm 1954, một con tàu chở 194.582 kiện hàng lẻ
+# VOZ-007-S3 — Nghiên cứu: Freeship có thật sự miễn phí?
 
-> Series: Cỗ máy phía sau cuộc sống · Ngày tạo: 2026-10-23 · Quy trình: skill `voz-research`
+> Series: Ai đang trả tiền? · Ngày tạo: 2026-10-23 · Quy trình: skill `voz-research`
 
 ## Câu hỏi trung tâm
 <!-- Một câu hỏi cụ thể, gần đời sống người Việt -->

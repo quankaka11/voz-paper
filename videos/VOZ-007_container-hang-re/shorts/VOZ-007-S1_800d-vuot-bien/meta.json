@@ -1,5 +1,5 @@
 {
-  "id": "VOZ-008",
+  "id": "VOZ-007-S1",
   "slug": "800d-vuot-bien",
   "title": "800 đồng vượt biển, 21.000 đồng cho 5 km cuối?",
   "series": "co-may-cuoc-song",
@@ -7,11 +7,11 @@
   "topic_ref": null,
   "stage": "rendered",
   "created": "2026-10-23T19:44",
-  "updated": "2026-10-23T19:57",
+  "updated": "2026-10-23T20:21",
   "duration_s": 48.2,
   "files": {
-    "video": "export/VOZ-008_800d-vuot-bien.mp4",
-    "cover": "export/VOZ-008_800d-vuot-bien_cover.png"
+    "video": "export/VOZ-007-S1_800d-vuot-bien.mp4",
+    "cover": "export/VOZ-007-S1_800d-vuot-bien_cover.png"
   },
   "publish": {
     "title": "800 đồng vượt biển, 21.000 đồng cho 5 km cuối?",
@@ -23,8 +23,7 @@
       "#VOZSTORY"
     ],
     "tiktok_caption": "Áo vượt biển 800đ, nhưng 5 km cuối 21.000đ?\nVì sao đoạn dài nhất lại rẻ nhất?",
-    "pinned_comment": "📌 Bạn đoán vì sao đường biển rẻ vậy?\nA. Tàu siêu lớn\nB. Một chiếc hộp thép năm 1956\nComment A hoặc B nhé 👇 (Bản đầy đủ: video liên quan)",
-    "related_long": "VOZ-007"
+    "pinned_comment": "📌 Bạn đoán vì sao đường biển rẻ vậy?\nA. Tàu siêu lớn\nB. Một chiếc hộp thép năm 1956\nComment A hoặc B nhé 👇 (Bản đầy đủ: video liên quan)"
   },
   "platforms": {
     "youtube": {
@@ -48,6 +47,12 @@
     {
       "at": "2026-10-23T19:57",
       "event": "render bản cuối (48.2s)"
+    },
+    {
+      "at": "2026-10-23T20:21",
+      "event": "gom vào VOZ-007: VOZ-008 → VOZ-007-S1"
     }
-  ]
+  ],
+  "former_id": "VOZ-008",
+  "parent": "VOZ-007"
 }

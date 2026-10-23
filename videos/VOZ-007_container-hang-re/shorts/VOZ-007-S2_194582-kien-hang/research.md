@@ -1,4 +1,4 @@
-# VOZ-008 — Nghiên cứu: 800 đồng vượt biển, 21.000 đồng cho 5 km cuối?
+# VOZ-007-S2 — Nghiên cứu: Năm 1954, một con tàu chở 194.582 kiện hàng lẻ
 
 > Series: Cỗ máy phía sau cuộc sống · Ngày tạo: 2026-10-23 · Quy trình: skill `voz-research`
 

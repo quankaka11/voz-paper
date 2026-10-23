@@ -1,8 +1,8 @@
-# VOZ-010 — gói đăng bài
+# VOZ-007-S3 — gói đăng bài
 
-- Video: `export/VOZ-010_freeship-khong-mien-phi.mp4` (48.9s)
-- Ảnh bìa (thumbnail): `export/VOZ-010_freeship-khong-mien-phi_cover.jpg` (1080×1920)
-- Phương án ảnh bìa: `export/VOZ-010_freeship-khong-mien-phi_cover_21k.jpg` · `export/VOZ-010_freeship-khong-mien-phi_cover_21k.png` · `export/VOZ-010_freeship-khong-mien-phi_cover_freeship.jpg` · `export/VOZ-010_freeship-khong-mien-phi_cover_freeship.png` · `export/VOZ-010_freeship-khong-mien-phi_cover_khong-mien-phi.jpg` · `export/VOZ-010_freeship-khong-mien-phi_cover_khong-mien-phi.png`
+- Video: `export/VOZ-007-S3_freeship-khong-mien-phi.mp4` (48.9s)
+- Ảnh bìa (thumbnail): `export/VOZ-007-S3_freeship-khong-mien-phi_cover.jpg` (1080×1920)
+- Phương án ảnh bìa: `export/VOZ-007-S3_freeship-khong-mien-phi_cover_21k.jpg` · `export/VOZ-007-S3_freeship-khong-mien-phi_cover_21k.png` · `export/VOZ-007-S3_freeship-khong-mien-phi_cover_freeship.jpg` · `export/VOZ-007-S3_freeship-khong-mien-phi_cover_freeship.png` · `export/VOZ-007-S3_freeship-khong-mien-phi_cover_khong-mien-phi.jpg` · `export/VOZ-007-S3_freeship-khong-mien-phi_cover_khong-mien-phi.png`
 
 ## YouTube Shorts
 **Tiêu đề** (29/100 ký tự, nên ≤ 60):
@@ -36,7 +36,7 @@ Comment A hoặc B nhé 👇
 ```
 - [ ] Ảnh bìa: trong app YouTube (Tải lên → Chỉnh sửa ảnh thu nhỏ) chọn tải ảnh `_cover.png` nếu tài khoản có tùy chọn này; nếu chỉ cho chọn khung hình thì chọn khung rõ chữ nhất
 - [ ] Thêm vào playlist series · [ ] "Altered or synthetic content": **Không** (animation/TTS không cần khai báo) · [ ] Ghim bình luận
-- [ ] Nếu Short này cắt từ một video dài: gắn **Video liên quan** (Related video) trỏ về video dài
+- [ ] Gắn **Video liên quan** (Related video) → VOZ-007 "Vì sao hàng đi nửa vòng Trái Đất mà phí ship vẫn rẻ?" (chưa đăng — đăng video dài trước)
 
 ## TikTok
 **Caption** (dòng đầu là hook — chỉ ~80–90 ký tự đầu hiện trước nút "thêm"):
@@ -58,7 +58,7 @@ Comment A hoặc B nhé 👇
 
 ## Sau khi đăng
 ```
-python voz.py post VOZ-010 youtube --url <link>
-python voz.py post VOZ-010 tiktok --url <link>
-python voz.py metrics VOZ-010 youtube --views N --likes N --comments N --avg-view-pct N   # sau 48h và 7 ngày
+python voz.py post VOZ-007-S3 youtube --url <link>
+python voz.py post VOZ-007-S3 tiktok --url <link>
+python voz.py metrics VOZ-007-S3 youtube --views N --likes N --comments N --avg-view-pct N   # sau 48h và 7 ngày
 ```

@@ -1,4 +1,4 @@
-# VOZ-008 — Kịch bản: 800 đồng vượt biển, 21.000 đồng cho 5 km cuối?
+# VOZ-007-S1 — Kịch bản: 800 đồng vượt biển, 21.000 đồng cho 5 km cuối?
 
 > Series: Cỗ máy phía sau cuộc sống · Quy trình: skill `voz-script` · Mục tiêu 45–60s, ≈ 230–290 âm tiết
 

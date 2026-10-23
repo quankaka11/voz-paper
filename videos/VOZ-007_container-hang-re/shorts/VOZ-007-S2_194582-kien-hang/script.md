@@ -1,6 +1,6 @@
-# VOZ-010 — Kịch bản: Freeship có thật sự miễn phí?
+# VOZ-007-S2 — Kịch bản: Năm 1954, một con tàu chở 194.582 kiện hàng lẻ
 
-> Series: Ai đang trả tiền? · Quy trình: skill `voz-script` · Mục tiêu 45–60s, ≈ 230–290 âm tiết
+> Series: Cỗ máy phía sau cuộc sống · Quy trình: skill `voz-script` · Mục tiêu 45–60s, ≈ 230–290 âm tiết
 
 ## Hook đã chọn
 Kiểu: <!-- 1 câu hỏi · 2 nghịch lý · 3 con số · 4 hệ thống · 5 nhìn lại mình -->

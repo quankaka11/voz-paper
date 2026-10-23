@@ -1,5 +1,5 @@
 {
-  "id": "VOZ-010",
+  "id": "VOZ-007-S3",
   "slug": "freeship-khong-mien-phi",
   "title": "Freeship có thật sự miễn phí?",
   "series": "ai-tra-tien",
@@ -7,11 +7,11 @@
   "topic_ref": null,
   "stage": "rendered",
   "created": "2026-10-23T20:08",
-  "updated": "2026-10-23T20:19",
+  "updated": "2026-10-23T20:21",
   "duration_s": 48.9,
   "files": {
-    "video": "export/VOZ-010_freeship-khong-mien-phi.mp4",
-    "cover": "export/VOZ-010_freeship-khong-mien-phi_cover.png"
+    "video": "export/VOZ-007-S3_freeship-khong-mien-phi.mp4",
+    "cover": "export/VOZ-007-S3_freeship-khong-mien-phi_cover.png"
   },
   "publish": {
     "title": "Freeship có thật sự miễn phí?",
@@ -23,8 +23,7 @@
       "#VOZSTORY"
     ],
     "tiktok_caption": "Freeship không có nghĩa là miễn phí 👀\nAi đang trả 21.000đ tiền ship cho đơn của bạn?",
-    "pinned_comment": "📌 Bạn chọn bên nào?\nA. Freeship nhưng giá cao hơn\nB. Giá thấp, tự trả ship\nComment A hoặc B nhé 👇",
-    "related_long": "VOZ-007"
+    "pinned_comment": "📌 Bạn chọn bên nào?\nA. Freeship nhưng giá cao hơn\nB. Giá thấp, tự trả ship\nComment A hoặc B nhé 👇"
   },
   "platforms": {
     "youtube": {
@@ -48,6 +47,12 @@
     {
       "at": "2026-10-23T20:19",
       "event": "render bản cuối (48.9s)"
+    },
+    {
+      "at": "2026-10-23T20:21",
+      "event": "gom vào VOZ-007: VOZ-010 → VOZ-007-S3"
     }
-  ]
+  ],
+  "former_id": "VOZ-010",
+  "parent": "VOZ-007"
 }
