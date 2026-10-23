@@ -1,0 +1,77 @@
+[
+  {
+    "type": "data",
+    "claim": "Cước Thượng Hải→Rotterdam 3.632, →LA 8.007 USD/FEU; WCI tổng hợp 4.585",
+    "title": "Drewry World Container Index",
+    "url": "https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry",
+    "publisher": "Drewry",
+    "date": "2026-10-22",
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "data",
+    "claim": "Thượng Hải→TP.HCM 1.377 USD/FEU (Drewry IACI)",
+    "title": "Drewry Intra-Asia Container Index",
+    "url": "https://www.hellenicshippingnews.com/?p=1150538",
+    "publisher": "Hellenic Shipping News",
+    "date": "2026-10",
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "data",
+    "claim": "Phí giao nội thành 21.000đ (0–3 kg)",
+    "title": "Bảng giá GHN",
+    "url": "https://ghn.vn/blogs/thong-tin-giao-hang/chuyen-phat-nhanh-ha-noi",
+    "publisher": "GHN",
+    "date": "2025",
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/shipper-thung.jpg",
+    "title": "Man Riding Motorbike Loaded with Boxes in Saigon",
+    "author": "Kushie In Vietnam",
+    "license": "Pexels License",
+    "license_url": null,
+    "url": "https://www.pexels.com/photo/man-riding-motorbike-loaded-with-boxes-in-saigon-33470146/",
+    "via": "manual",
+    "attribution_required": true,
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/shipper-hanoi.jpg",
+    "title": "Motorbike Courier Navigates Busy Hanoi Traffic",
+    "author": "Dinidu Missaka",
+    "license": "Pexels License",
+    "license_url": null,
+    "url": "https://www.pexels.com/photo/motorbike-courier-navigates-busy-hanoi-traffic-37990174/",
+    "via": "manual",
+    "attribution_required": true,
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/container-sealand.jpg",
+    "title": "SeaLand 42G1 SEAU 826847 8.jpg",
+    "author": "Col André Kritzinger",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:SeaLand_42G1_SEAU_826847_8.jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/msc-irina.jpg",
+    "title": "MSC IRINA Trivandrum Port.jpg",
+    "author": "Giridharseeman",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "url": "https://commons.wikimedia.org/wiki/File:MSC_IRINA_Trivandrum_Port.jpg",
+    "via": "wikimedia",
+    "attribution_required": false,
+    "retrieved": "2026-10-22"
+  }
+]
