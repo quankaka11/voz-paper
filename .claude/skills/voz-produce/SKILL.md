@@ -35,7 +35,8 @@ python voz.py render VOZ-xxx               # → export/VOZ-xxx_slug.mp4 + expor
 ```
 Lệnh tự: render 1080×1920 H.264 yuv420p 30fps → loudnorm −14 LUFS → ảnh bìa → contact sheet → kiểm tra kỹ thuật
 → `stage rendered` → **`export/publish.md`** (gói đăng). Trước khi render bản cuối, `meta.json > publish` phải có đủ trường (skill `voz-publish`).
-Render bản cuối tốn RAM: nếu máy báo thiếu bộ nhớ, nhờ người dùng đóng bớt ứng dụng rồi chạy lại.
+Render bản cuối tốn RAM (máy 8 GB): video dài nên chạy `python voz.py render VOZ-xxx --concurrency 2`; nếu vẫn thiếu bộ nhớ,
+nhờ người dùng đóng bớt ứng dụng rồi chạy lại — các đoạn đã xong được giữ.
 Chỉ làm lại bìa: `python voz.py cover VOZ-xxx`. Kiểm lại file: `python voz.py check VOZ-xxx`.
 
 ## 3b. Video dài (format `long`)

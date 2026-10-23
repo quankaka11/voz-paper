@@ -39,7 +39,7 @@ def cmd_render(a):
     name = _out_name(ep)
     out = b / "draft.mp4" if a.draft else ep / "export" / f"{name}.mp4"
     out.unlink(missing_ok=True)  # render hỏng giữa chừng thì không để lại video cũ trông như bản mới
-    render.remotion_render_parts(b / "props.json", b, out, scale=0.5 if a.draft else 1.0)
+    render.remotion_render_parts(b / "props.json", b, out, scale=0.5 if a.draft else 1.0, concurrency=a.concurrency)
     render.loudnorm(out)
     if not a.draft:
         render.cover_stills(b, ep / "export", name)
@@ -157,6 +157,7 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("render", help="build + render video + ảnh bìa + kiểm tra")
     s.add_argument("ep")
     s.add_argument("--draft", action="store_true", help="bản nháp 540p nhanh, lưu ở build/draft.mp4")
+    s.add_argument("--concurrency", type=int, help="số luồng render (mặc định 6 trong remotion.config.ts; máy ít RAM: 2–3)")
     s.add_argument("--force-tts", action="store_true")
     s.set_defaults(fn=cmd_render)
 

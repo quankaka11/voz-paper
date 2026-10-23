@@ -21,11 +21,13 @@ def _run(cmd: list[str], cwd: Path | None = None) -> None:
         raise SystemExit(f"Lệnh lỗi (exit {r.returncode})")
 
 
-def remotion_render(props: Path, public_dir: Path, out: Path, scale: float = 1.0, comp: str = "Episode") -> None:
+def remotion_render(props: Path, public_dir: Path, out: Path, scale: float = 1.0, comp: str = "Episode", concurrency: int | None = None) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     cmd = [config.npx(), "remotion", "render", "src/index.ts", comp, str(out),
            f"--props={props}", f"--public-dir={public_dir}", "--log=warn"]
     cmd += [f"--scale={scale}", "--crf=28"] if scale != 1.0 else ["--crf=18"]
+    if concurrency:
+        cmd.append(f"--concurrency={concurrency}")
     _run(cmd, cwd=config.STUDIO)
 
 
@@ -42,14 +44,15 @@ def _signature(props: Path, public_dir: Path, scale: float) -> str:
     return h.hexdigest()[:12]
 
 
-def remotion_render_parts(props: Path, public_dir: Path, out: Path, scale: float = 1.0, seg_frames: int = SEG_FRAMES) -> None:
+def remotion_render_parts(props: Path, public_dir: Path, out: Path, scale: float = 1.0, seg_frames: int = SEG_FRAMES,
+                          concurrency: int | None = None) -> None:
     """Render video dài theo đoạn: bundle một lần → mỗi đoạn `seg_frames` frame một file (không tiếng) → âm thanh
     render riêng một lượt → nối bằng ffmpeg (không mã hóa lại hình). Đoạn đã xong được giữ lại: render hỏng giữa
     chừng thì chạy lại lệnh sẽ tiếp từ đoạn dở. Tập ngắn (≤ 1,5 đoạn) render một lượt như cũ."""
     props, public_dir, out = props.resolve(), public_dir.resolve(), out.resolve()  # remotion chạy ở thư mục studio
     total = sum(s["durationInFrames"] for s in (config.load_json(props, {}) or {}).get("scenes", []))
     if total <= seg_frames * 1.5:
-        remotion_render(props, public_dir, out, scale)
+        remotion_render(props, public_dir, out, scale, concurrency=concurrency)
         return
     # thư mục tạm ngoài public dir (không bị bundle sao chép) và ngoài export/ (không lọt vào git)
     work = config.ROOT / "build" / "render" / f"{public_dir.parent.name}_{out.stem}"
@@ -63,6 +66,8 @@ def remotion_render_parts(props: Path, public_dir: Path, out: Path, scale: float
         _run([config.npx(), "remotion", "bundle", "src/index.ts", f"--out-dir={bundle}", f"--public-dir={public_dir}", "--log=warn"],
              cwd=config.STUDIO)
     common = [f"--props={props}", "--log=warn"] + ([f"--scale={scale}", "--crf=28"] if scale != 1.0 else ["--crf=18"])
+    if concurrency:  # máy ít RAM: bản cuối 1080p với 6 luồng có thể làm hết bộ nhớ
+        common.append(f"--concurrency={concurrency}")
     ranges = [(a, min(a + seg_frames, total) - 1) for a in range(0, total, seg_frames)]
     parts = []
     for i, (a, b) in enumerate(ranges):
