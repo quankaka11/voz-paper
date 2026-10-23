@@ -1,0 +1,53 @@
+{
+  "id": "VOZ-010",
+  "slug": "freeship-khong-mien-phi",
+  "title": "Freeship có thật sự miễn phí?",
+  "series": "ai-tra-tien",
+  "format": "short",
+  "topic_ref": null,
+  "stage": "rendered",
+  "created": "2026-10-23T20:08",
+  "updated": "2026-10-23T20:19",
+  "duration_s": 48.9,
+  "files": {
+    "video": "export/VOZ-010_freeship-khong-mien-phi.mp4",
+    "cover": "export/VOZ-010_freeship-khong-mien-phi_cover.png"
+  },
+  "publish": {
+    "title": "Freeship có thật sự miễn phí?",
+    "description": "Hơn 90% đơn trên Shopee từng dùng mã freeship (trước 4/2025). Từ 4/2025 phí vận chuyển nằm trong phí cố định người bán trả cho sàn — và thường được tính vào giá. Còn đoạn đường biển hàng nghìn km thì sao? Xem video liên quan.",
+    "hashtags": [
+      "#AiĐangTrảTiền",
+      "#Freeship",
+      "#ThươngMạiĐiệnTử",
+      "#VOZSTORY"
+    ],
+    "tiktok_caption": "Freeship không có nghĩa là miễn phí 👀\nAi đang trả 21.000đ tiền ship cho đơn của bạn?",
+    "pinned_comment": "📌 Bạn chọn bên nào?\nA. Freeship nhưng giá cao hơn\nB. Giá thấp, tự trả ship\nComment A hoặc B nhé 👇",
+    "related_long": "VOZ-007"
+  },
+  "platforms": {
+    "youtube": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    },
+    "tiktok": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-23T20:08",
+      "event": "tạo tập"
+    },
+    {
+      "at": "2026-10-23T20:19",
+      "event": "render bản cuối (48.9s)"
+    }
+  ]
+}

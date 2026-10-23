@@ -1,0 +1,250 @@
+{
+  "_note": "VOZ-010 — Short phễu cho VOZ-007 (video dài). Gắn Video liên quan → VOZ-007 khi đăng.",
+  "format": "short",
+  "intro": {
+    "topic": "đơn freeship",
+    "label": "Ai trả tiền freeship?"
+  },
+  "covers": [
+    {
+      "id": "freeship",
+      "headline": "FREESHIP?",
+      "lines": [
+        "Ai đang trả",
+        {
+          "text": "tiền ship cho bạn?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/shipper-thung_cut.png",
+      "imageW": 960,
+      "treat": "color",
+      "stamp": "Ai trả?",
+      "episodeNo": null
+    },
+    {
+      "id": "khong-mien-phi",
+      "headline": "≠ MIỄN PHÍ",
+      "lines": [
+        "Freeship",
+        {
+          "text": "thật ra ai trả?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/shipper-thung_cut.png",
+      "imageW": 960,
+      "treat": "color",
+      "arrow": true,
+      "episodeNo": null
+    },
+    {
+      "id": "21k",
+      "headline": "21.000Đ",
+      "lines": [
+        "đơn freeship",
+        {
+          "text": "ai đã trả?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/shipper-thung_cut.png",
+      "imageW": 960,
+      "treat": "color",
+      "stamp": "Không phải sàn?",
+      "episodeNo": null
+    }
+  ],
+  "cover_pick": "freeship",
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "collage",
+      "source": "Bảng giá GHN (2025)",
+      "vo": "Đơn hàng của bạn được freeship. Vậy ai đã trả 21.000 đồng tiền giao hàng?",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/dien-thoai-mua.jpg",
+            "x": 560,
+            "y": 1150,
+            "w": 640,
+            "h": 760,
+            "frame": "print",
+            "treat": "color",
+            "rot": -3,
+            "at": 0
+          },
+          {
+            "kind": "label",
+            "text": "FREESHIP",
+            "x": 540,
+            "y": 330,
+            "color": "yellow",
+            "font": "heavy",
+            "size": 150,
+            "rot": -2,
+            "cue": "freeship"
+          },
+          {
+            "kind": "stamp",
+            "text": "AI TRẢ 21.000Đ?",
+            "x": 540,
+            "y": 560,
+            "size": 58,
+            "cue": "ai đã trả"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s01b",
+      "type": "bigNumber",
+      "transition": "push",
+      "source": "Metric (qua VnEconomy, 1/2026)",
+      "vo": "Năm 2025, bốn sàn thương mại điện tử lớn ở Việt Nam giao thành công gần 4 tỷ sản phẩm. Món nào cũng phải có người trả tiền giao.",
+      "props": {
+        "kicker": "Năm 2025 · 4 sàn lớn",
+        "value": "3,94",
+        "unit": "tỷ",
+        "style": "poster",
+        "label": "sản phẩm giao thành công",
+        "tone": "grid",
+        "image": {
+          "src": "assets/kho-hang.jpg",
+          "treat": "bw",
+          "w": 760
+        }
+      }
+    },
+    {
+      "id": "s02",
+      "type": "bigNumber",
+      "transition": "cut",
+      "source": "CafeF (3/2025)",
+      "vo": "Trước tháng 4 năm 2025, hơn chín mươi phần trăm đơn trên Shopee dùng mã freeship.",
+      "props": {
+        "kicker": "Shopee, trước 4/2025",
+        "value": "> 90%",
+        "style": "poster",
+        "label": "đơn hàng dùng mã freeship",
+        "tone": "grid-red"
+      }
+    },
+    {
+      "id": "s03",
+      "type": "flow",
+      "transition": "push",
+      "source": "CafeF (3/2025): biểu phí Shopee",
+      "vo": "Từ tháng 4 năm 2025, phí vận chuyển được gộp vào phí cố định người bán trả cho sàn. Tổng phí người bán chịu khoảng 6,5 đến 15 phần trăm giá bán.",
+      "props": {
+        "layout": "chain",
+        "title": "Tiền freeship đi đâu?",
+        "tone": "grid-blue",
+        "nodes": [
+          {
+            "label": "Người bán",
+            "emoji": "🏪",
+            "note": "phí 6,5–15%"
+          },
+          {
+            "label": "Sàn",
+            "emoji": "📱",
+            "cue": "trả cho sàn"
+          },
+          {
+            "label": "Hãng giao hàng",
+            "emoji": "🛵",
+            "cue": "phí vận chuyển"
+          },
+          {
+            "label": "Đơn freeship",
+            "emoji": "📦",
+            "highlight": true,
+            "cue": "Tổng phí"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s04",
+      "type": "collage",
+      "transition": "tear",
+      "vo": "Và người bán thường tính khoản đó vào giá. Freeship không có nghĩa là miễn phí. Nó chỉ nằm ở chỗ bạn không nhìn thấy.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "label",
+            "text": "Freeship",
+            "x": 540,
+            "y": 360,
+            "color": "cream",
+            "font": "heavy",
+            "size": 150,
+            "rot": -3,
+            "cue": "Freeship"
+          },
+          {
+            "kind": "stamp",
+            "text": "≠ MIỄN PHÍ",
+            "x": 540,
+            "y": 600,
+            "size": 76,
+            "cue": "không có nghĩa"
+          },
+          {
+            "kind": "label",
+            "text": "nằm ở chỗ ==bạn không nhìn thấy==",
+            "x": 540,
+            "y": 860,
+            "color": "yellow",
+            "size": 60,
+            "maxWidth": 820,
+            "cue": "chỗ bạn không"
+          },
+          {
+            "kind": "image",
+            "src": "assets/shipper-thung_cut.png",
+            "x": 600,
+            "y": 1990,
+            "w": 820,
+            "anchor": "bottom",
+            "enter": "up",
+            "treat": "color",
+            "cue": "người bán"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s05",
+      "type": "title",
+      "transition": "zoom",
+      "illustrative": true,
+      "vo": "Còn đoạn đường biển hàng nghìn ki lô mét thì sao? Nó chỉ tốn khoảng 800 đồng mỗi chiếc áo. Vì sao, xem ở video liên quan bên dưới.",
+      "props": {
+        "lines": [
+          {
+            "text": "Đường biển nghìn km?",
+            "cue": "đường biển"
+          },
+          {
+            "text": "chỉ ==~800đ== / chiếc áo",
+            "color": "yellow",
+            "cue": "800 đồng"
+          }
+        ],
+        "sub": "Bản đầy đủ: ==video liên quan== bên dưới",
+        "image": {
+          "src": "assets/container-sealand_cut.png",
+          "treat": "color",
+          "w": 980
+        },
+        "tone": "charcoal"
+      }
+    }
+  ]
+}
