@@ -1,0 +1,56 @@
+{
+  "id": "VOZ-007",
+  "slug": "container-hang-re",
+  "title": "Vì sao hàng đi nửa vòng Trái Đất mà phí ship vẫn rẻ?",
+  "series": "co-may-cuoc-song",
+  "format": "long",
+  "topic_ref": null,
+  "stage": "rendered",
+  "created": "2026-10-22T21:28",
+  "updated": "2026-10-23T19:18",
+  "duration_s": 550.3,
+  "files": {
+    "video": "export/VOZ-007_container-hang-re.mp4",
+    "cover": "export/VOZ-007_container-hang-re_cover.png"
+  },
+  "publish": {
+    "title": "Vì sao hàng đi nửa vòng Trái Đất mà phí ship vẫn rẻ?",
+    "description": "Một chiếc áo đi biển hàng nghìn km chỉ tốn khoảng 800 đồng tiền cước, nhưng 5 km cuối tới nhà bạn lại tốn khoảng 21.000 đồng. Câu trả lời bắt đầu từ một chiếc hộp thép năm 1956 — chiếc container — và một người lái xe tải tên Malcom McLean.\nVideo này lần theo hành trình của chiếc hộp: từ bến cảng New York 1937, tàu Ideal X 1956, Đà Nẵng 1967, tới cảng Cái Mép hôm nay — và vì sao \"freeship\" không có nghĩa là miễn phí.\nBạn chọn freeship chờ 5 ngày hay trả thêm 20.000đ nhận trong ngày? Bình luận bên dưới nhé.",
+    "hashtags": [
+      "#CỗMáyPhíaSauCuộcSống",
+      "#Container",
+      "#PhíShip",
+      "#KinhTếĐờiSống",
+      "#VOZSTORY"
+    ],
+    "pinned_comment": "📌 Bạn chọn bên nào?\nA. Freeship, chờ 5 ngày\nB. Trả thêm 20.000đ, nhận trong ngày\nComment A hoặc B nhé 👇\n\n(Các con số \"800đ/chiếc áo\" và \"×25\" là ước tính minh họa — cách tính ở phút đầu và chương 5.)"
+  },
+  "platforms": {
+    "youtube": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    },
+    "tiktok": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-22T21:28",
+      "event": "tạo tập"
+    },
+    {
+      "at": "2026-10-22T22:03",
+      "event": "stage: idea → researched"
+    },
+    {
+      "at": "2026-10-23T19:18",
+      "event": "render bản cuối (550.3s)"
+    }
+  ]
+}
