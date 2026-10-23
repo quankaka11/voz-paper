@@ -1,0 +1,77 @@
+[
+  {
+    "type": "data",
+    "claim": "Phí giao nội thành 21.000đ (0–3 kg)",
+    "title": "Bảng giá GHN",
+    "url": "https://ghn.vn/blogs/thong-tin-giao-hang/chuyen-phat-nhanh-ha-noi",
+    "publisher": "GHN",
+    "date": "2025",
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "data",
+    "claim": "TMĐT 4 sàn 429,7 nghìn tỷ đồng 2025; Shopee 56%, TikTok Shop 41,3%",
+    "title": "VnEconomy (số liệu Metric)",
+    "url": "https://vneconomy.vn/bon-ong-lon-thuong-mai-dien-tu-co-doanh-thu-nam-2025-uoc-dat-42966-nghin-ty.htm",
+    "publisher": "Metric",
+    "date": "2026-01",
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "data",
+    "claim": "Shopee gộp phí vận chuyển vào phí cố định từ 1/4/2025; >90% đơn từng dùng freeship",
+    "title": "CafeF",
+    "url": "https://cafef.vn/shopee-dieu-chinh-phi-co-dinh-tu-1-4-2025-chi-tiet-tat-ca-nhung-nganh-hang-bi-anh-huong-188250320124702412.chn",
+    "publisher": "CafeF",
+    "date": "2025-03",
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/dien-thoai-mua.jpg",
+    "title": "Person holding a credit card",
+    "author": "Thirdman",
+    "license": "Pexels License",
+    "license_url": null,
+    "url": "https://www.pexels.com/photo/person-holding-a-credit-card-6237886/",
+    "via": "manual",
+    "attribution_required": true,
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/shipper-thung.jpg",
+    "title": "Man Riding Motorbike Loaded with Boxes in Saigon",
+    "author": "Kushie In Vietnam",
+    "license": "Pexels License",
+    "license_url": null,
+    "url": "https://www.pexels.com/photo/man-riding-motorbike-loaded-with-boxes-in-saigon-33470146/",
+    "via": "manual",
+    "attribution_required": true,
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/kho-hang.jpg",
+    "title": "Male employee looking at a parcel",
+    "author": "Tima Miroshnichenko",
+    "license": "Pexels License",
+    "license_url": null,
+    "url": "https://www.pexels.com/photo/male-employee-looking-at-a-parcel-6170400/",
+    "via": "manual",
+    "attribution_required": true,
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/container-sealand.jpg",
+    "title": "SeaLand 42G1 SEAU 826847 8.jpg",
+    "author": "Col André Kritzinger",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:SeaLand_42G1_SEAU_826847_8.jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-22"
+  }
+]
