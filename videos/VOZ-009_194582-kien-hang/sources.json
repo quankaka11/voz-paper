@@ -1,0 +1,71 @@
+[
+  {
+    "type": "data",
+    "claim": "SS Warrior 1954: 194.582 kiện; bốc dỡ >1/3 chi phí; 5,83 USD/tấn vs 15,8 cent (đội McLean)",
+    "title": "Marc Levinson — The Intermodal Container",
+    "url": "https://worksthatwork.com/2/intermodal-container",
+    "publisher": "Works That Work",
+    "date": "2013",
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/bocvac-1937.jpg",
+    "title": "New York, New York - Longshoremen. Large bale being lifted by crane and directed by man on platform. - NARA - 518788.jpg",
+    "author": "Lewis Hine",
+    "license": "Public domain",
+    "license_url": null,
+    "url": "https://commons.wikimedia.org/wiki/File:New_York,_New_York_-_Longshoremen._Large_bale_being_lifted_by_crane_and_directed_by_man_on_platform._-_NARA_-_518788.jpg",
+    "via": "wikimedia",
+    "attribution_required": false,
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/bocvac-chuoi.jpg",
+    "title": "New York, New York - Longshoremen. This shows the prevailing method of transferring bananas from the end on the..._-_NARA_-_518789.jpg",
+    "author": "Lewis Hine",
+    "license": "Public domain",
+    "license_url": null,
+    "url": "https://commons.wikimedia.org/wiki/File:New_York,_New_York_-_Longshoremen._This_shows_the_prevailing_method_of_transferring_bananas_from_the_end_on_the..._-_NARA_-_518789.jpg",
+    "via": "wikimedia",
+    "attribution_required": false,
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "video",
+    "file": "assets/noordam-cau.mp4",
+    "title": "De Noordam brengt de eerste Marshallgoederen (đoạn 0:50–1:01, Rotterdam 1948)",
+    "author": "Polygoon Hollands Nieuws (Beeld en Geluid)",
+    "license": "CC BY-SA 3.0",
+    "license_url": null,
+    "url": "https://commons.wikimedia.org/wiki/File:De_Noordam_brengt_de_eerste_Marshallgoederen.ogv",
+    "via": "manual",
+    "attribution_required": true,
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/container-sealand.jpg",
+    "title": "SeaLand 42G1 SEAU 826847 8.jpg",
+    "author": "Col André Kritzinger",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:SeaLand_42G1_SEAU_826847_8.jpg",
+    "via": "wikimedia",
+    "attribution_required": true,
+    "retrieved": "2026-10-22"
+  },
+  {
+    "type": "image",
+    "file": "assets/ideal-x-ve.jpg",
+    "title": "Ideal X.jpg",
+    "author": "Karsten Kunibert",
+    "license": "Public domain",
+    "license_url": null,
+    "url": "https://commons.wikimedia.org/wiki/File:Ideal_X.jpg",
+    "via": "wikimedia",
+    "attribution_required": false,
+    "retrieved": "2026-10-22"
+  }
+]
