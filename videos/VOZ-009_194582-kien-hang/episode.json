@@ -1,0 +1,300 @@
+{
+  "_note": "VOZ-009 — Short phễu cho VOZ-007 (video dài). Gắn Video liên quan → VOZ-007 khi đăng.",
+  "format": "short",
+  "intro": {
+    "topic": "bến cảng ngày xưa",
+    "label": "Trước khi có container"
+  },
+  "covers": [
+    {
+      "id": "194582",
+      "headline": "194.582",
+      "lines": [
+        "kiện hàng trên",
+        {
+          "text": "một con tàu, 1954",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/bocvac-1937.jpg",
+      "imageW": 980,
+      "treat": "bw",
+      "stamp": "Từng kiện",
+      "episodeNo": null
+    },
+    {
+      "id": "3-thang",
+      "headline": "3 THÁNG",
+      "lines": [
+        "để hàng vượt biển",
+        {
+          "text": "trước khi có container",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/bocvac-chuoi.jpg",
+      "imageW": 980,
+      "treat": "bw",
+      "stamp": "Bốc bằng tay",
+      "episodeNo": null
+    },
+    {
+      "id": "hop-thep",
+      "headline": "TRƯỚC 1956",
+      "lines": [
+        "chở hàng qua biển",
+        {
+          "text": "khổ thế nào?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/container-sealand_cut.png",
+      "imageW": 980,
+      "treat": "color",
+      "stamp": "Rồi chiếc hộp ra đời",
+      "episodeNo": null
+    }
+  ],
+  "cover_pick": "194582",
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "collage",
+      "source": "Marc Levinson; ảnh: Lewis Hine, 1937 (NARA)",
+      "vo": "Năm 1954, một con tàu từ Mỹ sang Đức chở 194.582 kiện hàng. Từng kiện một.",
+      "props": {
+        "tone": "cream",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/bocvac-1937.jpg",
+            "x": 540,
+            "y": 1010,
+            "w": 780,
+            "h": 520,
+            "treat": "bw",
+            "rot": -2,
+            "caption": "Bến cảng New York, 1937",
+            "at": 0
+          },
+          {
+            "kind": "number",
+            "value": "194.582",
+            "x": 540,
+            "y": 380,
+            "style": "poster",
+            "size": 200,
+            "cue": "194.582"
+          },
+          {
+            "kind": "label",
+            "text": "kiện hàng · 1 con tàu",
+            "x": 540,
+            "y": 560,
+            "color": "black",
+            "size": 60,
+            "cue": "kiện hàng"
+          },
+          {
+            "kind": "stamp",
+            "text": "TỪNG KIỆN",
+            "x": 540,
+            "y": 1440,
+            "size": 76,
+            "cue": "Từng kiện"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s02",
+      "type": "footage",
+      "transition": "cut",
+      "vo": "Bao tải, thùng gỗ, kiện bông. Mỗi món một cỡ, phải cẩu và xếp bằng tay.",
+      "props": {
+        "src": "assets/noordam-cau.mp4",
+        "style": "print",
+        "treat": "bw",
+        "kicker": "Rotterdam, 1948",
+        "text": "Mỗi món ==một cỡ==",
+        "credit": "Polygoon Hollands Nieuws, CC BY-SA 3.0",
+        "tone": "cream"
+      }
+    },
+    {
+      "id": "s03",
+      "type": "collage",
+      "transition": "sheet",
+      "source": "Marc Levinson",
+      "vo": "Con tàu vượt Đại Tây Dương mất mười ngày rưỡi. Nhưng có kiện hàng mất hơn ba tháng mới tới nơi.",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "label",
+            "text": "Vượt biển",
+            "x": 540,
+            "y": 330,
+            "color": "cream",
+            "size": 66,
+            "cue": "vượt Đại Tây Dương"
+          },
+          {
+            "kind": "number",
+            "value": "10,5",
+            "x": 540,
+            "y": 520,
+            "style": "poster",
+            "size": 240,
+            "unit": "ngày",
+            "cue": "mười ngày rưỡi"
+          },
+          {
+            "kind": "label",
+            "text": "Tới tay người nhận",
+            "x": 540,
+            "y": 790,
+            "color": "yellow",
+            "size": 60,
+            "maxWidth": 820,
+            "cue": "có kiện hàng"
+          },
+          {
+            "kind": "number",
+            "value": "3",
+            "x": 540,
+            "y": 1060,
+            "style": "poster",
+            "size": 250,
+            "color": "#D7262E",
+            "unit": "tháng+",
+            "cue": "ba tháng"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03b",
+      "type": "collage",
+      "transition": "push",
+      "source": "Marc Levinson; Richmond Fed (2012)",
+      "vo": "Bốc hàng lên một con tàu mất khoảng một tuần. Dỡ xuống lại thêm một tuần nữa. Đầu những năm 1950, riêng New York có hơn năm mươi nghìn công nhân bốc vác.",
+      "props": {
+        "tone": "grid",
+        "layers": [
+          {
+            "kind": "tag",
+            "text": "bốc lên: ~1 tuần",
+            "x": 540,
+            "y": 330,
+            "size": 58,
+            "cue": "Bốc hàng lên"
+          },
+          {
+            "kind": "tag",
+            "text": "dỡ xuống: ~1 tuần",
+            "x": 540,
+            "y": 460,
+            "size": 58,
+            "color": "red",
+            "cue": "Dỡ xuống"
+          },
+          {
+            "kind": "number",
+            "value": "50.000+",
+            "x": 540,
+            "y": 760,
+            "style": "poster",
+            "size": 220,
+            "cue": "năm mươi nghìn"
+          },
+          {
+            "kind": "label",
+            "text": "công nhân bốc vác · New York",
+            "x": 540,
+            "y": 950,
+            "color": "cream",
+            "size": 56,
+            "cue": "công nhân bốc vác"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s04",
+      "type": "collage",
+      "transition": "tear",
+      "source": "Marc Levinson",
+      "vo": "Thời gian không mất trên biển, mà nằm ở cảng. Riêng bốc dỡ đã chiếm hơn một phần ba chi phí cả chuyến đi.",
+      "props": {
+        "tone": "cream",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/bocvac-chuoi.jpg",
+            "x": 540,
+            "y": 1110,
+            "w": 760,
+            "h": 520,
+            "treat": "bw",
+            "rot": 2
+          },
+          {
+            "kind": "label",
+            "text": "Nằm ở cảng",
+            "x": 540,
+            "y": 330,
+            "color": "black",
+            "font": "heavy",
+            "size": 96,
+            "cue": "nằm ở cảng"
+          },
+          {
+            "kind": "number",
+            "value": "> 1/3",
+            "x": 540,
+            "y": 560,
+            "style": "poster",
+            "size": 200,
+            "cue": "một phần ba"
+          },
+          {
+            "kind": "tag",
+            "text": "chi phí là bốc dỡ",
+            "x": 540,
+            "y": 720,
+            "size": 50,
+            "color": "red",
+            "cue": "bốc dỡ"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s05",
+      "type": "title",
+      "transition": "zoom",
+      "vo": "Rồi một người lái xe tải nghĩ ra cách bỏ tất cả vào một chiếc hộp thép. Câu chuyện đầy đủ ở video liên quan bên dưới.",
+      "props": {
+        "lines": [
+          {
+            "text": "Một người lái xe tải",
+            "cue": "người lái xe tải"
+          },
+          {
+            "text": "và ==một chiếc hộp==",
+            "color": "yellow",
+            "cue": "chiếc hộp thép"
+          }
+        ],
+        "sub": "Bản đầy đủ: ==video liên quan== bên dưới",
+        "image": {
+          "src": "assets/container-sealand_cut.png",
+          "treat": "color",
+          "w": 980
+        },
+        "tone": "charcoal"
+      }
+    }
+  ]
+}

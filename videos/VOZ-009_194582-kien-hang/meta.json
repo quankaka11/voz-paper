@@ -1,0 +1,53 @@
+{
+  "id": "VOZ-009",
+  "slug": "194582-kien-hang",
+  "title": "Năm 1954, một con tàu chở 194.582 kiện hàng lẻ",
+  "series": "co-may-cuoc-song",
+  "format": "short",
+  "topic_ref": null,
+  "stage": "rendered",
+  "created": "2026-10-23T19:57",
+  "updated": "2026-10-23T20:07",
+  "duration_s": 45.5,
+  "files": {
+    "video": "export/VOZ-009_194582-kien-hang.mp4",
+    "cover": "export/VOZ-009_194582-kien-hang_cover.png"
+  },
+  "publish": {
+    "title": "Năm 1954, một con tàu chở 194.582 kiện hàng lẻ",
+    "description": "Trước khi có container, hàng hóa được bốc từng kiện một — tàu vượt biển 10 ngày nhưng hàng có thể mất 3 tháng mới tới nơi. Ai đã thay đổi điều đó? Xem bản đầy đủ ở video liên quan.",
+    "hashtags": [
+      "#Container",
+      "#LịchSử",
+      "#KinhTếĐờiSống",
+      "#VOZSTORY"
+    ],
+    "tiktok_caption": "1954: một con tàu, 194.582 kiện hàng, bốc từng kiện một\nAi đã nghĩ ra cái hộp thay đổi tất cả?",
+    "pinned_comment": "📌 Theo bạn ai đã nghĩ ra chiếc container?\nA. Một kỹ sư hàng hải\nB. Một người lái xe tải\nComment A hoặc B nhé 👇 (Đáp án: video liên quan)",
+    "related_long": "VOZ-007"
+  },
+  "platforms": {
+    "youtube": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    },
+    "tiktok": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-23T19:57",
+      "event": "tạo tập"
+    },
+    {
+      "at": "2026-10-23T20:07",
+      "event": "render bản cuối (45.5s)"
+    }
+  ]
+}
