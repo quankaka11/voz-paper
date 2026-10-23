@@ -215,6 +215,8 @@ def _publish_warnings(pub: dict, title: str, tt_caption: str, fmt: str = "short"
     return w
 
 
+YT_DESC_MAX = 5000  # giới hạn mô tả YouTube (ký tự)
+
 # Khung trống trên màn hình kết thúc 16:9 — trùng END_SLOTS trong code/studio/src/scenes/BrandScenes.tsx
 END_SLOTS = [{"x": 1000, "y": 150, "w": 800, "h": 450}, {"x": 1080, "y": 650, "w": 560, "h": 315}]
 
@@ -246,10 +248,12 @@ def publish_kit(ep_dir: Path) -> Path:
     sources = config.load_json(ep_dir / "sources.json", [])
     tags = pub.get("hashtags") or []
     data_src = [s for s in sources if s.get("type") == "data"]
-    img_src = [s for s in sources if s.get("type") == "image"]
+    img_src = [s for s in sources if s.get("type") in ("image", "video")]  # phim tư liệu CC BY cũng phải ghi công
     src_lines = [f"- {s.get('publisher') or s.get('title')}: {s.get('url')}" for s in data_src]
-    src_lines += [f"- Ảnh: {s.get('title')} — {s.get('author') or 'không rõ'} ({s.get('license')}"
-                  f"{'; đã chỉnh: ' + s['modified'] if s.get('modified') else ''}) {s.get('url')}" for s in img_src]
+    kind = lambda s: "Phim" if s.get("type") == "video" else "Ảnh"
+    img_lines = [f"- {kind(s)}: {s.get('title')} — {s.get('author') or 'không rõ'} ({s.get('license')}"
+                 f"{'; đã chỉnh: ' + s['modified'] if s.get('modified') else ''}) {s.get('url')}" for s in img_src]
+    img_short = [f"- {kind(s)}: {s.get('author') or 'không rõ'} ({s.get('license')}) {s.get('url')}" for s in img_src]
     # nhạc nền CC BY bắt buộc ghi công: lấy dòng credit từ brand/music/credits.json theo tên file trong episode.json
     music = (config.load_json(ep_dir / "episode.json", {}) or {}).get("music", config.channel().get("music"))
     files = [music] if isinstance(music, str) else [t.get("src") for t in (music or []) if t.get("src")]
@@ -268,20 +272,36 @@ def publish_kit(ep_dir: Path) -> Path:
     chapters = _chapter_lines(ep_dir) if fmt == "long" else []
     verb = "Đăng ký" if fmt == "long" else "Theo dõi"
     follow = f"🔔 {verb} {ch.get('channel', 'VOZ STORY')} ({ch.get('handle', '')}) — {ch.get('tagline', '')}".strip()
-    credit_lines = [*src_lines, *(f"- Nhạc: {m}" for m in music_lines)]
-    blocks = [
-        desc,
-        "\n".join(["Mục lục:", *chapters]) if chapters else "",
-        follow,
-        "\n".join(["Nguồn:", *credit_lines]) if credit_lines else "",
-        " ".join((["#Shorts"] if fmt == "short" else []) + tags),
-    ]
-    yt_desc = "\n\n".join(b for b in blocks if b)
+    music_credit = [f"- Nhạc: {m}" for m in music_lines]
+
+    def build_desc(credit_lines: list[str]) -> str:
+        blocks = [
+            desc,
+            "\n".join(["Mục lục:", *chapters]) if chapters else "",
+            follow,
+            "\n".join(["Nguồn:", *credit_lines]) if credit_lines else "",
+            " ".join((["#Shorts"] if fmt == "short" else []) + tags),
+        ]
+        return "\n\n".join(b for b in blocks if b)
+
+    # Mô tả YouTube tối đa 5.000 ký tự: nhiều tư liệu thì rút gọn dòng ghi công ảnh; vẫn dài thì chuyển ghi công
+    # ảnh/phim ra một bình luận riêng của kênh (comment_credits), mô tả giữ nguồn số liệu + nhạc.
+    comment_credits = ""
+    yt_desc = build_desc([*src_lines, *img_lines, *music_credit])
+    if len(yt_desc) > YT_DESC_MAX:
+        yt_desc = build_desc([*src_lines, *img_short, *music_credit])
+    if len(yt_desc) > YT_DESC_MAX:
+        yt_desc = build_desc([*src_lines, "- Ảnh, phim tư liệu: ghi công đầy đủ ở bình luận của kênh", *music_credit])
+        comment_credits = "\n".join(["Ghi công hình ảnh và phim tư liệu:", *img_short])
     tt_caption = "\n".join(filter(None, [pub.get("tiktok_caption") or title, " ".join(tags)]))
     if music_lines:
         tt_caption += "".join(f"\nNhạc: {m}" for m in music_lines)
     pinned = pub.get("pinned_comment", "").strip()
     warns = _publish_warnings(pub, title, tt_caption, fmt, chapters)
+    if len(yt_desc) > YT_DESC_MAX:
+        warns.append(f"mô tả YouTube {len(yt_desc)} ký tự > {YT_DESC_MAX} — rút gọn publish.description hoặc bớt nguồn")
+    credits_md = (f"**Bình luận ghi công tư liệu** (mô tả quá dài nên tách ra — đăng thành bình luận của kênh, ngay sau bình luận ghim):\n"
+                  f"```\n{comment_credits}\n```\n") if comment_credits else ""
     dur = meta.get("duration_s")
     dur_txt = (f"{int(dur // 60)}:{int(dur % 60):02d}" if dur else "?") if fmt == "long" else f"{dur or '?'}s"
     cover = next((f"export/{name}_cover.{e}" for e in ("jpg", "png") if (ep_dir / "export" / f"{name}_cover.{e}").exists()),
@@ -317,7 +337,7 @@ python voz.py post {meta['id']} youtube --url <link>
 ```
 {pinned}
 ```
-- [ ] Ảnh thu nhỏ: Tải lên `{cover}`
+{credits_md}- [ ] Ảnh thu nhỏ: Tải lên `{cover}`
 - [ ] Phụ đề: Phụ đề → Thêm ngôn ngữ **Tiếng Việt** → Tải tệp lên (có thời gian) → `{name}.vi.srt`
 - [ ] Mốc chương: đã nằm trong mô tả (dòng đầu phải là 0:00, ≥ 3 chương, mỗi chương ≥ 10s)
 - [ ] Màn hình kết thúc (20s cuối) — đặt phần tử chồng lên khung giấy trống trong video:
