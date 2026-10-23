@@ -4,6 +4,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import re
+import subprocess
 import unicodedata
 from pathlib import Path
 
@@ -48,10 +49,21 @@ def save(ep_dir: Path, meta: dict, event: str | None = None) -> None:
     write_index()
 
 
+def _branch_ids(prefix: str) -> list[int]:
+    """Số tập đã dùng ở các nhánh git `video/<prefix>-NNN` (kể cả nhánh remote) — tránh cấp trùng mã tập."""
+    try:
+        out = subprocess.run(["git", "branch", "-a", "--list", f"*video/{prefix}-*"], cwd=config.ROOT,
+                             capture_output=True, text=True, encoding="utf-8").stdout
+    except OSError:
+        return []
+    return [int(m.group(1)) for m in re.finditer(rf"video/{prefix}-(\d+)", out)]
+
+
 def new(title: str, slug: str | None, series: str | None, topic: str | None, fmt: str = "short") -> Path:
     ch = config.channel()
     prefix = ch.get("id_prefix", "VOZ")
     nums = [int(m.group(1)) for d in config.VIDEOS.glob(f"{prefix}-*") if (m := re.match(rf"{prefix}-(\d+)", d.name))]
+    nums += _branch_ids(prefix)  # mỗi tập một nhánh git → tập ở nhánh khác không có thư mục trên nhánh hiện tại
     ep_id = f"{prefix}-{(max(nums) + 1 if nums else 1):03d}"
     slug = slugify(slug or title)
     ep_dir = config.VIDEOS / f"{ep_id}_{slug}"
