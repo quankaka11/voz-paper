@@ -1,0 +1,303 @@
+{
+  "_note": "VOZ-008 — Short phễu cho VOZ-007 (video dài). Gắn Video liên quan → VOZ-007 khi đăng.",
+  "format": "short",
+  "intro": {
+    "topic": "phí ship",
+    "label": "800đ hay 21.000đ?"
+  },
+  "covers": [
+    {
+      "id": "800d",
+      "headline": "800Đ",
+      "lines": [
+        "vượt biển nghìn km",
+        {
+          "text": "5 km cuối: 21.000đ?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/shipper-thung_cut.png",
+      "imageW": 960,
+      "treat": "color",
+      "stamp": "×25",
+      "episodeNo": null
+    },
+    {
+      "id": "5km",
+      "headline": "5 KM",
+      "lines": [
+        "đắt hơn cả",
+        {
+          "text": "nghìn km đường biển?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/shipper-thung_cut.png",
+      "imageW": 960,
+      "treat": "color",
+      "arrow": true,
+      "episodeNo": null
+    },
+    {
+      "id": "hop-thep",
+      "headline": "1 HỘP **THÉP**",
+      "lines": [
+        "làm đơn online",
+        {
+          "text": "rẻ như bây giờ?",
+          "color": "yellow"
+        }
+      ],
+      "image": "assets/container-sealand_cut.png",
+      "imageW": 980,
+      "treat": "color",
+      "stamp": "1956",
+      "episodeNo": null
+    }
+  ],
+  "cover_pick": "800d",
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "collage",
+      "vo": "Chiếc áo bạn đặt online vượt biển hàng nghìn ki lô mét chỉ tốn khoảng 800 đồng. Nhưng 5 ki lô mét cuối tới nhà bạn, tốn 21.000 đồng.",
+      "illustrative": true,
+      "source": "Drewry (10/2026); bảng giá GHN",
+      "props": {
+        "tone": "charcoal",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "assets/shipper-thung_cut.png",
+            "x": 600,
+            "y": 1990,
+            "w": 980,
+            "anchor": "bottom",
+            "enter": "up",
+            "at": 0.1,
+            "treat": "color"
+          },
+          {
+            "kind": "label",
+            "text": "Vượt biển nghìn km",
+            "x": 100,
+            "y": 250,
+            "anchor": "tl",
+            "color": "cream",
+            "size": 62,
+            "rot": -2,
+            "cue": "vượt biển"
+          },
+          {
+            "kind": "number",
+            "value": "800đ",
+            "x": 110,
+            "y": 360,
+            "anchor": "tl",
+            "style": "poster",
+            "size": 210,
+            "cue": "800 đồng"
+          },
+          {
+            "kind": "label",
+            "text": "5 km cuối",
+            "x": 100,
+            "y": 640,
+            "anchor": "tl",
+            "color": "yellow",
+            "size": 62,
+            "rot": 2,
+            "cue": "5 ki lô mét cuối"
+          },
+          {
+            "kind": "number",
+            "value": "21.000đ",
+            "x": 110,
+            "y": 750,
+            "anchor": "tl",
+            "style": "poster",
+            "size": 190,
+            "color": "#D7262E",
+            "cue": "5 ki lô mét cuối"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s02",
+      "type": "map",
+      "transition": "push",
+      "vo": "Một container bốn mươi feet đi từ Thượng Hải về Thành phố Hồ Chí Minh, qua hàng nghìn ki lô mét biển, có cước khoảng 1.377 đô.",
+      "source": "Drewry Intra-Asia Container Index (10/2026)",
+      "props": {
+        "views": [
+          {
+            "center": [
+              114,
+              21
+            ],
+            "zoom": 2.6
+          }
+        ],
+        "highlight": [
+          {
+            "country": "Việt Nam",
+            "cue": "Thành phố Hồ Chí Minh"
+          }
+        ],
+        "points": [
+          {
+            "at": [
+              121.47,
+              31.23
+            ],
+            "label": "Thượng Hải",
+            "cue": "Thượng Hải"
+          },
+          {
+            "at": [
+              106.7,
+              10.78
+            ],
+            "label": "TP.HCM",
+            "side": "left",
+            "cue": "Thành phố Hồ Chí Minh"
+          }
+        ],
+        "routes": [
+          {
+            "from": [
+              121.47,
+              31.23
+            ],
+            "to": [
+              106.7,
+              10.78
+            ],
+            "cue": "container",
+            "bend": -0.3,
+            "drawFrames": 34
+          }
+        ],
+        "layers": [
+          {
+            "kind": "tag",
+            "text": "1.377 USD / container",
+            "x": 540,
+            "y": 1180,
+            "size": 52,
+            "color": "red",
+            "cue": "1.377 đô"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03",
+      "type": "receipt",
+      "transition": "sheet",
+      "illustrative": true,
+      "vo": "Nó chứa được khoảng 45.000 chiếc áo. Chia ra, mỗi chiếc chỉ khoảng 800 đồng tiền biển.",
+      "source": "Drewry (10/2026); ước tính của kênh",
+      "props": {
+        "kicker": "Phép tính",
+        "title": "1 CONTAINER 40 FEET",
+        "items": [
+          {
+            "label": "Cước biển",
+            "value": "1.377 USD"
+          },
+          {
+            "label": "Số áo",
+            "value": "~45.000",
+            "cue": "45.000"
+          }
+        ],
+        "total": {
+          "label": "MỖI CHIẾC ÁO",
+          "value": "~800đ",
+          "cue": "800 đồng"
+        }
+      }
+    },
+    {
+      "id": "s04",
+      "type": "collage",
+      "transition": "tear",
+      "vo": "Còn 5 ki lô mét cuối thì không có con tàu nào chở chung. Chỉ có một người, một chiếc xe máy, giao từng đơn một.",
+      "props": {
+        "tone": "cream",
+        "layers": [
+          {
+            "kind": "photo",
+            "src": "assets/shipper-hanoi.jpg",
+            "x": 540,
+            "y": 840,
+            "w": 620,
+            "h": 800,
+            "frame": "print",
+            "treat": "color",
+            "rot": -2
+          },
+          {
+            "kind": "label",
+            "text": "Một người · một xe máy",
+            "x": 540,
+            "y": 260,
+            "color": "black",
+            "size": 60,
+            "cue": "Chỉ có một người"
+          },
+          {
+            "kind": "tag",
+            "text": "giao từng đơn một",
+            "x": 540,
+            "y": 1260,
+            "size": 52,
+            "color": "red",
+            "cue": "từng đơn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s05",
+      "type": "bigNumber",
+      "transition": "zoom",
+      "illustrative": true,
+      "vo": "Thế là, tính trên mỗi chiếc áo, đoạn ngắn nhất lại đắt gấp khoảng 25 lần đoạn dài nhất.",
+      "props": {
+        "kicker": "5 km cuối so với đường biển",
+        "value": "×25",
+        "style": "poster",
+        "label": "đắt hơn, trên mỗi chiếc áo",
+        "tone": "grid"
+      }
+    },
+    {
+      "id": "s06",
+      "type": "title",
+      "transition": "sheet",
+      "vo": "Vậy vì sao đường biển lại rẻ đến vậy? Câu trả lời là một chiếc hộp thép năm 1956. Xem bản đầy đủ ở video liên quan ngay bên dưới.",
+      "props": {
+        "lines": [
+          {
+            "text": "Vì sao đường biển",
+            "cue": "Vậy vì sao"
+          },
+          {
+            "text": "lại ==rẻ đến vậy==?",
+            "color": "yellow"
+          }
+        ],
+        "sub": "Bản đầy đủ: ==video liên quan== bên dưới",
+        "image": {
+          "src": "assets/msc-irina_cut.png",
+          "treat": "color",
+          "w": 1000
+        },
+        "tone": "charcoal"
+      }
+    }
+  ]
+}

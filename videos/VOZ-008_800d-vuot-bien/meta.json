@@ -1,0 +1,53 @@
+{
+  "id": "VOZ-008",
+  "slug": "800d-vuot-bien",
+  "title": "800 đồng vượt biển, 21.000 đồng cho 5 km cuối?",
+  "series": "co-may-cuoc-song",
+  "format": "short",
+  "topic_ref": null,
+  "stage": "rendered",
+  "created": "2026-10-23T19:44",
+  "updated": "2026-10-23T19:57",
+  "duration_s": 48.2,
+  "files": {
+    "video": "export/VOZ-008_800d-vuot-bien.mp4",
+    "cover": "export/VOZ-008_800d-vuot-bien_cover.png"
+  },
+  "publish": {
+    "title": "800 đồng vượt biển, 21.000 đồng cho 5 km cuối?",
+    "description": "Một chiếc áo đi biển hàng nghìn km chỉ tốn khoảng 800 đồng (ước tính), nhưng 5 km cuối tốn khoảng 21.000 đồng. Vì sao đường biển rẻ đến vậy? Xem bản đầy đủ ở video liên quan.",
+    "hashtags": [
+      "#PhíShip",
+      "#Container",
+      "#KinhTếĐờiSống",
+      "#VOZSTORY"
+    ],
+    "tiktok_caption": "Áo vượt biển 800đ, nhưng 5 km cuối 21.000đ?\nVì sao đoạn dài nhất lại rẻ nhất?",
+    "pinned_comment": "📌 Bạn đoán vì sao đường biển rẻ vậy?\nA. Tàu siêu lớn\nB. Một chiếc hộp thép năm 1956\nComment A hoặc B nhé 👇 (Bản đầy đủ: video liên quan)",
+    "related_long": "VOZ-007"
+  },
+  "platforms": {
+    "youtube": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    },
+    "tiktok": {
+      "status": "not_posted",
+      "url": null,
+      "posted_at": null,
+      "metrics": []
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-23T19:44",
+      "event": "tạo tập"
+    },
+    {
+      "at": "2026-10-23T19:57",
+      "event": "render bản cuối (48.2s)"
+    }
+  ]
+}
