@@ -35,12 +35,14 @@ SEG_FRAMES = 3600  # 2 phút/đoạn ở 30fps
 
 
 def _signature(props: Path, public_dir: Path, scale: float) -> str:
-    """Dấu vân tay của lần render: nội dung props + thời điểm sửa mới nhất của assets/audio/music + scale."""
+    """Dấu vân tay của lần render: nội dung props + tên/kích thước file trong assets/audio/music + scale.
+    Không dùng thời điểm sửa file: đổi nhánh git (mỗi tập một nhánh) ghi lại file ảnh làm đổi mtime → mất các đoạn đã render."""
     h = hashlib.sha1(props.read_bytes() + f"|{scale}".encode())
     for sub in ("assets", "audio", "music"):
         d = public_dir / sub
         if d.exists():
-            h.update(str(max((f.stat().st_mtime_ns for f in d.rglob("*") if f.is_file()), default=0)).encode())
+            for f in sorted(x for x in d.rglob("*") if x.is_file()):
+                h.update(f"{f.relative_to(public_dir).as_posix()}:{f.stat().st_size}|".encode())
     return h.hexdigest()[:12]
 
 
